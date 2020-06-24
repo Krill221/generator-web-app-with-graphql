@@ -82,7 +82,7 @@ export default function СreateManyList(props) {
                     <QueryList name={props.name}
                         query={props.query_where}
                         query_variables={{ ids: props.value }}
-                        renderItem={(item, index) => <ListItem key={index}>
+                        renderItem={(item, index) => <React.Fragment><ListItem key={index}>
                             <ListItemAvatar>
                                 <Avatar>{props.avatar_icon ? props.avatar_icon(item, index) : <FolderIcon />}</Avatar>
                             </ListItemAvatar>
@@ -105,6 +105,8 @@ export default function СreateManyList(props) {
                                 }
                             </ListItemSecondaryAction>
                         </ListItem>
+                        {props.item_devider && props.item_devider}
+                        </React.Fragment>
                         }
                     />
                 </Grid>
