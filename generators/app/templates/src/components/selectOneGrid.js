@@ -12,6 +12,7 @@
         title='name'
         subheader='desc'
         img='img'
+        button_name='choose'
     />
     
  */
@@ -33,7 +34,7 @@ export default function SelectOneGrid(props) {
     const [current, setCurrent] = React.useState(props.value);
     const handleCardClick = (id) => {
         setCurrent(id);
-        props.onChange({ target: { id: props.id, value: id } });
+        if (props.onChange !== undefined) props.onChange({ target: { id: props.id, value: id } });
     };
 
     return (
@@ -52,36 +53,40 @@ export default function SelectOneGrid(props) {
             }}
             renderItem={(item, index) => <Card>
                 <CardActionArea onClick={(e) => handleCardClick(item.id)} >
-                    <CardHeader
-                        avatar={(current === item.id) ? <Avatar aria-label="">
-                            <CheckIcon />
-                        </Avatar>
-                            :
-                            <></>
-                        }
-                        title={props.title !== undefined ? item[props.title] : ''}
-                        subheader={props.subheader !== undefined ? item[props.subheader] : ''}
-                    />
-                    <CardMedia
-                        component="img"
-                        alt=""
-                        height="140"
-                        image={item[props.img]}
-                        title=""
-                    />
+                    {
+                        props.title &&
+                        <CardHeader
+                            avatar={(current === item.id) ? <Avatar aria-label="">
+                                <CheckIcon />
+                            </Avatar>
+                                :
+                                <></>
+                            }
+                            title={props.title !== undefined ? item[props.title] : ''}
+                        />
+                    }
+                    {
+                        props.img &&
+                        < CardMedia
+                            component="img"
+                            alt=""
+                            height="140"
+                            image={item[props.img]}
+                            title=""
+                        />
+                    }
                     <CardContent>
-                        <Typography gutterBottom variant="h5" component="h2" className='name'>
-                            {item[props.title]}
-                        </Typography>
                         <Typography variant="body2" color="textSecondary" component="p">
                             {item[props.subheader]}
                         </Typography>
                     </CardContent>
                 </CardActionArea>
                 <CardActions>
-                    <Button size="small" color="primary" className='choose-button' onClick={() => handleCardClick(item.id)}>Choose</Button>
+                    <Button size="small" color="primary" className='choose-button' onClick={() => handleCardClick(item.id)}>
+                        {props.button_name}
+                    </Button>
                 </CardActions>
             </Card>
-        } />
+            } />
     );
 }

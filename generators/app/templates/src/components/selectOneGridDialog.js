@@ -8,6 +8,10 @@
         query_variables={}
         value={props.values.post}
         onChange={props.handleChange}
+        title='name'
+        subheader='desc'
+        img='img'
+        button_name='choose'
     />
     
 */
@@ -48,9 +52,10 @@ export default function SelectOneGridDialog(props) {
                         if(props.value !== '') handleDialogClose();
                         if(props.onChange !== undefined ) props.onChange(e);
                     }}
-                    title='name'
-                    subheader='name'
-                    img='img'
+                    title={props.title}
+                    subheader={props.subheader}
+                    img={props.img}
+                    button_name={props.button_name}
                 />
             </Dialog>
         </React.Fragment>

@@ -15,6 +15,9 @@
         cardActions={(item, index) =>
             <Typography variant="body2" color="textSecondary" component="p">{item.name}</Typography>
         }
+        pick_card_title='name'
+        pick_card_subheader='name'
+        pick_card_img='img'
         dialogName="Comment"
         addButtonName="Add Comment"
         deleteButton='each' // can be 'each', 'last', 'none'
@@ -58,13 +61,16 @@ export default function PickManyGridDialog(props) {
                         query={props.query_where}
                         query_variables={{ ids: props.value }}
                         renderItem={(item, index) => <Card>
-                            <CardMedia
-                                component="img"
-                                alt=""
-                                height="140"
-                                image={props.cardMedia ? props.cardMedia(item, index) : ''}
-                                title=""
-                            />
+                            {
+                                props.cardMedia &&
+                                <CardMedia
+                                    component="img"
+                                    alt=""
+                                    height="140"
+                                    image={props.cardMedia ? props.cardMedia(item, index) : ''}
+                                    title=""
+                                />
+                            }
                             <CardContent>
                                 {props.cardContent ? props.cardContent(item, index) : ''}
                             </CardContent>
@@ -106,9 +112,10 @@ export default function PickManyGridDialog(props) {
                         value={props.value}
                         hidden={props.value}
                         onChange={handlePick}
-                        title='name'
-                        subheader='name'
-                        img='img'
+                        title={props.pick_card_title}
+                        subheader={props.pick_card_subheader}
+                        img={props.pick_card_img}
+                        button_name={props.pick_card_button_name}
                     />
                 </Container>
             </Dialog>

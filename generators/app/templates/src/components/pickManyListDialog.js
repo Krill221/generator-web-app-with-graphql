@@ -11,6 +11,10 @@
         avatar_icon={(item,index) => <FolderIcon />}
         primary_content={(item,index) => item.name}
         secondary_content={(item,index) => item.desc}
+        pick_card_title='name'
+        pick_card_subheader='name'
+        pick_card_img='img'
+        pick_card_button_name='add'
         dialogName="Comment"
         addButtonName="Add Comment"
         deleteButton='each' // can be 'each', 'last', 'none'
@@ -92,6 +96,7 @@ export default function PickManyListDialog(props) {
                     </Toolbar>
                 </AppBar>
                 <Container>
+                    <br />
                     <SelectOneGrid
                         query={props.query_from}
                         query_variables={props.query_from_variables}
@@ -99,9 +104,10 @@ export default function PickManyListDialog(props) {
                         value={props.value}
                         hidden={props.value}
                         onChange={handlePick}
-                        title='name'
-                        subheader='name'
-                        img='img'
+                        title={props.pick_card_title}
+                        subheader={props.pick_card_subheader}
+                        img={props.pick_card_img}
+                        button_name={props.pick_card_button_name}
                     />
                 </Container>
             </Dialog>
