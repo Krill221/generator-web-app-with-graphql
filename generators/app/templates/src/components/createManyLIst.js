@@ -82,30 +82,31 @@ export default function СreateManyList(props) {
                     <QueryList name={props.name}
                         query={props.query_where}
                         query_variables={{ ids: props.value }}
-                        renderItem={(item, index) => <React.Fragment key={index}><ListItem>
-                            <ListItemAvatar>
-                                <Avatar>{props.avatar_icon ? props.avatar_icon(item, index) : <FolderIcon />}</Avatar>
-                            </ListItemAvatar>
-                            <ListItemText primary={props.primary_content ? props.primary_content(item, index) : ''} secondary={props.secondary_content ? props.secondary_content(item, index) : ''} />
-                            <ListItemSecondaryAction>
-                                {((props.editButton === 'each') || (props.editButton === 'last' && (index === 0))) &&
-                                    <IconButton edge="end" aria-label="delete" className={`delete-${props.name}`} onClick={() => { setCurrentId(item.id); handleEditDialogOpen(); }} >
-                                        <EditIcon />
-                                    </IconButton>
-                                }
-                                {(props.deleteButton === 'each') &&
-                                    <IconButton edge="end" aria-label="delete" className={`delete-${props.name}`} onClick={() => handleDelete(item.id)} >
-                                        <DeleteIcon />
-                                    </IconButton>
-                                }
-                                {(props.deleteButton === 'last' && (index === 0)) &&
-                                    <IconButton edge="end" aria-label="delete" className={`delete-${props.name}`} onClick={() => handleDelete(item.id)} >
-                                        <DeleteIcon />
-                                    </IconButton>
-                                }
-                            </ListItemSecondaryAction>
-                        </ListItem>
-                        {props.item_devider && props.item_devider}
+                        renderItem={(item, index) => <React.Fragment key={index}>
+                            <ListItem>
+                                <ListItemAvatar>
+                                    <Avatar>{props.avatar_icon ? props.avatar_icon(item, index) : <FolderIcon />}</Avatar>
+                                </ListItemAvatar>
+                                <ListItemText primary={props.primary_content ? props.primary_content(item, index) : ''} secondary={props.secondary_content ? props.secondary_content(item, index) : ''} />
+                                <ListItemSecondaryAction>
+                                    {props.editButton && ((props.editButton(item, index) === 'each') || (props.editButton(item, index) === 'last' && (index === 0))) &&
+                                            <IconButton edge="end" aria-label="delete" className={`delete-${props.name}`} onClick={() => { setCurrentId(item.id); handleEditDialogOpen(); }} >
+                                                <EditIcon />
+                                            </IconButton>
+                                    }
+                                    {props.deleteButton && (props.deleteButton(item, index) === 'each' || props.deleteButton(item, index) === true) &&
+                                        <IconButton edge="end" aria-label="delete" className={`delete-${props.name}`} onClick={() => handleDelete(item.id)} >
+                                            <DeleteIcon />
+                                        </IconButton>
+                                    }
+                                    {props.deleteButton && (props.deleteButton(item, index) === 'last' && (index === 0)) &&
+                                        <IconButton edge="end" aria-label="delete" className={`delete-${props.name}`} onClick={() => handleDelete(item.id)} >
+                                            <DeleteIcon />
+                                        </IconButton>
+                                    }
+                                </ListItemSecondaryAction>
+                            </ListItem>
+                            {props.item_devider && props.item_devider}
                         </React.Fragment>
                         }
                     />
