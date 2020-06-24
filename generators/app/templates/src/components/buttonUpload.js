@@ -49,7 +49,7 @@ export default function ButtonUpload(props) {
                 <Button onClick={handleClose} color="primary">No</Button>
             </DialogActions>
         </Dialog>
-        <input onChange={handleUpload} accept="image/*" id={`upload-button-${props.name}`} type="file" style={{ display: 'none' }} />
+        <input onChange={handleUpload} accept="image/*" id={`upload-button-${props.name}`} name={`upload-button-${props.name}`} type="file" style={{ display: 'none' }} />
         {
             props.value ?
                 <label onClick={handleClickOpen} style={{ display: 'block' }} htmlFor={`delete-button-${props.name}`}>{props.deleteButton(deleteStatus.loading)}</label>
