@@ -5,9 +5,12 @@ import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 import pink from '@material-ui/core/colors/pink';
 import blue from '@material-ui/core/colors/blue';
 import { ruRU } from '@material-ui/core/locale';
-import MainLayout from './layouts/MainLayout';
-//import EmptyLayout from './layouts/EmptyLayout';
-import PublicLayout from './layouts/PublicLayout';
+import PrivateMainLayout from './layouts/PrivateMainLayout';
+import PrivatePageLayout from './layouts/PrivatePageLayout';
+import PrivateEmptyLayout from './layouts/PrivateEmptyLayout';
+import PublicMainLayout from './layouts/PublicMainLayout';
+import PublicPageLayout from './layouts/PublicPageLayout';
+import PublicEmptyLayout from './layouts/PublicEmptyLayout';
 import { Users, SingleUser, SignIn, SignUp } from './pages/users';
 //top for generator
 
@@ -24,13 +27,14 @@ function App() {
       <AuthProvider>
         <Router>
           <React.Fragment>
-            <MainLayout exact path="/" component={Users} />
-            <PublicLayout exact path="/signin" component={SignIn} />
-            <PublicLayout exact path="/signup" component={SignUp} />
-            <MainLayout exact path="/users" component={Users} />
+            <PublicMainLayout exact path="/" component={Users} />
+            {/*users*/}
+            <PublicMainLayout exact path="/signin" component={SignIn} />
+            <PublicMainLayout exact path="/signup" component={SignUp} />
+            <PrivateMainLayout exact path="/users" component={Users} />
+            <PrivateMainLayout exact path="/users/:itemId" component={SingleUser} />
             {/*list for generator*/}
 
-            <MainLayout exact path="/users/:itemId" component={SingleUser} />
             {/*single for generator*/}
 
           </React.Fragment>

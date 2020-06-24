@@ -78,9 +78,9 @@ module.exports = class extends Generator {
     var regExSingle = new RegExp(/single for generator\*\/}/, 'g');
     
     index = index.toString().replace(regExTop, `//top for generator\nimport {${this.answers.models}, Single${this.answers.model}, Wizard${this.answers.model} } from './pages/${this.answers.small_models}';`);
-    index = index.toString().replace(regExList, `list for generator*/}\n\t\t\t<MainLayout exact path="/${this.answers.small_models}" component={${this.answers.models}} /> `);
-    index = index.toString().replace(regExSingle, `single for generator*/}\n\t\t\t<EmptyLayout exact path="/${this.answers.small_models}/new" component={Wizard${this.answers.model}} /> `);
-    index = index.toString().replace(regExSingle, `single for generator*/}\n\t\t\t<MainLayout exact path="/${this.answers.small_models}/:itemId([\\S\\s]{24})" component={Single${this.answers.model}} /> `);
+    index = index.toString().replace(regExList, `list for generator*/}\n\t\t\t<PublicMainLayout exact path="/${this.answers.small_models}" component={${this.answers.models}} /> `);
+    index = index.toString().replace(regExSingle, `single for generator*/}\n\t\t\t<PublicEmptyLayout exact path="/${this.answers.small_models}/new" component={Wizard${this.answers.model}} /> `);
+    index = index.toString().replace(regExSingle, `single for generator*/}\n\t\t\t<PublicPageLayout exact path="/${this.answers.small_models}/:itemId([\\S\\s]{24})" component={Single${this.answers.model}} /> `);
 
     this.fs.write(this.destinationPath('src/App.js'), index );
 

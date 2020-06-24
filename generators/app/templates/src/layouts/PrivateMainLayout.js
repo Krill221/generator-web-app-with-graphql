@@ -1,8 +1,9 @@
 import React, { useContext } from 'react';
-import { Route, Redirect } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
+import { Route, Redirect } from 'react-router-dom';
 import { AuthContext } from '../auth';
-import { AppBar, Toolbar, Typography, Button } from '@material-ui/core';
+import { AppBar, Toolbar, Typography } from '@material-ui/core';
+import ProfileButtons from './ProfileButtons';
 
 const useStyles = makeStyles((theme) => ({
     title: {
@@ -10,22 +11,22 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const MainLayout = ({ component: Component, ...rest }) => {
-    const { user, logout } = useContext(AuthContext);
+const Layout = ({ component: Component, ...rest }) => {
+    const { user } = useContext(AuthContext);
     const classes = useStyles();
     return (
         <Route
             {...rest}
             render={(props) => !user ?
-                <Redirect to="/signin" /> //<Redirect to="/" />
+                <Redirect to="/" /> //<Redirect to="/" />
                 :
                 <React.Fragment>
                     <AppBar position="sticky">
                         <Toolbar id="menu">
                             <Typography variant="h6" id="header" className={classes.title}>
-                                Main Layout
+                                Hotels
                             </Typography>
-                            <Button color="inherit" onClick={logout} id='signout'>Sign Out</Button>
+                            <ProfileButtons />
                         </Toolbar>
                     </AppBar>
                     <Component {...props} />
@@ -34,4 +35,4 @@ const MainLayout = ({ component: Component, ...rest }) => {
         />
     );
 };
-export default MainLayout;
+export default Layout;
