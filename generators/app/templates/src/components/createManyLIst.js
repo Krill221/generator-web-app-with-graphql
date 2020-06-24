@@ -15,8 +15,8 @@
         secondary_content={(item, index) => item.desc}
         dialogName="Comment"
         addButtonName="Add Comment"
-        deleteButton='each' // can be 'each', 'last', 'none'
-        editButton='last' // can be 'each', 'last', 'none'
+        deleteButton={(item,i) => user && user.id === item.owner.id} // can be 'each', 'last', 'none'
+        editButton={(item,i) => 'none'} // can be 'each', 'last', 'none'
     />
  */
 import React from 'react';
