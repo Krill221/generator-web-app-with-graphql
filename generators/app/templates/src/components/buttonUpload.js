@@ -7,7 +7,7 @@
  */
 import React from 'react';
 import { useMutation } from '@apollo/react-hooks';
-import { Dialog, DialogTitle, DialogActions, Button } from '@material-ui/core';
+import { Dialog, DialogTitle, DialogActions, Button, LinearProgress } from '@material-ui/core';
 import { UPLOAD_FILE, DELETE_FILE } from '../queries/uploadFile';
 
 export default function ButtonUpload(props) {
@@ -56,5 +56,6 @@ export default function ButtonUpload(props) {
                 :
                 <label style={{ display: 'block' }} htmlFor={`upload-button-${props.name}`}>{props.uploadButton(uploadStatus.loading)}</label>
         }
+        {uploadStatus.loading && <LinearProgress />}
     </React.Fragment>
 }
