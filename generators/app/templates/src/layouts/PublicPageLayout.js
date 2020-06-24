@@ -1,6 +1,7 @@
 import React from 'react';
 import { Route, useHistory } from 'react-router-dom';
-import { AppBar, Toolbar, IconButton } from '@material-ui/core';
+import { AppBar, Toolbar, IconButton, Typography } from '@material-ui/core';
+import ProfileButtons from './ProfileButtons';
 import ArrowBack from '@material-ui/icons/ArrowBack';
 
 const Layout = ({ component: Component, ...rest }) => {
@@ -15,6 +16,8 @@ const Layout = ({ component: Component, ...rest }) => {
                             <IconButton edge="start" aria-label="back" color="inherit" onClick={() => history.goBack() }>
                                 <ArrowBack />
                             </IconButton>
+                            <Typography style={{flexGrow: 1}} variant="h5" noWrap />
+                            <ProfileButtons />
                         </Toolbar>
                     </AppBar>
                     <Component {...props} />

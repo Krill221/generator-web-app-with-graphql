@@ -1,19 +1,13 @@
 import React, { useContext } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import { useHistory } from 'react-router-dom';
 import { Route, Redirect } from 'react-router-dom';
 import { AuthContext } from '../auth';
-import { AppBar, Toolbar, Typography } from '@material-ui/core';
+import { AppBar, Toolbar, Typography, Button } from '@material-ui/core';
 import ProfileButtons from './ProfileButtons';
-
-const useStyles = makeStyles((theme) => ({
-    title: {
-        flexGrow: 1,
-    },
-}));
 
 const Layout = ({ component: Component, ...rest }) => {
     const { user } = useContext(AuthContext);
-    const classes = useStyles();
+    let history = useHistory();
     return (
         <Route
             {...rest}
@@ -23,9 +17,8 @@ const Layout = ({ component: Component, ...rest }) => {
                 <React.Fragment>
                     <AppBar position="sticky">
                         <Toolbar id="menu">
-                            <Typography variant="h6" id="header" className={classes.title}>
-                                Hotels
-                            </Typography>
+                            <Button color="inherit" onClick={() => history.push('/')} id='signout'>Hotels</Button>
+                            <Typography style={{ flexGrow: 1 }} variant="h5" noWrap />
                             <ProfileButtons />
                         </Toolbar>
                     </AppBar>
