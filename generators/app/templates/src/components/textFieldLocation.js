@@ -9,7 +9,7 @@
         />
 */
 import React from 'react';
-import {TextField, CircularProgress, Grid, Typography} from '@material-ui/core';
+import { TextField, CircularProgress, Grid, Typography } from '@material-ui/core';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import LocationOnIcon from '@material-ui/icons/LocationOn';
 import { makeStyles } from '@material-ui/core/styles';
@@ -84,7 +84,7 @@ export default function TextFieldLocation(props) {
         [],
     );
 
-    const getCoords = React.useMemo(
+    const getAddress = React.useMemo(
         () =>
             throttle((request, callback) => {
                 var geocoder = new window.google.maps.Geocoder();
@@ -127,7 +127,7 @@ export default function TextFieldLocation(props) {
         return () => {
             active = false;
         };
-    }, [value, inputValue, fetchA, getCoords]);
+    }, [value, inputValue, fetchA, getAddress]);
 
     return (
         <Autocomplete
@@ -150,7 +150,8 @@ export default function TextFieldLocation(props) {
                         (position) => {
                             const lat = position.coords.latitude;
                             const lng = position.coords.longitude;
-                            getCoords({'address': `${lat},${lng}` }, (res) => {
+                            if (props.onChange !== undefined) props.onChange({ target: { id: props.name, value: [lat, lng] } });
+                            getAddress({ 'address': `${lat},${lng}` }, (res) => {
                                 var ans = res[0].address_components[1].long_name;
                                 newValue.description = ans;
                                 newValue.structured_formatting.main_text = ans;
@@ -158,7 +159,6 @@ export default function TextFieldLocation(props) {
                                 setOptions([newValue]);
                                 setValue(newValue);
                                 setLoading(false);
-                                if (props.onChange !== undefined) props.onChange({ target: { id: props.name, value: ans } });
                             });
                         },
                         (error) => {
@@ -167,9 +167,14 @@ export default function TextFieldLocation(props) {
                         }
                     );
                 } else {
-                    if (props.onChange !== undefined) {
-                        props.onChange({ target:
-                         { id: props.name, value: newValue ? newValue.description : '' } });
+                    if (newValue) {
+                        if (props.onChange !== undefined) {
+                            getAddress({ 'address': newValue.description }, (res) => {
+                                if (props.onChange !== undefined) props.onChange({ target: { id: props.name,
+                                    value: [res[0].geometry.location.lat(), res[0].geometry.location.lng()] } });
+
+                            });
+                        }
                     }
                 }
 
@@ -186,10 +191,10 @@ export default function TextFieldLocation(props) {
                     InputProps={{
                         ...params.InputProps,
                         endAdornment: (
-                          <React.Fragment>
-                            {loading ? <CircularProgress color="inherit" size={20} /> : null}
-                            {params.InputProps.endAdornment}
-                          </React.Fragment>
+                            <React.Fragment>
+                                {loading ? <CircularProgress color="inherit" size={20} /> : null}
+                                {params.InputProps.endAdornment}
+                            </React.Fragment>
                         ),
                     }}
                 />
