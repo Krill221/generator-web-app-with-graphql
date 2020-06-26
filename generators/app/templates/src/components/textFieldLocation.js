@@ -169,7 +169,8 @@ export default function TextFieldLocation(props) {
                 } else {
                     if (newValue) {
                         if (props.onChange !== undefined) {
-                            getAddress({ 'address': newValue.description }, (res) => {
+                            const address = newValue.description ? newValue.description : newValue
+                            getAddress({ 'address': address }, (res) => {
                                 if (props.onChange !== undefined) props.onChange({ target: { id: props.name,
                                     value: [res[0].geometry.location.lat(), res[0].geometry.location.lng()] } });
 
@@ -200,9 +201,9 @@ export default function TextFieldLocation(props) {
                 />
             )}
             renderOption={(option) => {
-                const matches = option.structured_formatting.main_text_matched_substrings;
+                const matches = option.structured_formatting ? option.structured_formatting.main_text_matched_substrings : '';
                 const parts = parse(
-                    option.structured_formatting.main_text,
+                    option.structured_formatting.main_text ? option.structured_formatting.main_text : '',
                     matches.map((match) => [match.offset, match.offset + match.length]),
                 );
 
