@@ -26,7 +26,8 @@ export default function QueryList(props) {
     });
 
     //if (loading) return null;
-    if (error) return <p>Error :(</p>;
+    if (error) console.log(error);
+    if (error) return null;
     let items = data ? data[Object.keys(data)[0]] : [];
     if (props.hidden !== undefined) items = items.filter(item => !props.hidden.includes(item.id));
 

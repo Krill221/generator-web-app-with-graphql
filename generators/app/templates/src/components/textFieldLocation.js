@@ -1,12 +1,12 @@
 /*
     Example:
         <TextFieldLocation
-            name="search"
             label="search"
             variant="outlined"
             margin="normal"
-            onChange={(e) => console.log(e)}
-        />
+            name="position"
+            zoom={17}
+    />
 */
 import React from 'react';
 import { TextField, CircularProgress, Grid, Typography } from '@material-ui/core';
@@ -15,6 +15,10 @@ import LocationOnIcon from '@material-ui/icons/LocationOn';
 import { makeStyles } from '@material-ui/core/styles';
 import parse from 'autosuggest-highlight/parse';
 import throttle from 'lodash/throttle';
+import {
+    getGeocode,
+    getLatLng,
+} from "use-places-autocomplete";
 
 function loadScript(src, position, id) {
     if (!position) {
@@ -26,6 +30,7 @@ function loadScript(src, position, id) {
     script.src = src;
     position.appendChild(script);
 }
+
 const autocompleteService = { current: null };
 const useStyles = makeStyles((theme) => ({
     icon: {
@@ -62,9 +67,8 @@ export default function TextFieldLocation(props) {
     const [loading, setLoading] = React.useState(false);
     const [inputValue, setInputValue] = React.useState('');
     const [options, setOptions] = React.useState(navigator.geolocation ? [template] : []);
-    const loaded = React.useRef(false);
 
-    if (typeof window !== 'undefined' && !loaded.current) {
+    if (typeof window !== 'undefined') {
         if (!document.querySelector('#google-maps')) {
             loadScript(
                 `https://maps.googleapis.com/maps/api/js?key=${process.env.REACT_APP_GOOGLE_API_KEY}&libraries=places&language=ru`,
@@ -72,23 +76,12 @@ export default function TextFieldLocation(props) {
                 'google-maps',
             );
         }
-
-        loaded.current = true;
     }
 
     const fetchA = React.useMemo(
         () =>
             throttle((request, callback) => {
                 autocompleteService.current.getPlacePredictions(request, callback);
-            }, 200),
-        [],
-    );
-
-    const getAddress = React.useMemo(
-        () =>
-            throttle((request, callback) => {
-                var geocoder = new window.google.maps.Geocoder();
-                geocoder.geocode(request, callback);
             }, 200),
         [],
     );
@@ -127,7 +120,7 @@ export default function TextFieldLocation(props) {
         return () => {
             active = false;
         };
-    }, [value, inputValue, fetchA, getAddress]);
+    }, [value, inputValue, fetchA]);
 
     return (
         <Autocomplete
@@ -140,7 +133,7 @@ export default function TextFieldLocation(props) {
             includeInputInList
             filterSelectedOptions
             value={value}
-            onChange={(event, newValue) => {
+            onChange={async (event, newValue) => {
                 setOptions(newValue ? [newValue, ...options] : options);
                 setValue(newValue);
 
@@ -150,9 +143,12 @@ export default function TextFieldLocation(props) {
                         (position) => {
                             const lat = position.coords.latitude;
                             const lng = position.coords.longitude;
-                            if (props.onChange !== undefined) props.onChange({ target: { id: props.name, value: [lat, lng] } });
-                            getAddress({ 'address': `${lat},${lng}` }, (res) => {
-                                var ans = res[0].address_components[1].long_name;
+                            props.onChange !== undefined && props.onChange({
+                                target:
+                                    { id: props.name, value: [lat.toString(), lng.toString()] }
+                            });
+                            getGeocode({ address: `${lat},${lng}` }).then(geocode => {
+                                var ans = geocode[0].address_components[1].long_name;
                                 newValue.description = ans;
                                 newValue.structured_formatting.main_text = ans;
                                 newValue.structured_formatting.secondary_text = ans;
@@ -170,10 +166,12 @@ export default function TextFieldLocation(props) {
                     if (newValue) {
                         if (props.onChange !== undefined) {
                             const address = newValue.description ? newValue.description : newValue
-                            getAddress({ 'address': address }, (res) => {
-                                if (props.onChange !== undefined) props.onChange({ target: { id: props.name,
-                                    value: [res[0].geometry.location.lat(), res[0].geometry.location.lng()] } });
-
+                            const geocode = await getGeocode({ address });
+                            const { lat, lng } = await getLatLng(geocode[0]);
+                            props.onChange !== undefined && props.onChange({
+                                target: {
+                                    id: props.name, value: [lat.toString(), lng.toString()]
+                                }
                             });
                         }
                     }
@@ -183,7 +181,7 @@ export default function TextFieldLocation(props) {
             onInputChange={(event, newInputValue) => {
                 setInputValue(newInputValue);
             }}
-            renderInput={(params) => (
+            renderInput={(params) => (<React.Fragment>
                 <TextField {...params}
                     label={props.label}
                     variant={props.variant}
@@ -199,6 +197,7 @@ export default function TextFieldLocation(props) {
                         ),
                     }}
                 />
+            </React.Fragment>
             )}
             renderOption={(option) => {
                 const matches = option.structured_formatting ? option.structured_formatting.main_text_matched_substrings : '';

@@ -1,7 +1,7 @@
 /*
     Example:
 
-    <PickOneMap
+    <PickOneMapDialog
             name='posts'
             query={GETS}
             value={''}
@@ -16,14 +16,15 @@
                 <Button color="primary" aria-label="add" className={'choose-button'} href={`/`} >choose</Button>
             </React.Fragment>
             }
-
+            openButton={<div>Map</div>}
     />
     
  */
 import React from 'react';
 import { GoogleMap, OverlayView } from '@react-google-maps/api';
 import { useQuery } from '@apollo/react-hooks';
-import { Chip, Button, Card, CardMedia, CardContent, } from '@material-ui/core';
+import { Chip, Button, Card, CardMedia, CardContent, AppBar, Dialog, Toolbar, IconButton, } from '@material-ui/core';
+import ArrowBack from '@material-ui/icons/ArrowBack';
 import mapStyle from './mapStyle';
 import MobileStepper from '@material-ui/core/MobileStepper';
 import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
@@ -82,9 +83,10 @@ const options = {
     clickableIcons: false
 }
 
-export default function PickOneMap(props) {
+export default function PickOneMapDialog(props) {
 
     const classes = useStyles();
+    const [openDialog, setOpenDialog] = React.useState(false);
     const [animate, setAnimate] = React.useState(true);
     const [current, setCurrent] = React.useState({ id: props.value, index: 0 });
     const [center, setCenter] = React.useState({ lat: 0, lng: 0 });
@@ -139,8 +141,16 @@ export default function PickOneMap(props) {
     let items = data ? data[Object.keys(data)[0]] : [];
     if (props.hidden !== undefined) items = items.filter(item => !props.hidden.includes(item.id));
 
-    return (
-        <React.Fragment>
+    return <React.Fragment>
+        <label onClick={() => setOpenDialog(true)} >{props.openButton}</label>
+        <Dialog fullScreen open={openDialog}>
+            <AppBar position="static">
+                <Toolbar>
+                    <IconButton edge="start" aria-label="back" color="inherit" onClick={() => setOpenDialog(false)}>
+                        <ArrowBack />
+                    </IconButton>
+                </Toolbar>
+            </AppBar>
             <GoogleMap
                 mapContainerStyle={containerStyle}
                 options={options}
@@ -212,6 +222,7 @@ export default function PickOneMap(props) {
                     }
                 />
             </React.Fragment>
-        </React.Fragment>
-    )
+        </Dialog>
+    </React.Fragment>
+
 }

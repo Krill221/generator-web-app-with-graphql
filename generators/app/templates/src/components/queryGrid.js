@@ -26,14 +26,15 @@ export default function QueryGrid(props) {
     });
 
     //if (loading) return null;
-    if (error) return <p>Error :(</p>;
+    if (error) console.log(error);
+    if (error) return null;
     let items = data ? data[Object.keys(data)[0]] : [];
     if (props.hidden !== undefined) items = items.filter(item => !props.hidden.includes(item.id));
 
     return (
         <Grid container spacing={3} justify="center" alignItems="center" id={props.id} >
             {
-                items.map((item, index) => <Grid key={item.id} item xs={12} sm={6} md={3} >
+                items.map((item, index) => <Grid key={item.id} item xs={12} sm={6} md={4} >
                     {props.renderItem(item, index)}
                 </Grid>
                 )

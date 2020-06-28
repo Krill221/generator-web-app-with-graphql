@@ -1,7 +1,7 @@
 /*
     Example:
 
-    <SelectLocation
+    <CreateOneMap
         latName="lat"
         lngName="lng"
         zoom={17}
@@ -33,7 +33,7 @@ const options = {
 
 let center = { lat: 0, lng: 0 }
 
-export default function SelectLocation(props) {
+export default function CreateOneMap(props) {
 
     React.useEffect(() => {
         center = { lat: parseFloat(props.latInit), lng: parseFloat(props.lngInit) };
