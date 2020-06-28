@@ -66,7 +66,7 @@ const template = {
     ]
 }
 
-export default function TextFieldLocation(props) {
+const TextFieldLocation = React.forwardRef((props, ref) => {
     const classes = useStyles();
     const [value, setValue] = React.useState(props.placeName);
     const [loading, setLoading] = React.useState(false);
@@ -140,6 +140,7 @@ export default function TextFieldLocation(props) {
             includeInputInList
             filterSelectedOptions
             value={value}
+            ref={ref}
             onChange={async (event, newValue) => {
                 setOptions(newValue ? [newValue, ...options] : options);
                 setValue(newValue);
@@ -207,9 +208,9 @@ export default function TextFieldLocation(props) {
             </React.Fragment>
             )}
             renderOption={(option) => {
-                const matches = option.structured_formatting ? option.structured_formatting.main_text_matched_substrings : '';
+                const matches = option.structured_formatting ? option.structured_formatting.main_text_matched_substrings : [];
                 const parts = parse(
-                    option.structured_formatting.main_text ? option.structured_formatting.main_text : '',
+                    option.structured_formatting ? option.structured_formatting.main_text : '',
                     matches.map((match) => [match.offset, match.offset + match.length]),
                 );
 
@@ -225,7 +226,7 @@ export default function TextFieldLocation(props) {
                                 </span>
                             ))}
                             <Typography variant="body2" color="textSecondary">
-                                {option.structured_formatting.secondary_text}
+                                {option.structured_formatting ? option.structured_formatting.secondary_text : ''}
                             </Typography>
                         </Grid>
                     </Grid>
@@ -233,4 +234,6 @@ export default function TextFieldLocation(props) {
             }}
         />
     );
-}
+})
+
+export default TextFieldLocation;
