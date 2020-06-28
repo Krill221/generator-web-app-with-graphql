@@ -1,11 +1,16 @@
 /*
     Example:
         <TextFieldLocation
-            label="search"
+            label="Место"
+            margin='normal'
             variant="outlined"
-            margin="normal"
-            name="position"
+            name="place"
+            placeName=''
+            value={place}
             zoom={17}
+            onChange={(e) => {
+                setPlace(e.target.value);
+            }}
     />
 */
 import React from 'react';
@@ -63,7 +68,7 @@ const template = {
 
 export default function TextFieldLocation(props) {
     const classes = useStyles();
-    const [value, setValue] = React.useState(null);
+    const [value, setValue] = React.useState(props.placeName);
     const [loading, setLoading] = React.useState(false);
     const [inputValue, setInputValue] = React.useState('');
     const [options, setOptions] = React.useState(navigator.geolocation ? [template] : []);
@@ -87,6 +92,7 @@ export default function TextFieldLocation(props) {
     );
 
     React.useEffect(() => {
+
         let active = true;
 
         if (!autocompleteService.current && window.google) {
@@ -120,6 +126,7 @@ export default function TextFieldLocation(props) {
         return () => {
             active = false;
         };
+
     }, [value, inputValue, fetchA]);
 
     return (
@@ -143,10 +150,6 @@ export default function TextFieldLocation(props) {
                         (position) => {
                             const lat = position.coords.latitude;
                             const lng = position.coords.longitude;
-                            props.onChange !== undefined && props.onChange({
-                                target:
-                                    { id: props.name, value: [lat.toString(), lng.toString()] }
-                            });
                             getGeocode({ address: `${lat},${lng}` }).then(geocode => {
                                 var ans = geocode[0].address_components[1].long_name;
                                 newValue.description = ans;
@@ -155,6 +158,10 @@ export default function TextFieldLocation(props) {
                                 setOptions([newValue]);
                                 setValue(newValue);
                                 setLoading(false);
+                                props.onChange !== undefined && props.onChange({
+                                    target:
+                                        { id: props.name, value: [lat.toString(), lng.toString(), newValue.description] }
+                                });
                             });
                         },
                         (error) => {
@@ -170,7 +177,7 @@ export default function TextFieldLocation(props) {
                             const { lat, lng } = await getLatLng(geocode[0]);
                             props.onChange !== undefined && props.onChange({
                                 target: {
-                                    id: props.name, value: [lat.toString(), lng.toString()]
+                                    id: props.name, value: [lat.toString(), lng.toString(), address ]
                                 }
                             });
                         }
