@@ -3,7 +3,6 @@ import { Formik } from 'formik';
 import {
     Container,
     Button,
-    Link,
     TextField,
     Typography,
     LinearProgress,
@@ -26,7 +25,7 @@ const SignupSchema = Yup.object().shape({
         .required('Required'),
 });
 
-function SignIn(props) {
+function SignInDialog(props) {
 
     const context = useContext(AuthContext);
     const [err, setErr] = useState('');
@@ -34,7 +33,7 @@ function SignIn(props) {
     const [loginUser, { loading }] = useMutation(LOGIN_USER, {
         update(_, { data: { login: userData } }) {
             context.login(userData);
-            props.history && props.history.push('/');
+            props.onChange && props.onChange(context);
         },
         onError(error) {
             console.log(error);
@@ -102,9 +101,6 @@ function SignIn(props) {
                                 {loading && <LinearProgress />}
                                 {err && <Typography component="h6" variant="h6" id='error'>{err}</Typography>}
                             </Grid>
-                            <Grid item xs={12}>
-                                <Link href="signup" id='signup' variant="body2">Зарегистрироваться</Link>
-                            </Grid>
                         </Grid>
                     </form>
                 )}
@@ -112,4 +108,4 @@ function SignIn(props) {
         </Container>
     );
 }
-export default SignIn;
+export default SignInDialog;

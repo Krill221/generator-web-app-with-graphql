@@ -4,7 +4,6 @@ import * as Yup from 'yup';
 import {
   Container,
   Button,
-  Link,
   TextField,
   Typography,
   LinearProgress,
@@ -36,7 +35,7 @@ const SignupSchema = Yup.object().shape({
     .oneOf([Yup.ref('password'), null], 'Passwords must match')
 });
 
-function SignUp(props) {
+function SignUpDialog(props) {
 
   const context = useContext(AuthContext);
   const [err, setErr] = useState('');
@@ -49,7 +48,7 @@ function SignUp(props) {
       }
     ) {
       context.login(userData);
-      props.history && props.history.push('/');
+      props.onChange && props.onChange(context);
     },
     onError(error) {
       setErr(error.graphQLErrors[0].message);
@@ -160,9 +159,6 @@ function SignUp(props) {
                 {loading && <LinearProgress />}
                 {err && <Typography component="h6" variant="h6" id='error'>{err}</Typography>}
               </Grid>
-              <Grid item xs={12}>
-                <Link href="signin" id='signin' variant="body2">Войти</Link>
-              </Grid>
             </Grid>
           </form>
         )}
@@ -170,4 +166,4 @@ function SignUp(props) {
     </Container>
   );
 }
-export default SignUp;
+export default SignUpDialog;

@@ -31,9 +31,9 @@ export default function EstimateStar(props) {
         variables[props.name] = newValue;
         updateEstime({
             variables: variables,
-            refetchQueries: props.refetchQueries
+            refetchQueries: props.refetchQueries,
         })
-        props.onChange !== undefined && props.onChange({ target: { id: props.name, value: props.value } });
+        props.onChange !== undefined && props.onChange({ target: { id: props.name, value: newValue } });
     }
 
     return <React.Fragment>
