@@ -11,7 +11,7 @@ import PrivateEmptyLayout from './layouts/PrivateEmptyLayout';
 import PublicMainLayout from './layouts/PublicMainLayout';
 import PublicPageLayout from './layouts/PublicPageLayout';
 import PublicEmptyLayout from './layouts/PublicEmptyLayout';
-import { Users, SingleUser, SignIn, SignUp } from './pages/users';
+import { Users, SingleUser } from './pages/users';
 //top for generator
 
 const theme = createMuiTheme({
@@ -29,8 +29,6 @@ function App() {
           <React.Fragment>
             <PublicMainLayout exact path="/" component={Users} />
             {/*users*/}
-            <PublicMainLayout exact path="/signin" component={SignIn} />
-            <PublicMainLayout exact path="/signup" component={SignUp} />
             <PrivateMainLayout exact path="/users" component={Users} />
             <PrivateMainLayout exact path="/users/:itemId" component={SingleUser} />
             {/*list for generator*/}
