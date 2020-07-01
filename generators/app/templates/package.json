@@ -28,7 +28,7 @@
   },
   "scripts": {
     "start": "serve -s build",
-    "s": "REACT_APP_CRM_SERV=dev react-scripts start",
+    "s": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "bdd": "cucumber-js  --require-module @babel/register --require-module @babel/polyfill",
@@ -41,7 +41,7 @@
     "add-has-one": "yo web-app-with-graphql:add-has-one",
     "delete-has-one": "yo web-app-with-graphql:delete-has-one",
     "add-has-many": "yo web-app-with-graphql:add-has-many",
-    "delete-has-many": "yo web-app-with-graphql:delete-has-many",
+    "delete-has-many": "yo web-app-with-graphql:delete-has-many"
   },
   "eslintConfig": {
     "extends": "react-app"
