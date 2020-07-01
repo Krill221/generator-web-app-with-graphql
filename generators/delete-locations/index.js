@@ -30,6 +30,7 @@ module.exports = class extends Generator {
   writing() {
 
     var queries = this.fs.read(this.destinationPath(`src/queries/${this.answers.small_models}.js`));
+    var form = this.fs.read(this.destinationPath(`src/pages/${this.answers.small_models}/_form.js`));
 
     this.answers.fields.forEach(f => {
       var regEx1 = new RegExp(`\t\t${f[0]} {\n\t\t\ttype\n\t\t\tcoordinates\n\t\t}\n`, 'g');
@@ -42,8 +43,14 @@ module.exports = class extends Generator {
       queries = queries.toString().replace(regEx22, '');
       queries = queries.toString().replace(regEx31, '');
       queries = queries.toString().replace(regEx32, '');
+
+      var regExFrom1 = new RegExp(`${f[0]}: \\{ coordinates: \\[0, 0\\] \\}, `, 'g');
+      var regExFrom2 =  new RegExp(`${f[0]}: item.${f[0]}, `, 'g');
+      form = form.toString().replace(regExFrom1, '');
+      form = form.toString().replace(regExFrom2, '');
     });
     this.fs.write(this.destinationPath(`src/queries/${this.answers.small_models}.js`), queries);
+    this.fs.write(this.destinationPath(`src/pages/${this.answers.small_models}/_form.js`), form);
 
     //helpers
     var all = this.fs.read(this.destinationPath(`src/pages/${this.answers.small_models}/all.js`));
