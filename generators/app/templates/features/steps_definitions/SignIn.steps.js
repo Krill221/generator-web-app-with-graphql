@@ -1,7 +1,9 @@
 // Scenario: Authorised # features/LogIn
 import puppeteer from 'puppeteer'
 import { Given, When, Then, After } from 'cucumber';
-import { assertThat, is } from 'hamjest'
+import { assertThat, is } from 'hamjest';
+import 'core-js/stable';
+import 'regenerator-runtime/runtime';
 
 Given('I open browser', async function () {
     this.browser = await puppeteer.launch({

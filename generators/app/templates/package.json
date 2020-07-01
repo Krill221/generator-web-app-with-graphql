@@ -6,18 +6,17 @@
   "license": "MIT",
   "dependencies": {
     "@apollo/react-hooks": "^3.1.5",
-    "@babel/core": "^7.10.4",
-    "@babel/polyfill": "^7.10.4",
-    "@babel/register": "^7.10.4",
-    "@material-ui/core": "^4.10.0",
+    "@material-ui/core": "^4.11.0",
     "@material-ui/icons": "^4.9.1",
     "@material-ui/lab": "^4.0.0-alpha.56",
+    "@types/react": "^16.9.41",
     "apollo-cache-inmemory": "^1.6.6",
     "apollo-client": "^2.6.10",
     "apollo-link-context": "^1.0.20",
     "apollo-upload-client": "^13.0.0",
+    "apollo-utilities": "^1.3.4",
     "formik": "^2.1.4",
-    "graphql": "^15.0.0",
+    "graphql": "^15.2.0",
     "graphql-tag": "^2.10.3",
     "jwt-decode": "^2.2.0",
     "react": "^16.13.1",
@@ -32,7 +31,7 @@
     "s": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "bdd": "cucumber-js  --require-module @babel/register --require-module @babel/polyfill",
+    "bdd": "cucumber-js  --require-module @babel/register --require-module core-js/stable",
     "eject": "react-scripts eject",
     "add-model": "yo web-app-with-graphql:add-model",
     "add-fields": "yo web-app-with-graphql:add-fields",
@@ -60,11 +59,15 @@
     ]
   },
   "devDependencies": {
-    "@testing-library/jest-dom": "^5.9.0",
-    "@testing-library/react": "^10.0.4",
-    "@testing-library/user-event": "^10.4.0",
+    "@babel/core": "^7.10.0",
+    "@babel/register": "^7.10.4",
+    "@testing-library/dom": "7.19.0",
+    "@testing-library/jest-dom": "^5.11.0",
+    "@testing-library/react": "^10.4.3",
+    "@testing-library/user-event": "^12.0.11",
     "cucumber": "^6.0.5",
     "hamjest": "^3.5.0",
-    "puppeteer": "^3.2.0"
+    "puppeteer": "^4.0.1",
+    "regenerator-runtime": "^0.13.5"
   }
 }

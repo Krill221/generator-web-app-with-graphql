@@ -1,8 +1,9 @@
 // Scenario: Authorised # features/LogIn
 import puppeteer from 'puppeteer'
 import { Given, When, Then, After } from 'cucumber';
-import { assertThat, is } from 'hamjest'
-
+import { assertThat, is } from 'hamjest';
+import 'core-js/stable';
+import 'regenerator-runtime/runtime';
 
 When('I press SignUp link', async function () {
     this.page.$eval('a#signup', el => el.click());
