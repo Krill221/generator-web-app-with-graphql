@@ -9,7 +9,7 @@ const Layout = ({ component: Component, ...rest }) => {
         <Route
             {...rest}
             render={(props) => !user ?
-                <Redirect to="/signin" />
+                <Redirect to="/profile" />
                 :
                 <Component {...props} />
             }

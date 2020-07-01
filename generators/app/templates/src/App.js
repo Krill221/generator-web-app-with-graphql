@@ -4,6 +4,7 @@ import { AuthProvider } from './auth';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 import pink from '@material-ui/core/colors/pink';
 import blue from '@material-ui/core/colors/blue';
+import Menu from './layouts/Menu';
 import { ruRU } from '@material-ui/core/locale';
 import PrivateMainLayout from './layouts/PrivateMainLayout';
 import PrivatePageLayout from './layouts/PrivatePageLayout';
