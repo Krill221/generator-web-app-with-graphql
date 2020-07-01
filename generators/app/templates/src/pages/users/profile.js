@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { AuthContext } from '../../auth';
-import { Button, Container, Typography, Grid, Avatar, Chip } from '@material-ui/core';
+import { Button, Container, Typography, Grid, Avatar } from '@material-ui/core';
 import { AuthArea } from '../../components/authArea';
 
 const Profile = ({ component: Component, ...rest }) => {

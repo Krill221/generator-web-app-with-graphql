@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router } from 'react-router-dom';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { AuthProvider } from './auth';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 import pink from '@material-ui/core/colors/pink';
@@ -12,7 +12,7 @@ import PrivateEmptyLayout from './layouts/PrivateEmptyLayout';
 import PublicMainLayout from './layouts/PublicMainLayout';
 import PublicPageLayout from './layouts/PublicPageLayout';
 import PublicEmptyLayout from './layouts/PublicEmptyLayout';
-import { Users, SingleUser } from './pages/users';
+import { Users, SingleUser, Profile } from './pages/users';
 //top for generator
 
 const theme = createMuiTheme({
