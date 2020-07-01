@@ -1,6 +1,6 @@
 /*
     Example:
-        <TextFieldLocation
+        <FieldLocationText
             label="Место"
             margin='normal'
             variant="outlined"
@@ -66,7 +66,7 @@ const template = {
     ]
 }
 
-const TextFieldLocation = React.forwardRef((props, ref) => {
+const FieldLocationText = React.forwardRef((props, ref) => {
     const classes = useStyles();
     const [value, setValue] = React.useState(props.placeName);
     const [loading, setLoading] = React.useState(false);
@@ -236,4 +236,4 @@ const TextFieldLocation = React.forwardRef((props, ref) => {
     );
 })
 
-export default TextFieldLocation;
+export default FieldLocationText;

@@ -1,6 +1,6 @@
 /*
     Example:
-        <ButtonUpload name="file" value={props.values.file} onChange={(e) => {props.handleChange(e); props.handleSubmit(e);}}
+        <FieldButtonUpload name="file" value={props.values.file} onChange={(e) => {props.handleChange(e); props.handleSubmit(e);}}
             uploadButton={ (loading) => <Button disabled={loading} fullWidth variant="contained" color="primary" component="span">Upload File</Button>}
             deleteButton={ (loading) => <Button disabled={loading} fullWidth variant="contained" color="primary" component="span">Delete File</Button>}
         / >
@@ -10,7 +10,7 @@ import { useMutation } from '@apollo/react-hooks';
 import { Dialog, DialogTitle, DialogActions, Button, LinearProgress } from '@material-ui/core';
 import { UPLOAD_FILE, DELETE_FILE } from '../queries/uploadFile';
 
-export default function ButtonUpload(props) {
+export default function FieldButtonUpload(props) {
 
     const [open, setOpen] = React.useState(false);
     const handleClickOpen = () => { setOpen(true); };
