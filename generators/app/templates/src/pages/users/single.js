@@ -92,10 +92,6 @@ export default function Single(props) {
                             <Button fullWidth className='delete-button' onClick={props.handleDelete} disabled={props.isSubmitting} variant="contained" color="secondary">delete</Button>
                         </Grid>
                         }
-
-                        <Grid item xs={12} sm={12} md={12} >
-                            <Button fullWidth className='back-button' variant="contained" color="primary" href={back}>back</Button>
-                        </Grid>
                     </Grid>
                 }
             </Form>

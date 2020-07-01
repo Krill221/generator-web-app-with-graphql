@@ -28,10 +28,12 @@ function App() {
       <AuthProvider>
         <Router>
           <React.Fragment>
+            <Route exact path="/:menu([\D]*)" component={Menu} />
             <PublicMainLayout exact path="/" component={Users} />
             {/*users*/}
             <PrivateMainLayout exact path="/users" component={Users} />
-            <PrivateMainLayout exact path="/users/:itemId" component={SingleUser} />
+            <PrivatePageLayout exact path="/users/:itemId" component={SingleUser} />
+            <PublicMainLayout exact path="/profile" component={Profile} />
             {/*list for generator*/}
 
             {/*single for generator*/}
