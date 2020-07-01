@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 import { Route, Redirect } from 'react-router-dom';
 import { AuthContext } from '../auth';
+import Footer from './Footer';
 
 const Layout = ({ component: Component, ...rest }) => {
     const { user } = useContext(AuthContext);
@@ -11,7 +12,11 @@ const Layout = ({ component: Component, ...rest }) => {
             render={(props) => !user ?
                 <Redirect to="/" />
                 :
-                <Component {...props} />
+                <React.Fragment>
+                    <Component {...props} />
+                    {/* Footer */}
+                    <Footer />
+                </React.Fragment>
             }
         />
     );

@@ -1,3 +1,12 @@
+/*
+<AuthArea
+    publicArea={
+        <div>1</div>
+    }
+    privateArea={
+        <div>2</div>}
+/>
+*/
 import React from 'react';
 import { useContext } from 'react';
 import { AuthContext } from '../auth';
@@ -30,12 +39,12 @@ export const AuthArea = ({ publicArea, privateArea }) => {
                 </AppBar>
                 {reg ?
                     <React.Fragment>
-                        <SignUpDialog onChange={() => {setView(false); setReg(false)} } />
+                        <SignUpDialog onChange={() => { setView(false); setReg(false) }} />
                         <Button onClick={() => setReg(false)}>Войти</Button>
                     </React.Fragment>
                     :
                     <React.Fragment>
-                        <SignInDialog onChange={() => {setView(false); setReg(false)} } />
+                        <SignInDialog onChange={() => { setView(false); setReg(false) }} />
                         <Button onClick={() => setReg(true)}>Зарегистрироваться</Button>
                     </React.Fragment>
                 }

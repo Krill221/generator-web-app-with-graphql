@@ -1,8 +1,8 @@
 /*
     Example:
-        <EstimateLike name="likes"
+        <EstimateLike name="like"
             itemId={item.id}
-            value={item.likes}
+            value={item.like}
             onChange={e => {}}
             queryUpdate={UPDATE_POST}
             refetchQueries={[{ query: GET_POSTS }]}
@@ -14,6 +14,7 @@ import React, { useContext } from 'react';
 import { useMutation } from '@apollo/react-hooks';
 import { IconButton } from '@material-ui/core';
 import { AuthContext } from '../auth';
+import { AuthArea } from './authArea';
 
 
 export default function EstimateLike(props) {
@@ -22,9 +23,9 @@ export default function EstimateLike(props) {
     const { user } = useContext(AuthContext);
 
     const handleChange = () => {
-        let variables = {id: props.itemId};
+        let variables = { id: props.itemId };
         variables[props.name] = 1;
-        if(props.itemId !== 'new') {
+        if (props.itemId !== 'new') {
             updateMutation({
                 refetchQueries: props.refetchQueries,
                 variables: variables,
@@ -32,17 +33,29 @@ export default function EstimateLike(props) {
             props.onChange !== undefined && props.onChange({ target: { id: props.name, value: props.value } });
         }
     }
-    return <IconButton
-        onClick={handleChange}
-        color="secondary"
-        aria-label="like"
-        className="like-button"
-    >
-        {
-            Array.isArray(props.value) && props.value.map(i => i.owner).includes(user.id) ?
-                props.clickedIcon
-                :
-                props.unclickedIcon
+    const userId = user ? user.id : null;
+    return <AuthArea
+        publicArea={
+            <IconButton
+                color="secondary"
+                aria-label="like"
+                className="like-button"
+            >
+                {props.unclickedIcon}
+            </IconButton>
         }
-    </IconButton>;
+        privateArea={<IconButton
+            onClick={handleChange}
+            color="secondary"
+            aria-label="like"
+            className="like-button"
+        >
+            {
+                Array.isArray(props.value) && props.value.map(i => i.owner).includes(userId) ?
+                    props.clickedIcon
+                    :
+                    props.unclickedIcon
+            }
+        </IconButton>}
+    />;
 }
