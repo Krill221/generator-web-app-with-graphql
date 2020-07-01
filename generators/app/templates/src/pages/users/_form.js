@@ -28,7 +28,7 @@ const FieldsSchema = Yup.object().shape({
 
 export default function Form({ itemId, onChange, onDelete, children }) {
 
-    const { data, loading } = useQuery(GET, { variables: { id: itemId } });
+    const { data, loading } = useQuery(GET, { variables: { id: itemId }, skip: itemId === 'new' });
     const [updateMutation] = useMutation(UPDATE, {
         refetchQueries: [{ query: GETS }],
         onCompleted: (data) => {
