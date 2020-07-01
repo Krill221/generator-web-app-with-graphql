@@ -31,12 +31,12 @@ export const AuthArea = ({ publicArea, privateArea }) => {
                 {reg ?
                     <React.Fragment>
                         <SignUpDialog onChange={() => {setView(false); setReg(false)} } />
-                        <Button onClick={() => setReg(false)}>Войти</Button>
+                        <Button onClick={() => setReg(false)}>SignIn</Button>
                     </React.Fragment>
                     :
                     <React.Fragment>
                         <SignInDialog onChange={() => {setView(false); setReg(false)} } />
-                        <Button onClick={() => setReg(true)}>Зарегистрироваться</Button>
+                        <Button onClick={() => setReg(true)}>SignUp</Button>
                     </React.Fragment>
                 }
             </Dialog>
