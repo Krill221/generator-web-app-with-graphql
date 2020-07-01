@@ -18,13 +18,15 @@ import { useMutation } from '@apollo/react-hooks';
 import { AuthContext } from '../auth';
 import ToggleButton from '@material-ui/lab/ToggleButton';
 import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup';
+import { AuthArea } from './authArea';
 
 export default function EstimateStar(props) {
 
     const [updateEstime] = useMutation(props.queryUpdate);
     const { user } = useContext(AuthContext);
+    const userId = user ? user.id : null;
 
-    const f = props.value.find(i => i.owner === user.id);
+    const f = props.value.find(i => i.owner === userId);
     const myEstime = f !== undefined ? f.value : 0;
     const handleChange = (event, newValue) => {
         let variables = { id: props.itemId };
@@ -36,8 +38,23 @@ export default function EstimateStar(props) {
         props.onChange !== undefined && props.onChange({ target: { id: props.name, value: newValue } });
     }
 
-    return <React.Fragment>
-        <ToggleButtonGroup
+    return <AuthArea
+        publicArea={
+            <ToggleButtonGroup
+                value={null}
+                exclusive
+                size="small"
+            >
+                {
+                    props.states && props.states.map((state, index) =>
+                        <ToggleButton key={index} value={state.value}>
+                            {state.name}
+                        </ToggleButton>
+                    )
+                }
+            </ToggleButtonGroup>
+        }
+        privateArea={<ToggleButtonGroup
             value={myEstime}
             exclusive
             onChange={handleChange}
@@ -50,6 +67,6 @@ export default function EstimateStar(props) {
                     </ToggleButton>
                 )
             }
-        </ToggleButtonGroup>
-    </React.Fragment>;
+        </ToggleButtonGroup>}
+    />;
 }

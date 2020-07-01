@@ -21,6 +21,7 @@ export default function EstimateLike(props) {
 
     const [updateMutation] = useMutation(props.queryUpdate);
     const { user } = useContext(AuthContext);
+    const userId = user ? user.id : null;
 
     const handleChange = () => {
         let variables = { id: props.itemId };
@@ -33,7 +34,6 @@ export default function EstimateLike(props) {
             props.onChange !== undefined && props.onChange({ target: { id: props.name, value: props.value } });
         }
     }
-    const userId = user ? user.id : null;
     return <AuthArea
         publicArea={
             <IconButton
