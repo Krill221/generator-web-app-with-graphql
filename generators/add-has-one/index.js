@@ -67,8 +67,8 @@ module.exports = class extends Generator {
     var show = this.fs.read(this.destinationPath(`src/pages/${this.answers.small_models}/_show.js`));
     var regExImpComponents =  new RegExp(`////g-key import components`, 'g');
     var impComponents = [
-      `////g-key import components\n//import SelectOneGrid from '../../components/selectOneGrid';`,
-      `////g-key import components\n//import SelectOneGridDialod from '../../components/selectOneGridDialod';`,
+      `////g-key import components\n//import PickOneGrid from '../../components/PickOneGrid';`,
+      `////g-key import components\n//import PickOneGridDialod from '../../components/PickOneGridDialod';`,
     ];
     var regExImpQueries =  new RegExp(`////g-key import queries`, 'g');
     var impQueries = [

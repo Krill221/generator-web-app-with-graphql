@@ -1,7 +1,7 @@
 /*
     Example:
 
-    <SelectOneGrid
+    <PickOneGrid
         id='post'
         name='post'
         query={GET_POSTS}
@@ -29,7 +29,7 @@ import QueryGrid from './queryGrid'
 
 
 
-export default function SelectOneGrid(props) {
+export default function PickOneGrid(props) {
 
     const [current, setCurrent] = React.useState(props.value);
     const handleCardClick = (id) => {

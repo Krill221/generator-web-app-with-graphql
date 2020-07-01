@@ -1,7 +1,7 @@
 /*
     Example:
 
-    <SelectOneGridDialog
+    <PickOneGridDialog
         id='post'
         name='post'
         query={GET_POSTS}
@@ -26,7 +26,7 @@ import SelectOneGrid from './selectOneGrid';
 
 
 
-export default function SelectOneGridDialog(props) {
+export default function PickOneGridDialog(props) {
 
     const [open, setOpen] = React.useState(false);
     const handleClickDialogOpen = () => { setOpen(true); };
