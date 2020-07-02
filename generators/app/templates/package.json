@@ -1,7 +1,7 @@
 {
-  "name": "text-web",
+  "name": "<%= name %>",
   "version": "1.0.0",
-  "author": "krill221",
+  "author": "<%= projectAuthor %>",
   "description": "",
   "license": "MIT",
   "dependencies": {

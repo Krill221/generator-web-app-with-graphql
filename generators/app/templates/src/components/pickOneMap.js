@@ -2,21 +2,21 @@
     Example:
 
     <PickOneMap
-            name='posts'
-            query={GETS}
-            value={''}
-            onChange={e => { console.log(e) }}
-            markerLabel={(item, index) => `${item.price} ₽`}
-            cardMedia={(item, index) => item.picture}
-            cardContent={(item, index) => <React.Fragment>
-                <Typography variant="subtitle1" >{item.desc.slice(0, 20)}</Typography>
-            </React.Fragment>
-            }
-            cardActions={(item, index) => <React.Fragment>
-                <Button color="primary" aria-label="add" className={'choose-button'} href={`/`} >choose</Button>
-            </React.Fragment>
-            }
-
+        name='place'
+        query={GET_PLACES}
+        value={props.values.place}
+        locationFieldName='location4'
+        onChange={props.handleChange}
+        markerLabel={(item, index) => `${item.name}`}
+        cardMedia={(item, index) => item.name}
+        cardContent={(item, index) => <React.Fragment>
+            <Typography variant="subtitle1" >{item.name.slice(0, 20)}</Typography>
+        </React.Fragment>
+        }
+        cardActions={(item, index) => <React.Fragment>
+            <Button color="primary" aria-label="add" className={'choose-button'} >choose</Button>
+        </React.Fragment>
+        }
     />
     
  */
@@ -86,7 +86,7 @@ export default function PickOneMap(props) {
 
     const classes = useStyles();
     const [animate, setAnimate] = React.useState(true);
-    const [current, setCurrent] = React.useState({ id: props.value, index: 0 });
+    const [current, setCurrent] = React.useState({ id: '', index: 0 });
     const [center, setCenter] = React.useState({ lat: 0, lng: 0 });
 
     if (typeof window !== 'undefined') {
@@ -98,7 +98,6 @@ export default function PickOneMap(props) {
             );
         }
     }
-
 
     const handleNext = () => {
         if (props.onChange !== undefined) props.onChange({ target: { id: props.name, value: items[current.index + 1].id } });
@@ -120,16 +119,29 @@ export default function PickOneMap(props) {
     const onLoad = React.useCallback(function callback(items) {
         if (items.length > 0) {
             setCenter({
-                lat: (items.map(i => parseFloat(i.location.coordinates[0])).reduce((a, b) => a + b) / items.length) + 0.002,
-                lng: (items.map(i => parseFloat(i.location.coordinates[1])).reduce((a, b) => a + b) / items.length),
+                lat: (items.map(i => parseFloat(i[props.locationFieldName].coordinates[0])).reduce((a, b) => a + b) / items.length) + 0.002,
+                lng: (items.map(i => parseFloat(i[props.locationFieldName].coordinates[1])).reduce((a, b) => a + b) / items.length),
             })
         }
-    }, []);
+    }, [props.locationFieldName]);
     const onUnmount = React.useCallback(function callback() { }, [])
 
     const { data, error, loading } = useQuery(props.query, {
         variables: props.query_variables,
         onCompleted(data) {
+            if(props.value === undefined || props.value === ''){
+                setCurrent({ id: items[0].id, index: 0 });
+                if (props.onChange !== undefined) props.onChange({ target: { id: props.name, value: items[0].id } });
+            } else {
+                let index = items.findIndex( i => i.id === props.value );
+                if(index === -1) {
+                    setCurrent({ id: items[0].id, index: 0 });
+                    if (props.onChange !== undefined) props.onChange({ target: { id: props.name, value: items[0].id } });    
+                } else {
+                    setCurrent({ id: props.value, index: index });
+                    if (props.onChange !== undefined) props.onChange({ target: { id: props.name, value: items[index].id } });
+                }
+            }
             if (props.onCompleted !== undefined) props.onCompleted(data);
         }
     });
@@ -153,7 +165,7 @@ export default function PickOneMap(props) {
                     items.map((item, index) =>
                         <OverlayView
                             key={index}
-                            position={{ lat: item.location.coordinates[0], lng: item.location.coordinates[1] }}
+                            position={{ lat: item[props.locationFieldName].coordinates[0], lng: item[props.locationFieldName].coordinates[1] }}
                             mapPaneName={OverlayView.OVERLAY_MOUSE_TARGET}
                         >
                             <Chip
