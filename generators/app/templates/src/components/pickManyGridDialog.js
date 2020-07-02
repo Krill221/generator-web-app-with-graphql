@@ -31,7 +31,7 @@ import {
     Dialog, Button, AppBar, Toolbar, Typography
 } from '@material-ui/core';
 import ArrowBack from '@material-ui/icons/ArrowBack';
-import SelectOneGrid from './selectOneGrid';
+import PickOneGrid from './pickOneGrid';
 import QueryGrid from './queryGrid';
 
 
@@ -105,7 +105,7 @@ export default function PickManyGridDialog(props) {
                     </Toolbar>
                 </AppBar>
                 <Container>
-                    <SelectOneGrid
+                    <PickOneGrid
                         query={props.query_from}
                         query_variables={props.query_from_variables}
                         id='item-choose'

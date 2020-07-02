@@ -22,7 +22,7 @@ import {
     Button
 } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
-import SelectOneGrid from './selectOneGrid';
+import PickOneGrid from './pickOneGrid';
 
 
 
@@ -43,7 +43,7 @@ export default function PickOneGridDialog(props) {
                         </IconButton>
                     </Toolbar>
                 </AppBar>
-                <SelectOneGrid
+                <PickOneGrid
                     query={props.query}
                     query_variables={props.query_variables}
                     id={props.id}

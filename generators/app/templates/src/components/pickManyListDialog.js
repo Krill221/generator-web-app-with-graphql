@@ -30,7 +30,7 @@ import {
 import FolderIcon from '@material-ui/icons/Folder';
 import DeleteIcon from '@material-ui/icons/Delete';
 import ArrowBack from '@material-ui/icons/ArrowBack';
-import SelectOneGrid from './selectOneGrid';
+import PickOneGrid from './pickOneGrid';
 import QueryList from './queryList';
 
 
@@ -97,7 +97,7 @@ export default function PickManyListDialog(props) {
                 </AppBar>
                 <Container>
                     <br />
-                    <SelectOneGrid
+                    <PickOneGrid
                         query={props.query_from}
                         query_variables={props.query_from_variables}
                         id='item-choose'
