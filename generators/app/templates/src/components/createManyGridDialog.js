@@ -2,7 +2,7 @@
     Example:
 
     <CreateManyGridDialog
-    actionType='create' // 'create' or 'create-default'
+    actionType='create' // 'create' or 'create-default' or ''
     name='comments'
     query_where={GET_COMMENTS_WHERE}
     query_update={UPDATE_COMMENT}
@@ -114,13 +114,13 @@ export default function CreateManyGridDialog(props) {
                             })} >{props.addButtonName !== undefined ? props.addButtonName : 'add'}</Button>
                     }
                     {(props.actionType === 'create') &&
-                        <Button className={`add-${props.name}`} onClick={() => { setCurrentId('new'); handleEditDialogOpen(); }} fullWidth variant="contained" >{props.addButtonName !== undefined ? props.addButtonName : 'add'}</Button>
+                        <Button color="secondary" className={`add-${props.name}`} onClick={() => { setCurrentId('new'); handleEditDialogOpen(); }} fullWidth variant="contained" >{props.addButtonName !== undefined ? props.addButtonName : 'add'}</Button>
                     }
                 </Grid>
             </Grid>
             {(props.actionType === 'create') &&
                 <Dialog fullScreen open={openEdit} onClose={handleEditDialogClose}>
-                    <AppBar position="static">
+                    <AppBar position="sticky">
                         <Toolbar>
                             <IconButton edge="start" aria-label="back" color="inherit" onClick={handleEditDialogClose}>
                                 <ArrowBack />

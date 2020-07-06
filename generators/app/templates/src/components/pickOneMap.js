@@ -1,6 +1,29 @@
 /*
     Example:
 
+    in file:
+    function loadScript(src, position, id) {
+        if (!position) {
+            return;
+        }
+        const script = document.createElement('script');
+        script.setAttribute('async', '');
+        script.setAttribute('id', id);
+        script.src = src;
+        position.appendChild(script);
+    }
+
+    in class:
+    if (typeof window !== 'undefined') {
+        if (!document.querySelector('#google-maps')) {
+            loadScript(
+                `https://maps.googleapis.com/maps/api/js?key=${process.env.REACT_APP_GOOGLE_API_KEY}&libraries=places&language=ru`,
+                document.querySelector('head'),
+                'google-maps',
+            );
+        }
+    }
+
     <PickOneMap
         name='place'
         query={GET_PLACES}
@@ -58,17 +81,6 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-function loadScript(src, position, id) {
-    if (!position) {
-        return;
-    }
-    const script = document.createElement('script');
-    script.setAttribute('async', '');
-    script.setAttribute('id', id);
-    script.src = src;
-    position.appendChild(script);
-}
-
 const containerStyle = {
     width: '100%',
     height: 'calc(var(--vh, 1vh) * 100 - 330px)'
@@ -88,16 +100,6 @@ export default function PickOneMap(props) {
     const [animate, setAnimate] = React.useState(true);
     const [current, setCurrent] = React.useState({ id: '', index: 0 });
     const [center, setCenter] = React.useState({ lat: 0, lng: 0 });
-
-    if (typeof window !== 'undefined') {
-        if (!document.querySelector('#google-maps')) {
-            loadScript(
-                `https://maps.googleapis.com/maps/api/js?key=${process.env.REACT_APP_GOOGLE_API_KEY}&libraries=places&language=ru`,
-                document.querySelector('head'),
-                'google-maps',
-            );
-        }
-    }
 
     const handleNext = () => {
         if (props.onChange !== undefined) props.onChange({ target: { id: props.name, value: items[current.index + 1].id } });
@@ -129,20 +131,23 @@ export default function PickOneMap(props) {
     const { data, error, loading } = useQuery(props.query, {
         variables: props.query_variables,
         onCompleted(data) {
-            if(props.value === undefined || props.value === ''){
-                setCurrent({ id: items[0].id, index: 0 });
-                if (props.onChange !== undefined) props.onChange({ target: { id: props.name, value: items[0].id } });
-            } else {
-                let index = items.findIndex( i => i.id === props.value );
-                if(index === -1) {
+            let items = data ? data[Object.keys(data)[0]] : [];
+            if (items.length > 0) {
+                if (props.value === undefined || props.value === '') {
                     setCurrent({ id: items[0].id, index: 0 });
-                    if (props.onChange !== undefined) props.onChange({ target: { id: props.name, value: items[0].id } });    
+                    if (props.onChange !== undefined) props.onChange({ target: { id: props.name, value: items[0].id } });
                 } else {
-                    setCurrent({ id: props.value, index: index });
-                    if (props.onChange !== undefined) props.onChange({ target: { id: props.name, value: items[index].id } });
+                    let index = items.findIndex(i => i.id === props.value);
+                    if (index === -1) {
+                        setCurrent({ id: items[0].id, index: 0 });
+                        if (props.onChange !== undefined) props.onChange({ target: { id: props.name, value: items[0].id } });
+                    } else {
+                        setCurrent({ id: props.value, index: index });
+                        if (props.onChange !== undefined) props.onChange({ target: { id: props.name, value: items[index].id } });
+                    }
                 }
+                if (props.onCompleted !== undefined) props.onCompleted(data);
             }
-            if (props.onCompleted !== undefined) props.onCompleted(data);
         }
     });
 
@@ -151,7 +156,7 @@ export default function PickOneMap(props) {
     let items = data ? data[Object.keys(data)[0]] : [];
     if (props.hidden !== undefined) items = items.filter(item => !props.hidden.includes(item.id));
 
-    return (
+    return items.length > 0 ?
         <React.Fragment>
             <GoogleMap
                 mapContainerStyle={containerStyle}
@@ -225,5 +230,6 @@ export default function PickOneMap(props) {
                 />
             </React.Fragment>
         </React.Fragment>
-    )
+        :
+        <React.Fragment></React.Fragment>
 }

@@ -93,7 +93,7 @@ export default function PickManyGridDialog(props) {
                 </Grid>
             </Grid>
             <Dialog fullScreen open={openPick} onClose={handlePickDialogClose}>
-                <AppBar position="static">
+                <AppBar position="sticky">
                     <Toolbar>
                         <IconButton edge="start" aria-label="back" color="inherit" onClick={handlePickDialogClose}>
                             <ArrowBack />
@@ -110,7 +110,7 @@ export default function PickManyGridDialog(props) {
                         query_variables={props.query_from_variables}
                         id='item-choose'
                         value={props.value}
-                        hidden={props.value}
+                        hidden={i => !props.value.includes(i.id)}
                         onChange={handlePick}
                         title={props.pick_card_title}
                         subheader={props.pick_card_subheader}

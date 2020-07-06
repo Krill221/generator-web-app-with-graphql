@@ -36,14 +36,14 @@ export default function TopStick(props) {
     const is_mobile = !useMediaQuery(theme.breakpoints.up('sm'));
 
     const [scroll, setScroll] = useState(0);
-    const handleScroll = () => {
-        const scrollCheck = window.scrollY > 0;
-        if (scrollCheck !== scroll) setScroll(scrollCheck);
-    }
     useEffect(() => {
+        const handleScroll = () => {
+            const scrollCheck = window.scrollY > 0;
+            if (scrollCheck !== scroll) setScroll(scrollCheck);
+        }
         document.addEventListener("scroll", handleScroll)
         return () => document.removeEventListener("scroll", handleScroll);
-    }, []);
+    }, [scroll]);
 
     return (
         <Paper square elevation={scroll ? 2: 0} className = { is_mobile? classes.mobile : classes.desktop } >

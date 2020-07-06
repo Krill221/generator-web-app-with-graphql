@@ -72,6 +72,7 @@ const FieldLocationText = React.forwardRef((props, ref) => {
     const [loading, setLoading] = React.useState(false);
     const [inputValue, setInputValue] = React.useState('');
     const [options, setOptions] = React.useState(navigator.geolocation ? [template] : []);
+    const [mycoord, setMycoord] = React.useState([0, 0]);
 
     if (typeof window !== 'undefined') {
         if (!document.querySelector('#google-maps')) {
@@ -129,6 +130,18 @@ const FieldLocationText = React.forwardRef((props, ref) => {
 
     }, [value, inputValue, fetchA]);
 
+    React.useEffect(() => {
+        navigator.geolocation.getCurrentPosition((position) => {
+            setMycoord([position.coords.latitude, position.coords.longitude])
+        },
+            (error) => {
+                setLoading(false);
+                alert('Неудалось определить местороложение');
+            }
+        );
+    }, [])
+
+
     return (
         <Autocomplete
             name={props.name}
@@ -136,6 +149,8 @@ const FieldLocationText = React.forwardRef((props, ref) => {
             filterOptions={(x) => x}
             options={options}
             freeSolo
+            disableCloseOnSelect
+            openOnFocus
             autoComplete
             includeInputInList
             filterSelectedOptions
@@ -147,29 +162,19 @@ const FieldLocationText = React.forwardRef((props, ref) => {
 
                 if (newValue && newValue.id === 'near') {
                     setLoading(true);
-                    navigator.geolocation.getCurrentPosition(
-                        (position) => {
-                            const lat = position.coords.latitude;
-                            const lng = position.coords.longitude;
-                            getGeocode({ address: `${lat},${lng}` }).then(geocode => {
-                                var ans = geocode[0].address_components[1].long_name;
-                                newValue.description = ans;
-                                newValue.structured_formatting.main_text = ans;
-                                newValue.structured_formatting.secondary_text = ans;
-                                setOptions([newValue]);
-                                setValue(newValue);
-                                setLoading(false);
-                                props.onChange !== undefined && props.onChange({
-                                    target:
-                                        { id: props.name, value: [lat.toString(), lng.toString(), newValue.description] }
-                                });
-                            });
-                        },
-                        (error) => {
-                            setLoading(false);
-                            alert('Неудалось определить местороложение');
-                        }
-                    );
+                    getGeocode({ address: `${mycoord[0]},${mycoord[1]}` }).then(geocode => {
+                        var ans = geocode[0].address_components[1].long_name;
+                        newValue.description = ans;
+                        newValue.structured_formatting.main_text = ans;
+                        newValue.structured_formatting.secondary_text = ans;
+                        setOptions([newValue]);
+                        setValue(newValue);
+                        setLoading(false);
+                        props.onChange !== undefined && props.onChange({
+                            target:
+                                { id: props.name, value: [mycoord[0].toString(), mycoord[1].toString(), newValue.description] }
+                        });
+                    });
                 } else {
                     if (newValue) {
                         if (props.onChange !== undefined) {
@@ -178,7 +183,7 @@ const FieldLocationText = React.forwardRef((props, ref) => {
                             const { lat, lng } = await getLatLng(geocode[0]);
                             props.onChange !== undefined && props.onChange({
                                 target: {
-                                    id: props.name, value: [lat.toString(), lng.toString(), address ]
+                                    id: props.name, value: [lat.toString(), lng.toString(), address]
                                 }
                             });
                         }

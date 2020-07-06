@@ -36,7 +36,7 @@ export default function PickOneGridDialog(props) {
         <React.Fragment>
             <Button className={`change-${props.name}`} size="small" color="primary" onClick={handleClickDialogOpen} >Change</Button>
             <Dialog fullScreen open={open} onClose={handleDialogClose}>
-                <AppBar position="static">
+                <AppBar position="sticky">
                     <Toolbar>
                         <IconButton edge="start" color="inherit" onClick={handleDialogClose} aria-label="close">
                             <CloseIcon />

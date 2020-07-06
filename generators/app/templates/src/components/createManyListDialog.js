@@ -7,6 +7,7 @@
         query_where={GET_COMMENTS_WHERE}
         query_update={UPDATE_COMMENT}
         query_delete={DELETE_COMMENT}
+        hidden={[]} // not requared
         value={props.values.comments}
         onChange={e => { props.handleChange(e); if (props.values.id !== 'new') { setSave(false); props.submitForm(); } }}
         EditForm={CommentEdit}
@@ -72,63 +73,74 @@ export default function СreateManyListDialog(props) {
                     <QueryList name={props.name}
                         query={props.query_where}
                         query_variables={{ ids: props.value }}
+                        hidden={props.hidden}
                         renderItem={(item, index) => <ListItem key={index}>
-                            <ListItemAvatar>
-                                <Avatar>{props.avatar_icon ? props.avatar_icon(item, index) : <FolderIcon />}</Avatar>
-                            </ListItemAvatar>
+                            {props.avatar_icon &&
+                                < ListItemAvatar >
+                                    <Avatar>{props.avatar_icon ? props.avatar_icon(item, index) : <FolderIcon />}</Avatar>
+                                </ListItemAvatar>
+                            }
                             <ListItemText primary={props.primary_content ? props.primary_content(item, index) : ''} secondary={props.secondary_content ? props.secondary_content(item, index) : ''} />
                             <ListItemSecondaryAction>
-                                {((props.editButton === 'each') || (props.editButton === 'last' && (index === 0))) &&
-                                    <IconButton edge="end" aria-label="delete" className={`delete-${props.name}`} onClick={() => { setCurrentId(item.id); handleEditDialogOpen(); }} >
-                                        <EditIcon />
-                                    </IconButton>
-                                }
-                                {(props.deleteButton === 'each') &&
-                                    <IconButton edge="end" aria-label="delete" className={`delete-${props.name}`} onClick={() => handleDelete(item.id)} >
-                                        <DeleteIcon />
-                                    </IconButton>
-                                }
-                                {(props.deleteButton === 'last' && (index === 0)) &&
-                                    <IconButton edge="end" aria-label="delete" className={`delete-${props.name}`} onClick={() => handleDelete(item.id)} >
-                                        <DeleteIcon />
-                                    </IconButton>
-                                }
-                            </ListItemSecondaryAction>
+                        {((props.editButton === 'each') || (props.editButton === 'last' && (index === 0))) &&
+                            <IconButton edge="end" aria-label="delete" className={`delete-${props.name}`} onClick={() => { setCurrentId(item.id); handleEditDialogOpen(); }} >
+                                <EditIcon />
+                            </IconButton>
+                        }
+                        {(props.deleteButton === 'each') &&
+                            <IconButton edge="end" aria-label="delete" className={`delete-${props.name}`} onClick={() => handleDelete(item.id)} >
+                                <DeleteIcon />
+                            </IconButton>
+                        }
+                        {(props.deleteButton === 'last' && (index === 0)) &&
+                            <IconButton edge="end" aria-label="delete" className={`delete-${props.name}`} onClick={() => handleDelete(item.id)} >
+                                <DeleteIcon />
+                            </IconButton>
+                        }
+                    </ListItemSecondaryAction>
                         </ListItem>
                         }
                     />
                 </Grid>
-                <Grid item xs={12} sm={12} md={12} >
-                    {(props.actionType === 'create-default') &&
-                        <Button className={`add-${props.name}`} fullWidth variant="contained"
-                            onClick={() => updateMutation({ variables: { id: 'new' } }).then(res => {
-                                const value = props.value.concat([res.data[Object.keys(res.data)[0]]]);
-                                if (props.onChange !== undefined) props.onChange({ target: { id: props.name, value: value } });
-                            })} >{props.addButtonName !== undefined ? props.addButtonName : 'add'}</Button>
-                    }
-                    {(props.actionType === 'create') &&
-                        <Button className={`add-${props.name}`} onClick={() => { setCurrentId('new'); handleEditDialogOpen(); }} fullWidth variant="contained" >{props.addButtonName !== undefined ? props.addButtonName : 'add'}</Button>
-                    }
-                </Grid>
+            <Grid item xs={12} sm={12} md={12} >
+                {(props.actionType === 'create-default') &&
+                    <Button className={`add-${props.name}`} fullWidth variant="contained"
+                        onClick={() => updateMutation({ variables: { id: 'new' } }).then(res => {
+                            const value = props.value.concat([res.data[Object.keys(res.data)[0]]]);
+                            if (props.onChange !== undefined) props.onChange({ target: { id: props.name, value: value } });
+                        })} >{props.addButtonName !== undefined ? props.addButtonName : 'add'}</Button>
+                }
+                {(props.actionType === 'create') &&
+                    <Button color="secondary" className={`add-${props.name}`} onClick={() => { setCurrentId('new'); handleEditDialogOpen(); }} fullWidth variant="contained" >{props.addButtonName !== undefined ? props.addButtonName : 'add'}</Button>
+                }
             </Grid>
-            {(props.actionType === 'create') &&
-                <Dialog fullScreen open={openEdit} onClose={handleEditDialogClose}>
-                    <AppBar position="static">
-                        <Toolbar>
-                            <IconButton edge="start" aria-label="back" color="inherit" onClick={handleEditDialogClose}>
-                                <ArrowBack />
-                            </IconButton>
-                            {
-                                props.dialogName &&
-                                <Typography noWrap variant="h6">{props.dialogName}</Typography>
-                            }
-                        </Toolbar>
-                    </AppBar>
-                    <Container>
+            </Grid>
+            {
+        (props.actionType === 'create') &&
+        <Dialog fullScreen open={openEdit} onClose={handleEditDialogClose}>
+            <AppBar position="sticky" >
+                <Toolbar>
+                    <IconButton edge="start" aria-label="back" color="inherit" onClick={handleEditDialogClose}>
+                        <ArrowBack />
+                    </IconButton>
+                    {
+                        props.dialogName &&
+                        <Typography noWrap variant="h6">{props.dialogName}</Typography>
+                    }
+                </Toolbar>
+            </AppBar>
+            <Container>
+                {
+                    /*
                         <props.EditForm itemId={currentId} onChange={handleChange} onSave={handleEditDialogClose} onDelete={handleEditDialogClose} />
-                    </Container>
-                </Dialog>
-            }
-        </React.Fragment>
+                    */
+                }
+                {
+                    props.EditForm({ ...props, itemId: currentId, onChange: handleChange, onSave: handleEditDialogClose, onDelete: handleEditDialogClose })
+                }
+            </Container>
+        </Dialog>
+    }
+        </React.Fragment >
     );
 }

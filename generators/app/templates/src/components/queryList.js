@@ -29,10 +29,13 @@ export default function QueryList(props) {
     if (error) console.log(error);
     if (error) return null;
     let items = data ? data[Object.keys(data)[0]] : [];
-    if (props.hidden !== undefined) items = items.filter(item => !props.hidden.includes(item.id));
+    //if (props.hidden !== undefined) items = items.filter(item => !props.hidden.includes(item.id));
+    if (props.hidden !== undefined) items = items.filter(props.hidden);
 
+    if (items.length === 0) return null;
+    
     return (
-        <List dense={false} id={`${props.name}-list`} name={`${props.name}-list`} >
+        <List dense={false} name={`${props.name}-list`} >
             {
                 items.map((item, index) => props.renderItem(item, index))
             }
