@@ -37,15 +37,15 @@ export default function Wizard(props) {
             <Grid item xs={12}>
                 {
                     activeStep === 0 ?
-                        <Button href={props.locationBack}>Close</Button>
+                        <Button href={props.locationBack}>Закрыть</Button>
                         :
-                        <Button onClick={handleBack}  >Back</Button>
+                        <Button onClick={handleBack}  >Назад</Button>
                 }
                 {
                     activeStep === props.steps.length - 1 ?
                         <Button className='create' onClick={props.handleSubmit} disabled={props.isSubmitting} variant="contained" color="primary">{props.submitName}</Button>
                         :
-                        <Button variant="contained" color="primary" onClick={handleNext} id="next">Next</Button>
+                        <Button variant="contained" color="primary" onClick={handleNext} id="next">След.</Button>
                 }
             </Grid>
             <Grid item xs={12}>
