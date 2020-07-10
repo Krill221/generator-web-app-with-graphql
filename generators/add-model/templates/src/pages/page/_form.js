@@ -22,7 +22,7 @@ const FieldsSchema = Yup.object().shape({
 
 export default function Form({itemId, onChange, onDelete, afterSubmit, onSave, children}) {
 
-    const { data, loading } = useQuery(GET, { variables: { id: itemId } });
+    const { data, loading } = useQuery(GET, { variables: { id: itemId }, skip: itemId === 'new'  });
     const handleSave = (onSave !== undefined) ? onSave : () => {};
 
     const [updateMutation] = useMutation(UPDATE, {
