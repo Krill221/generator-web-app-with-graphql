@@ -58,6 +58,12 @@ const useStyles = makeStyles((theme) => ({
         height: 38,
         width: 38,
     },
+    chipActive: {
+        zIndex: 100,
+    },
+    chipPassive: {
+        zIndex: 1,
+    }
 }));
 
 const containerStyle = {
@@ -163,6 +169,7 @@ export default function PickOneMapDialog(props) {
                                 mapPaneName={OverlayView.OVERLAY_MOUSE_TARGET}
                             >
                                 <Chip
+                                    className={current.index === index ? classes.chipActive : classes.chipPassive}
                                     onClick={(e) => handleChange(index)}
                                     label={props.markerLabel ? props.markerLabel(item, index) : ''}
                                     color={current.index === index ? 'secondary' : 'primary'}
