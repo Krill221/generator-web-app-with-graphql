@@ -33,9 +33,10 @@ export default function ShowMap(props) {
     const onLoad = React.useCallback(function callback() { }, []);
     const onUnmount = React.useCallback(function callback() { }, []);
     const center = { lat: parseFloat(props.lat), lng: parseFloat(props.lng) };
-    return (
-        <React.Fragment>
-            <LoadScript googleMapsApiKey={process.env.REACT_APP_GOOGLE_API_KEY}>
+    return <LoadScript
+                id={'google-maps'}
+                googleMapsApiKey={process.env.REACT_APP_GOOGLE_API_KEY}
+            >
                 <GoogleMap
                     mapContainerStyle={containerStyle}
                     options={options}
@@ -51,7 +52,5 @@ export default function ShowMap(props) {
                         {props.marker}
                     </OverlayView>
                 </GoogleMap>
-            </LoadScript>
-        </React.Fragment >
-    )
+            </LoadScript>;
 }

@@ -1,29 +1,6 @@
 /*
     Example:
 
-    in file:
-    function loadScript(src, position, id) {
-        if (!position) {
-            return;
-        }
-        const script = document.createElement('script');
-        script.setAttribute('async', '');
-        script.setAttribute('id', id);
-        script.src = src;
-        position.appendChild(script);
-    }
-
-    in class:
-    if (typeof window !== 'undefined') {
-        if (!document.querySelector('#google-maps')) {
-            loadScript(
-                `https://maps.googleapis.com/maps/api/js?key=${process.env.REACT_APP_GOOGLE_API_KEY}&libraries=places&language=ru`,
-                document.querySelector('head'),
-                'google-maps',
-            );
-        }
-    }
-
     <PickOneMap
         name='place'
         query={GET_PLACES}
@@ -44,7 +21,7 @@
     
  */
 import React from 'react';
-import { GoogleMap, OverlayView } from '@react-google-maps/api';
+import { GoogleMap, OverlayView, LoadScript } from '@react-google-maps/api';
 import { useQuery } from '@apollo/react-hooks';
 import { Chip, Button, Card, CardMedia, CardContent, } from '@material-ui/core';
 import mapStyle from './mapStyle';
@@ -157,7 +134,10 @@ export default function PickOneMap(props) {
     if (props.hidden !== undefined) items = items.filter(item => !props.hidden.includes(item.id));
 
     return items.length > 0 ?
-        <React.Fragment>
+        <LoadScript
+            id={'google-maps'}
+            googleMapsApiKey={process.env.REACT_APP_GOOGLE_API_KEY}
+        >
             <GoogleMap
                 mapContainerStyle={containerStyle}
                 options={options}
@@ -229,7 +209,7 @@ export default function PickOneMap(props) {
                     }
                 />
             </React.Fragment>
-        </React.Fragment>
+        </LoadScript>
         :
         <React.Fragment></React.Fragment>
 }

@@ -131,9 +131,10 @@ const FieldLocationText = React.forwardRef((props, ref) => {
     }, [value, inputValue, fetchA]);
 
     React.useEffect(() => {
-        navigator.geolocation.getCurrentPosition((position) => {
-            setMycoord([position.coords.latitude, position.coords.longitude])
-        },
+        navigator.geolocation.getCurrentPosition(
+            (position) => {
+                setMycoord([position.coords.latitude, position.coords.longitude])
+            },
             (error) => {
                 setLoading(false);
                 alert('Неудалось определить местороложение');
@@ -156,25 +157,40 @@ const FieldLocationText = React.forwardRef((props, ref) => {
             filterSelectedOptions
             value={value}
             ref={ref}
+            onFocus={ () => {
+                navigator.geolocation.getCurrentPosition(
+                    (position) => {
+                        setMycoord([position.coords.latitude, position.coords.longitude])
+                    },
+                    (error) => {
+                        setLoading(false);
+                        alert('Неудалось определить местороложение');
+                    }
+                );
+            }}
             onChange={async (event, newValue) => {
                 setOptions(newValue ? [newValue, ...options] : options);
                 setValue(newValue);
 
                 if (newValue && newValue.id === 'near') {
                     setLoading(true);
-                    getGeocode({ address: `${mycoord[0]},${mycoord[1]}` }).then(geocode => {
-                        var ans = geocode[0].address_components[1].long_name;
-                        newValue.description = ans;
-                        newValue.structured_formatting.main_text = ans;
-                        newValue.structured_formatting.secondary_text = ans;
-                        setOptions([newValue]);
-                        setValue(newValue);
-                        setLoading(false);
-                        props.onChange !== undefined && props.onChange({
-                            target:
-                                { id: props.name, value: [mycoord[0].toString(), mycoord[1].toString(), newValue.description] }
+                    if (mycoord[0] !== 0 && mycoord[1] !== 0) {
+                        getGeocode({ address: `${mycoord[0]},${mycoord[1]}` }).then(geocode => {
+                            var ans = geocode[0].address_components[1].long_name;
+                            newValue.description = ans;
+                            newValue.structured_formatting.main_text = ans;
+                            newValue.structured_formatting.secondary_text = ans;
+                            setOptions([newValue]);
+                            setValue(newValue);
+                            setLoading(false);
+                            props.onChange !== undefined && props.onChange({
+                                target:
+                                    { id: props.name, value: [mycoord[0].toString(), mycoord[1].toString(), newValue.description] }
+                            });
                         });
-                    });
+                    } else {
+                        alert('Неудалось определить местоположение')
+                    }
                 } else {
                     if (newValue) {
                         if (props.onChange !== undefined) {

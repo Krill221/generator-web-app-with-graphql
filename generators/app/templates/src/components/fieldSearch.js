@@ -13,11 +13,13 @@ import { makeStyles } from '@material-ui/core/styles';
 import { useTheme } from '@material-ui/core/styles';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import {
-    Button, Dialog, AppBar, Container, Toolbar, Typography, IconButton, Grid, Paper, Divider, DialogContent, DialogActions
+    Button, Dialog, Container, Toolbar, Typography, IconButton, Grid, Paper, Divider, DialogContent, DialogActions
 } from '@material-ui/core';
 import SearchIcon from '@material-ui/icons/Search';
 import ArrowBack from '@material-ui/icons/ArrowBack';
 import MenuOpenIcon from '@material-ui/icons/MenuOpen';
+import TopAppBar from './topAppBar';
+
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -63,7 +65,7 @@ export const FieldSearch = (props) => {
         setValue(e);
         setMain(false);
         !is_mobile && setFilter(true);
-        console.log(e);
+        //console.log(e);
     }
     const handleChangeFilter = e => {
         setFilter(false);
@@ -105,13 +107,13 @@ export const FieldSearch = (props) => {
             </Grid>
         </Paper>
         <Dialog fullScreen open={main} onEntering={handleOpenMain}>
-            <AppBar position="static">
+            <TopAppBar position="sticky" className={classes.appbar} >
                 <Toolbar>
                     <IconButton edge="start" aria-label="back" color="inherit" onClick={() => setMain(false)}>
                         <ArrowBack />
                     </IconButton>
                 </Toolbar>
-            </AppBar>
+            </TopAppBar>
             <Container>
                 <Grid container spacing={1} alignItems="flex-end">
                     <Grid item xs={12} sm={12} md={12}></Grid>
@@ -133,13 +135,13 @@ export const FieldSearch = (props) => {
             </Container>
         </Dialog>
         <Dialog fullScreen open={filter} scroll={'paper'}>
-            <AppBar position="static">
+            <TopAppBar position="sticky" className={classes.appbar} >
                 <Toolbar>
                     <IconButton edge="start" aria-label="back" color="inherit" onClick={() => setFilter(false)}>
                         <ArrowBack />
                     </IconButton>
                 </Toolbar>
-            </AppBar>
+            </TopAppBar>
             <DialogContent>
                 <Grid container spacing={1} alignItems="flex-end">
                     <Grid item xs={12} sm={12} md={12}>

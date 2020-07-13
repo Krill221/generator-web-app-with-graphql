@@ -28,7 +28,7 @@ import {
     Typography,
     Container, ListItem, ListItemAvatar, Avatar, ListItemText,
     ListItemSecondaryAction,
-    Dialog, Button, AppBar, Toolbar, IconButton
+    Dialog, Button, AppBar, Toolbar, IconButton, DialogTitle, DialogActions
 } from '@material-ui/core';
 import QueryList from './queryList';
 import EditIcon from '@material-ui/icons/Edit';
@@ -39,20 +39,22 @@ import ArrowBack from '@material-ui/icons/ArrowBack';
 
 export default function СreateManyListDialog(props) {
 
+    const [deleteDialog, setDeleteDialog] = React.useState(false);
     const [openEdit, setOpenEdit] = React.useState(false);
     const [currentId, setCurrentId] = React.useState('new');
     const handleEditDialogOpen = () => { setOpenEdit(true); };
     const handleEditDialogClose = () => { setOpenEdit(false); };
 
-    const handleDelete = (id) => {
-        const value = props.value.filter(i => i !== id);
+    const handleDelete = () => {
+        const value = props.value.filter(i => i !== currentId);
         deleteMutation({
-            variables: { id: id },
+            variables: { id: currentId },
             refetchQueries: [{ query: props.query_where, variables: { ids: props.value } }]
         }).then(res => {
             if (props.onChange !== undefined) props.onChange({ target: { id: props.name, value: value } });
         });
         if (props.onChange !== undefined) props.onChange({ target: { id: props.name, value: value } });
+        setDeleteDialog(false);
     }
 
     const handleChange = (e) => {
@@ -82,65 +84,77 @@ export default function СreateManyListDialog(props) {
                             }
                             <ListItemText primary={props.primary_content ? props.primary_content(item, index) : ''} secondary={props.secondary_content ? props.secondary_content(item, index) : ''} />
                             <ListItemSecondaryAction>
-                        {((props.editButton === 'each') || (props.editButton === 'last' && (index === 0))) &&
-                            <IconButton edge="end" aria-label="delete" className={`delete-${props.name}`} onClick={() => { setCurrentId(item.id); handleEditDialogOpen(); }} >
-                                <EditIcon />
-                            </IconButton>
-                        }
-                        {(props.deleteButton === 'each') &&
-                            <IconButton edge="end" aria-label="delete" className={`delete-${props.name}`} onClick={() => handleDelete(item.id)} >
-                                <DeleteIcon />
-                            </IconButton>
-                        }
-                        {(props.deleteButton === 'last' && (index === 0)) &&
-                            <IconButton edge="end" aria-label="delete" className={`delete-${props.name}`} onClick={() => handleDelete(item.id)} >
-                                <DeleteIcon />
-                            </IconButton>
-                        }
-                    </ListItemSecondaryAction>
+                                {((props.editButton === 'each') || (props.editButton === 'last' && (index === 0))) &&
+                                    <IconButton edge="end" aria-label="delete" className={`delete-${props.name}`} onClick={() => { setCurrentId(item.id); handleEditDialogOpen(); }} >
+                                        <EditIcon />
+                                    </IconButton>
+                                }
+                                {(props.deleteButton === 'each') &&
+                                    <IconButton color='secondary' edge="end" aria-label="delete" className={`delete-${props.name}`} onClick={() => { setCurrentId(item.id); setDeleteDialog(true) }} >
+                                        <DeleteIcon />
+                                    </IconButton>
+                                }
+                                {(props.deleteButton === 'last' && (index === 0)) &&
+                                    <IconButton color='secondary' edge="end" aria-label="delete" className={`delete-${props.name}`} onClick={() => { setCurrentId(item.id); setDeleteDialog(true) }} >
+                                        <DeleteIcon />
+                                    </IconButton>
+                                }
+                            </ListItemSecondaryAction>
                         </ListItem>
                         }
                     />
                 </Grid>
-            <Grid item xs={12} sm={12} md={12} >
-                {(props.actionType === 'create-default') &&
-                    <Button className={`add-${props.name}`} fullWidth variant="contained"
-                        onClick={() => updateMutation({ variables: { id: 'new' } }).then(res => {
-                            const value = props.value.concat([res.data[Object.keys(res.data)[0]]]);
-                            if (props.onChange !== undefined) props.onChange({ target: { id: props.name, value: value } });
-                        })} >{props.addButtonName !== undefined ? props.addButtonName : 'add'}</Button>
-                }
-                {(props.actionType === 'create') &&
-                    <Button color="secondary" className={`add-${props.name}`} onClick={() => { setCurrentId('new'); handleEditDialogOpen(); }} fullWidth variant="contained" >{props.addButtonName !== undefined ? props.addButtonName : 'add'}</Button>
-                }
-            </Grid>
+                <Grid item xs={12} sm={12} md={12} >
+                    {(props.actionType === 'create-default') &&
+                        <Button className={`add-${props.name}`} fullWidth variant="contained"
+                            onClick={() => updateMutation({ variables: { id: 'new' } }).then(res => {
+                                const value = props.value.concat([res.data[Object.keys(res.data)[0]]]);
+                                if (props.onChange !== undefined) props.onChange({ target: { id: props.name, value: value } });
+                            })} >{props.addButtonName !== undefined ? props.addButtonName : 'add'}</Button>
+                    }
+                    {(props.actionType === 'create') &&
+                        <Button color="secondary" className={`add-${props.name}`} onClick={() => { setCurrentId('new'); handleEditDialogOpen(); }} fullWidth variant="contained" >{props.addButtonName !== undefined ? props.addButtonName : 'add'}</Button>
+                    }
+                </Grid>
             </Grid>
             {
-        (props.actionType === 'create') &&
-        <Dialog fullScreen open={openEdit} onClose={handleEditDialogClose}>
-            <AppBar position="sticky" >
-                <Toolbar>
-                    <IconButton edge="start" aria-label="back" color="inherit" onClick={handleEditDialogClose}>
-                        <ArrowBack />
-                    </IconButton>
-                    {
-                        props.dialogName &&
-                        <Typography noWrap variant="h6">{props.dialogName}</Typography>
-                    }
-                </Toolbar>
-            </AppBar>
-            <Container>
-                {
-                    /*
-                        <props.EditForm itemId={currentId} onChange={handleChange} onSave={handleEditDialogClose} onDelete={handleEditDialogClose} />
-                    */
-                }
-                {
-                    props.EditForm({ ...props, itemId: currentId, onChange: handleChange, onSave: handleEditDialogClose, onDelete: handleEditDialogClose })
-                }
-            </Container>
-        </Dialog>
-    }
+                (props.actionType === 'create') &&
+                <Dialog fullScreen open={openEdit} onClose={handleEditDialogClose}>
+                    <AppBar position="sticky" >
+                        <Toolbar>
+                            <IconButton edge="start" aria-label="back" color="inherit" onClick={handleEditDialogClose}>
+                                <ArrowBack />
+                            </IconButton>
+                            {
+                                props.dialogName &&
+                                <Typography noWrap variant="h6">{props.dialogName}</Typography>
+                            }
+                        </Toolbar>
+                    </AppBar>
+                    <Container>
+                        {
+                            /*
+                                <props.EditForm itemId={currentId} onChange={handleChange} onSave={handleEditDialogClose} onDelete={handleEditDialogClose} />
+                            */
+                        }
+                        {
+                            props.EditForm({ ...props, itemId: currentId, onChange: handleChange, onSave: handleEditDialogClose, onDelete: handleEditDialogClose })
+                        }
+                    </Container>
+                </Dialog>
+            }
+            <Dialog
+                open={deleteDialog}
+                onClose={() => setDeleteDialog(false)}
+                aria-labelledby="delele"
+                aria-describedby="delete"
+            >
+                <DialogTitle id="alert-delele">{"Удалить?"}</DialogTitle>
+                <DialogActions>
+                    <Button onClick={handleDelete} color="primary" autoFocus>Да</Button>
+                    <Button onClick={() => setDeleteDialog(false)} color="primary">Нет</Button>
+                </DialogActions>
+            </Dialog>
         </React.Fragment >
     );
 }

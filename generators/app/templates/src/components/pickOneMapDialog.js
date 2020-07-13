@@ -22,7 +22,7 @@
     
  */
 import React from 'react';
-import { GoogleMap, OverlayView } from '@react-google-maps/api';
+import { GoogleMap, OverlayView, LoadScript } from '@react-google-maps/api';
 import { useQuery } from '@apollo/react-hooks';
 import { Chip, Button, Card, CardMedia, CardContent, AppBar, Dialog, Toolbar, IconButton, } from '@material-ui/core';
 import ArrowBack from '@material-ui/icons/ArrowBack';
@@ -60,17 +60,6 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-function loadScript(src, position, id) {
-    if (!position) {
-        return;
-    }
-    const script = document.createElement('script');
-    script.setAttribute('async', '');
-    script.setAttribute('id', id);
-    script.src = src;
-    position.appendChild(script);
-}
-
 const containerStyle = {
     width: '100%',
     height: 'calc(var(--vh, 1vh) * 100 - 330px)'
@@ -91,17 +80,6 @@ export default function PickOneMapDialog(props) {
     const [animate, setAnimate] = React.useState(true);
     const [current, setCurrent] = React.useState({ id: '', index: 0 });
     const [center, setCenter] = React.useState({ lat: 0, lng: 0 });
-
-    if (typeof window !== 'undefined') {
-        if (!document.querySelector('#google-maps')) {
-            loadScript(
-                `https://maps.googleapis.com/maps/api/js?key=${process.env.REACT_APP_GOOGLE_API_KEY}&libraries=places&language=ru`,
-                document.querySelector('head'),
-                'google-maps',
-            );
-        }
-    }
-
 
     const handleNext = () => {
         if (props.onChange !== undefined) props.onChange({ target: { id: props.name, value: items[current.index + 1].id } });
@@ -133,14 +111,14 @@ export default function PickOneMapDialog(props) {
     const { data, error, loading } = useQuery(props.query, {
         variables: props.query_variables,
         onCompleted(data) {
-            if(props.value === undefined || props.value === ''){
+            if (props.value === undefined || props.value === '') {
                 setCurrent({ id: items[0].id, index: 0 });
                 if (props.onChange !== undefined) props.onChange({ target: { id: props.name, value: items[0].id } });
             } else {
-                let index = items.findIndex( i => i.id === props.value );
-                if(index === -1) {
+                let index = items.findIndex(i => i.id === props.value);
+                if (index === -1) {
                     setCurrent({ id: items[0].id, index: 0 });
-                    if (props.onChange !== undefined) props.onChange({ target: { id: props.name, value: items[0].id } });    
+                    if (props.onChange !== undefined) props.onChange({ target: { id: props.name, value: items[0].id } });
                 } else {
                     setCurrent({ id: props.value, index: index });
                     if (props.onChange !== undefined) props.onChange({ target: { id: props.name, value: items[index].id } });
@@ -165,30 +143,35 @@ export default function PickOneMapDialog(props) {
                     </IconButton>
                 </Toolbar>
             </AppBar>
-            <GoogleMap
-                mapContainerStyle={containerStyle}
-                options={options}
-                center={center}
-                zoom={12}
-                onLoad={(map) => onLoad(items)}
-                onUnmount={onUnmount}
+            <LoadScript
+                id={'google-maps'}
+                googleMapsApiKey={process.env.REACT_APP_GOOGLE_API_KEY}
             >
-                {
-                    items.map((item, index) =>
-                        <OverlayView
-                            key={index}
-                            position={{ lat: item[props.locationFieldName].coordinates[0], lng: item[props.locationFieldName].coordinates[1] }}
-                            mapPaneName={OverlayView.OVERLAY_MOUSE_TARGET}
-                        >
-                            <Chip
-                                onClick={(e) => handleChange(index)}
-                                label={props.markerLabel ? props.markerLabel(item, index) : ''}
-                                color={current.index === index ? 'secondary' : 'primary'}
-                            />
-                        </OverlayView>
-                    )
-                }
-            </GoogleMap>
+                <GoogleMap
+                    mapContainerStyle={containerStyle}
+                    options={options}
+                    center={center}
+                    zoom={12}
+                    onLoad={(map) => onLoad(items)}
+                    onUnmount={onUnmount}
+                >
+                    {
+                        items.map((item, index) =>
+                            <OverlayView
+                                key={index}
+                                position={{ lat: item[props.locationFieldName].coordinates[0], lng: item[props.locationFieldName].coordinates[1] }}
+                                mapPaneName={OverlayView.OVERLAY_MOUSE_TARGET}
+                            >
+                                <Chip
+                                    onClick={(e) => handleChange(index)}
+                                    label={props.markerLabel ? props.markerLabel(item, index) : ''}
+                                    color={current.index === index ? 'secondary' : 'primary'}
+                                />
+                            </OverlayView>
+                        )
+                    }
+                </GoogleMap>
+            </LoadScript>
             <React.Fragment>
                 <SwipeableViews
                     index={current.index}
@@ -237,6 +220,6 @@ export default function PickOneMapDialog(props) {
                 />
             </React.Fragment>
         </Dialog>
-    </React.Fragment>
+    </React.Fragment >
 
 }

@@ -65,7 +65,7 @@ const useStyles = makeStyles((theme) => ({
         justifyContent: 'center',
         backgroundColor: 'transparent',
         position: 'absolute',
-        bottom: '-22px',
+        bottom: '-25px',
         width: '100%',
         height: '10px',
         padding: '0',
