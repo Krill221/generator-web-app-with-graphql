@@ -23,9 +23,19 @@ const useStyles = makeStyles((theme) => ({
 export default function TopAppBar(props) {
 
     const classes = useStyles();
+
+    const [scroll, setScroll] = React.useState(false);
+    React.useEffect(() => {
+        const handleScroll = () => {
+            const scrollCheck = window.scrollY > 0;
+            if (scrollCheck !== scroll) setScroll(scrollCheck);
+        }
+        document.addEventListener("scroll", handleScroll)
+        return () => document.removeEventListener("scroll", handleScroll);
+    }, [scroll]);
     
     return (
-        <Paper square elevation={0} className={classes.appbar} >
+        <Paper square elevation={scroll ? 2: 0} className={classes.appbar} >
             { props.children }
         </Paper >
     )

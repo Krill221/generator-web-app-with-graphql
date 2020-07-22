@@ -11,6 +11,7 @@
         title='name'
         subheader='desc'
         img='img'
+        change_button_name='change'
         button_name='choose'
     />
     
@@ -18,7 +19,7 @@
 import React from 'react';
 import {
     IconButton, Toolbar,
-    Dialog, AppBar, 
+    Dialog, AppBar,
     Button
 } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
@@ -34,7 +35,9 @@ export default function PickOneGridDialog(props) {
 
     return (
         <React.Fragment>
-            <Button className={`change-${props.name}`} size="small" color="primary" onClick={handleClickDialogOpen} >Change</Button>
+            <Button className={`change-${props.name}`} size="small" color="primary" onClick={handleClickDialogOpen} >
+                {props.change_button_name ? props.change_button_name : 'change'}
+            </Button>
             <Dialog fullScreen open={open} onClose={handleDialogClose}>
                 <AppBar position="sticky">
                     <Toolbar>
@@ -49,8 +52,8 @@ export default function PickOneGridDialog(props) {
                     id={props.id}
                     value={props.value}
                     onChange={(e) => {
-                        if(props.value !== '') handleDialogClose();
-                        if(props.onChange !== undefined ) props.onChange(e);
+                        if (props.value !== '') handleDialogClose();
+                        if (props.onChange !== undefined) props.onChange(e);
                     }}
                     title={props.title}
                     subheader={props.subheader}

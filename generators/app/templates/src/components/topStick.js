@@ -35,7 +35,7 @@ export default function TopStick(props) {
     const theme = useTheme();
     const is_mobile = !useMediaQuery(theme.breakpoints.up('sm'));
 
-    const [scroll, setScroll] = useState(0);
+    const [scroll, setScroll] = useState(false);
     useEffect(() => {
         const handleScroll = () => {
             const scrollCheck = window.scrollY > 0;

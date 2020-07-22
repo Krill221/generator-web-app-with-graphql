@@ -5,7 +5,7 @@
         name='place'
         query={GET_PLACES}
         value={props.values.place}
-        locationFieldName='location2'
+        locationField={i => i.location}
         onChange={props.handleChange}
         markerLabel={(item, index) => `${item.name} ₽`}
         cardMedia={(item, index) => item.name}
@@ -107,11 +107,11 @@ export default function PickOneMapDialog(props) {
     const onLoad = React.useCallback(function callback(items) {
         if (items.length > 0) {
             setCenter({
-                lat: (items.map(i => parseFloat(i[props.locationFieldName].coordinates[0])).reduce((a, b) => a + b) / items.length) + 0.002,
-                lng: (items.map(i => parseFloat(i[props.locationFieldName].coordinates[1])).reduce((a, b) => a + b) / items.length),
+                lat: (items.map(i => parseFloat(props.locationField(i).coordinates[0])).reduce((a, b) => a + b) / items.length) + 0.002,
+                lng: (items.map(i => parseFloat(props.locationField(i).coordinates[1])).reduce((a, b) => a + b) / items.length),
             })
         }
-    }, [props.locationFieldName]);
+    }, [props]);
     const onUnmount = React.useCallback(function callback() { }, [])
 
     const { data, error, loading } = useQuery(props.query, {
@@ -165,7 +165,7 @@ export default function PickOneMapDialog(props) {
                         items.map((item, index) =>
                             <OverlayView
                                 key={index}
-                                position={{ lat: item[props.locationFieldName].coordinates[0], lng: item[props.locationFieldName].coordinates[1] }}
+                                position={{ lat: props.locationField(item).coordinates[0], lng: props.locationField(item).coordinates[1] }}
                                 mapPaneName={OverlayView.OVERLAY_MOUSE_TARGET}
                             >
                                 <Chip

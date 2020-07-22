@@ -1,6 +1,10 @@
 /*
     Example:
-        <FieldButtonUpload name="file" value={props.values.file} onChange={(e) => {props.handleChange(e); props.handleSubmit(e);}}
+        <FieldButtonUpload
+            name="file"
+            value={props.values.file}
+            error={props.errors.file && props.touched.file ? true : false}
+            onChange={(e) => {props.handleChange(e); props.handleSubmit(e);}}
             uploadButton={ (loading) => <Button disabled={loading} fullWidth variant="contained" color="primary" component="span">Upload File</Button>}
             deleteButton={ (loading) => <Button disabled={loading} fullWidth variant="contained" color="primary" component="span">Delete File</Button>}
         / >
@@ -8,6 +12,7 @@
 import React from 'react';
 import { useMutation } from '@apollo/react-hooks';
 import { Dialog, DialogTitle, DialogActions, Button, LinearProgress } from '@material-ui/core';
+import Alert from '@material-ui/lab/Alert';
 import { UPLOAD_FILE, DELETE_FILE } from '../queries/uploadFile';
 
 export default function FieldButtonUpload(props) {
@@ -49,6 +54,9 @@ export default function FieldButtonUpload(props) {
                 <Button onClick={handleClose} color="primary">No</Button>
             </DialogActions>
         </Dialog>
+        {props.error &&
+            <Alert severity="error">Файл не загружен</Alert>
+        }
         <input onChange={handleUpload} accept="image/*" id={`upload-button-${props.name}`} name={`upload-button-${props.name}`} type="file" style={{ display: 'none' }} />
         {
             props.value ?

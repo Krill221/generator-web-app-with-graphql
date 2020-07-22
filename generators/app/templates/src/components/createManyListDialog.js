@@ -16,6 +16,7 @@
         secondary_content={(item, index) => item.desc}
         dialogName="Comment"
         addButtonName="Add Comment"
+        actionTypeButton='fab' // floating button create
         deleteButton='each' // can be 'each', 'last', 'none'
         editButton='last' // can be 'each', 'last', 'none'
     />
@@ -24,18 +25,27 @@
 import React from 'react';
 import { useMutation } from '@apollo/react-hooks';
 import {
-    Grid,
-    Typography,
-    Container, ListItem, ListItemAvatar, Avatar, ListItemText,
+    Typography, ListItem, ListItemAvatar, Avatar, ListItemText,
     ListItemSecondaryAction,
-    Dialog, Button, AppBar, Toolbar, IconButton, DialogTitle, DialogActions
+    Dialog, Button, AppBar, Toolbar, IconButton, DialogTitle, DialogActions, Fab, Divider
 } from '@material-ui/core';
 import QueryList from './queryList';
-import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
 import FolderIcon from '@material-ui/icons/Folder';
 import ArrowBack from '@material-ui/icons/ArrowBack';
+import AddIcon from '@material-ui/icons/Add';
+import { makeStyles } from '@material-ui/core/styles';
 
+
+
+const useStyles = makeStyles((theme) => ({
+    fab: {
+        position: 'fixed',
+        bottom: theme.spacing(9),
+        right: theme.spacing(3),
+        zIndex: 1000,
+    },
+}));
 
 export default function СreateManyListDialog(props) {
 
@@ -44,6 +54,8 @@ export default function СreateManyListDialog(props) {
     const [currentId, setCurrentId] = React.useState('new');
     const handleEditDialogOpen = () => { setOpenEdit(true); };
     const handleEditDialogClose = () => { setOpenEdit(false); };
+    const classes = useStyles();
+
 
     const handleDelete = () => {
         const value = props.value.filter(i => i !== currentId);
@@ -70,53 +82,55 @@ export default function СreateManyListDialog(props) {
 
     return (
         <React.Fragment>
-            <Grid container spacing={2} justify="center" alignItems="center">
-                <Grid item xs={12} sm={12} md={12} >
-                    <QueryList name={props.name}
-                        query={props.query_where}
-                        query_variables={{ ids: props.value }}
-                        hidden={props.hidden}
-                        renderItem={(item, index) => <ListItem key={index}>
-                            {props.avatar_icon &&
-                                < ListItemAvatar >
-                                    <Avatar>{props.avatar_icon ? props.avatar_icon(item, index) : <FolderIcon />}</Avatar>
-                                </ListItemAvatar>
-                            }
-                            <ListItemText primary={props.primary_content ? props.primary_content(item, index) : ''} secondary={props.secondary_content ? props.secondary_content(item, index) : ''} />
-                            <ListItemSecondaryAction>
-                                {((props.editButton === 'each') || (props.editButton === 'last' && (index === 0))) &&
-                                    <IconButton edge="end" aria-label="delete" className={`delete-${props.name}`} onClick={() => { setCurrentId(item.id); handleEditDialogOpen(); }} >
-                                        <EditIcon />
-                                    </IconButton>
-                                }
-                                {(props.deleteButton === 'each') &&
-                                    <IconButton color='secondary' edge="end" aria-label="delete" className={`delete-${props.name}`} onClick={() => { setCurrentId(item.id); setDeleteDialog(true) }} >
-                                        <DeleteIcon />
-                                    </IconButton>
-                                }
-                                {(props.deleteButton === 'last' && (index === 0)) &&
-                                    <IconButton color='secondary' edge="end" aria-label="delete" className={`delete-${props.name}`} onClick={() => { setCurrentId(item.id); setDeleteDialog(true) }} >
-                                        <DeleteIcon />
-                                    </IconButton>
-                                }
-                            </ListItemSecondaryAction>
-                        </ListItem>
+            <QueryList name={props.name}
+                query={props.query_where}
+                query_variables={{ ids: props.value }}
+                hidden={props.hidden}
+                renderItem={(item, index) => <React.Fragment key={index}><ListItem
+                    button={((props.editButton === 'each') || (props.editButton === 'last' && (index === 0))) ? true : false}
+                    onClick={() => {
+                        if ((props.editButton === 'each') || (props.editButton === 'last' && (index === 0))) {
+                            setCurrentId(item.id); handleEditDialogOpen();
                         }
-                    />
-                </Grid>
-                <Grid item xs={12} sm={12} md={12} >
-                    {(props.actionType === 'create-default') &&
-                        <Button className={`add-${props.name}`} fullWidth variant="contained"
-                            onClick={() => updateMutation({ variables: { id: 'new' } }).then(res => {
-                                const value = props.value.concat([res.data[Object.keys(res.data)[0]]]);
-                                if (props.onChange !== undefined) props.onChange({ target: { id: props.name, value: value } });
-                            })} >{props.addButtonName !== undefined ? props.addButtonName : 'add'}</Button>
+                    }}
+                >
+                    {props.avatar_icon &&
+                        < ListItemAvatar >
+                            <Avatar>{props.avatar_icon ? props.avatar_icon(item, index) : <FolderIcon />}</Avatar>
+                        </ListItemAvatar>
                     }
-                    {(props.actionType === 'create') &&
-                        <Button color="secondary" className={`add-${props.name}`} onClick={() => { setCurrentId('new'); handleEditDialogOpen(); }} fullWidth variant="contained" >{props.addButtonName !== undefined ? props.addButtonName : 'add'}</Button>
-                    }
-                </Grid>
-            </Grid>
+                    <ListItemText primary={props.primary_content ? props.primary_content(item, index) : ''} secondary={props.secondary_content ? props.secondary_content(item, index) : ''} />
+                    <ListItemSecondaryAction>
+                        {((props.deleteButton === 'each') || (props.deleteButton === 'last' && (index === 0))) &&
+                            <IconButton color='secondary' aria-label="delete" className={`delete-${props.name}`} onClick={() => { setCurrentId(item.id); setDeleteDialog(true) }} >
+                                <DeleteIcon />
+                            </IconButton>
+                        }
+                    </ListItemSecondaryAction>
+                </ListItem>
+                    <Divider light />
+                </React.Fragment>
+                }
+            />
+            {(props.actionType === 'create-default') &&
+                <Button className={`add-${props.name}`} fullWidth variant="contained"
+                    onClick={() => updateMutation({ variables: { id: 'new' } }).then(res => {
+                        const value = props.value.concat([res.data[Object.keys(res.data)[0]]]);
+                        if (props.onChange !== undefined) props.onChange({ target: { id: props.name, value: value } });
+                    })} >{props.addButtonName !== undefined ? props.addButtonName : 'add'}</Button>
+            }
+            {(props.actionType === 'create') && props.actionTypeButton === 'fab' &&
+                <Fab color="secondary" variant='extended' aria-label="add" className={classes.fab}
+                    onClick={() => { setCurrentId('new'); handleEditDialogOpen(); }}
+                >
+                    <AddIcon />
+                    {props.addButtonName !== undefined && props.addButtonName}
+                </Fab>
+            }
+            {(props.actionType === 'create') && props.actionTypeButton !== 'fab' &&
+                <Button color="secondary" className={`add-${props.name}`} onClick={() => { setCurrentId('new'); handleEditDialogOpen(); }} fullWidth variant="contained" >{props.addButtonName !== undefined ? props.addButtonName : 'add'}</Button>
+            }
+
             {
                 (props.actionType === 'create') &&
                 <Dialog fullScreen open={openEdit} onClose={handleEditDialogClose}>
@@ -131,16 +145,9 @@ export default function СreateManyListDialog(props) {
                             }
                         </Toolbar>
                     </AppBar>
-                    <Container>
-                        {
-                            /*
-                                <props.EditForm itemId={currentId} onChange={handleChange} onSave={handleEditDialogClose} onDelete={handleEditDialogClose} />
-                            */
-                        }
-                        {
-                            props.EditForm({ ...props, itemId: currentId, onChange: handleChange, onSave: handleEditDialogClose, onDelete: handleEditDialogClose })
-                        }
-                    </Container>
+                    {
+                        props.EditForm({ ...props, itemId: currentId, onChange: handleChange, onSave: handleEditDialogClose, onDelete: handleEditDialogClose })
+                    }
                 </Dialog>
             }
             <Dialog

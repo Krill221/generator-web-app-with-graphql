@@ -15,6 +15,7 @@
 import React from 'react';
 import { useQuery } from '@apollo/react-hooks';
 
+
 export default function QueryItems(props) {
 
     const { error, data } = useQuery(props.query, {
@@ -23,6 +24,7 @@ export default function QueryItems(props) {
             if (props.onCompleted !== undefined) props.onCompleted(data);
         }
     });
+
 
     //if (loading) return null;
     if (error) console.log(error);
