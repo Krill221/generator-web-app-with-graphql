@@ -19,6 +19,7 @@ import SearchIcon from '@material-ui/icons/Search';
 import ArrowBack from '@material-ui/icons/ArrowBack';
 import MenuOpenIcon from '@material-ui/icons/MenuOpen';
 import TopAppBar from './topAppBar';
+import ViewSet from './views/viewSet';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -142,11 +143,13 @@ export const FieldSearch = (props) => {
                     </IconButton>
                 </Toolbar>
             </TopAppBar>
+            <ViewSet
+                viewType='plan' // tabs plan wizard or button
+                labels={[<Typography variant="h5" gutterBottom>Фильтры</Typography>]}
+                tabs={['']}
+            />
             <DialogContent>
                 <Grid container spacing={1} alignItems="flex-end">
-                    <Grid item xs={12} sm={12} md={12}>
-                        <Typography variant="h5" component="h2" className={classes.filterHeader}>Фильтры</Typography>
-                    </Grid>
                     <Grid item xs={12} sm={12} md={12}>
                         <Paper elevation={2} variant="outlined" className={classes.paper}>
                             <Grid container spacing={1} alignItems="flex-end">

@@ -2,7 +2,6 @@
     Example:
 
     <PickOneGrid
-        id='post'
         name='post'
         query={GET_POSTS}
         query_variables={}
@@ -19,13 +18,11 @@
 import React from 'react';
 import {
     Card,
-    CardActionArea, CardMedia, CardHeader,
-    CardContent, CardActions,
-    Typography, Avatar,
+    CardActionArea, CardActions, CardHeader, Avatar,
     Button
 } from '@material-ui/core';
 import CheckIcon from '@material-ui/icons/Check';
-import QueryGrid from './queryGrid'
+import QueryItems from './queryItems'
 
 
 
@@ -36,11 +33,11 @@ export default function PickOneGrid(props) {
         setCurrent(id);
         if (props.onChange !== undefined) props.onChange({ target: { id: props.id, value: id } });
     };
-
     return (
-        <QueryGrid
-            id={`${props.id}-list`}
-            query={props.query}
+        <QueryItems
+            name={`${props.name}-list`}
+            viewType='grid'
+            query_where={props.query}
             query_variables={props.query_variables}
             hidden={props.hidden}
             onCompleted={(data) => {
@@ -66,20 +63,8 @@ export default function PickOneGrid(props) {
                         />
                     }
                     {
-                        props.img &&
-                        < CardMedia
-                            component="img"
-                            alt=""
-                            height="140"
-                            image={item[props.img]}
-                            title=""
-                        />
+                        props.elementContent && props.elementContent(item, index)
                     }
-                    <CardContent>
-                        <Typography variant="body2" color="textSecondary" component="p">
-                            {item[props.subheader]}
-                        </Typography>
-                    </CardContent>
                 </CardActionArea>
                 <CardActions>
                     <Button size="small" color="primary" className='choose-button' onClick={() => handleCardClick(item.id)}>

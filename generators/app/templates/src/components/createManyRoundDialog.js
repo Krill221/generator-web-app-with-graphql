@@ -94,7 +94,7 @@ export default function СreateManyRoundDialog(props) {
                             }
                         </TableCell>
                         <QueryItems name={props.name}
-                            query={props.query_where}
+                            query_where={props.query_where}
                             query_variables={{ ids: props.value }}
                             hidden={props.hidden}
                             onCompleted={(data) => {

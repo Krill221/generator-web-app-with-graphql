@@ -12,7 +12,7 @@ import { makeStyles } from '@material-ui/core/styles';
 const useStyles = makeStyles((theme) => ({
     mobile: {
         position: 'sticky',
-        top: theme.spacing(0),
+        top: '-4px',
         left: theme.spacing(0),
         zIndex: 1000,
         backgroundColor: theme.backgroundColor,
@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
     },
     desktop: {
         position: 'sticky',
-        top: theme.spacing(8),
+        top: '60px',
         left: theme.spacing(0),
         zIndex: 1000,
         backgroundColor: theme.backgroundColor,

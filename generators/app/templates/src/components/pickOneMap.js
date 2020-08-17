@@ -205,13 +205,13 @@ export default function PickOneMap(props) {
                     activeStep={current.index}
                     nextButton={
                         <Button size="small" onClick={handleNext} disabled={current.index === items.length - 1}>
-                            Next
+                            Пред.
                             <KeyboardArrowRight />
                         </Button>
                     }
                     backButton={
                         <Button size="small" onClick={handleBack} disabled={current.index === 0}>
-                            <KeyboardArrowLeft />Back
+                            <KeyboardArrowLeft />След.
                         </Button>
                     }
                 />

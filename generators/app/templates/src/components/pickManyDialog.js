@@ -1,15 +1,15 @@
 /*
     Example:
 
-    <PickManyGridDialog
+    <PickManyDialog
         name='posts'
+        viewTYpe='list' // list or grid or plan
         query_where={GET_POSTS_WHERE}
         query_from={GET_POSTS}
         query_from_variables={}
         value={props.values.posts}
         onChange={e => { props.handleChange(e); if (props.values.id !== 'new') { setSave(false); props.submitForm(); } }}
-        cardMedia={(item, index) => ''}
-        cardContent={(item, index) =>
+        elementContent={(item, index) =>
             <Typography variant="body2" color="textSecondary" component="p">{item.name}</Typography>
         }
         cardActions={(item, index) =>
@@ -26,13 +26,14 @@
  */
 import React from 'react';
 import {
-    Grid, Container, Card, CardMedia, CardContent,
+    Grid, Container, Card,
     IconButton, CardActions,
-    Dialog, Button, AppBar, Toolbar, Typography
+    Dialog, Button, AppBar, Toolbar, Typography, ListItem, ListItemSecondaryAction, Divider
 } from '@material-ui/core';
 import ArrowBack from '@material-ui/icons/ArrowBack';
 import PickOneGrid from './pickOneGrid';
-import QueryGrid from './queryGrid';
+import QueryItems from './queryItems';
+import DeleteIcon from '@material-ui/icons/Delete';
 
 
 export default function PickManyGridDialog(props) {
@@ -57,36 +58,52 @@ export default function PickManyGridDialog(props) {
         <React.Fragment>
             <Grid container spacing={2} justify="center" alignItems="center">
                 <Grid item xs={12} sm={12} md={12} >
-                    <QueryGrid name={props.name}
-                        query={props.query_where}
-                        query_variables={{ ids: props.value }}
-                        renderItem={(item, index) => <Card>
-                            {
-                                props.cardMedia &&
-                                <CardMedia
-                                    component="img"
-                                    alt=""
-                                    height="140"
-                                    image={props.cardMedia ? props.cardMedia(item, index) : ''}
-                                    title=""
-                                />
-                            }
-                            <CardContent>
-                                {props.cardContent ? props.cardContent(item, index) : ''}
-                            </CardContent>
-                            <CardActions>
-                                {props.cardActions ? props.cardActions(item, index) : ''}
-                                {(props.deleteButton === 'each') &&
-                                    <Button aria-label="delete" size="small" color="secondary" className={`delete-${props.name}`} onClick={() => handleDelete(item.id)} >delete</Button>
+                    {
+                        props.viewType === 'grid' && <QueryItems name={props.name}
+                            viewType={props.viewType}
+                            query_where={props.query_where}
+                            query_variables={{ ids: props.value }}
+                            renderItem={(item, index) => <Card>
+                                {
+                                    props.elementContent && props.elementContent(item, index)
                                 }
-                                {(props.deleteButton === 'last' && (index === 0)) &&
-                                    <Button aria-label="delete" size="small" color="secondary" className={`delete-${props.name}`} onClick={() => handleDelete(item.id)} >delete</Button>
+                                <CardActions>
+                                    {props.cardActions ? props.cardActions(item, index) : ''}
+                                    {(props.deleteButton === 'each') &&
+                                        <Button aria-label="delete" size="small" color="secondary" className={`delete-${props.name}`} onClick={() => handleDelete(item.id)} >delete</Button>
+                                    }
+                                    {(props.deleteButton === 'last' && (index === 0)) &&
+                                        <Button aria-label="delete" size="small" color="secondary" className={`delete-${props.name}`} onClick={() => handleDelete(item.id)} >delete</Button>
 
-                                }
-                            </CardActions>
-                        </Card>
-                        }
-                    />
+                                    }
+                                </CardActions>
+                            </Card>
+                            }
+                        />
+                    }
+                    {
+                        props.viewType === 'list' && <QueryItems name={props.name}
+                            viewType={props.viewType}
+                            query_where={props.query_where}
+                            query_variables={{ ids: props.value }}
+                            renderItem={(item, index) => <React.Fragment>
+                                <ListItem >
+                                    {
+                                        props.elementContent && props.elementContent(item, index)
+                                    }
+                                    <ListItemSecondaryAction>
+                                        {((props.deleteButton === 'each') || (props.deleteButton === 'last' && (index === 0))) &&
+                                            <IconButton color='secondary' aria-label="delete" className={`delete-${props.name}`}  onClick={() => handleDelete(item.id)} >
+                                                <DeleteIcon />
+                                            </IconButton>
+                                        }
+                                    </ListItemSecondaryAction>
+                                </ListItem>
+                                <Divider light />
+                            </React.Fragment>
+                            }
+                        />
+                    }
                 </Grid>
                 <Grid item xs={12} sm={12} md={12} >
                     <Button className={`add-${props.name}`} onClick={handlePickDialogOpen} fullWidth variant="contained" >{props.addButtonName ? props.addButtonName : 'pick'}</Button>
@@ -112,6 +129,7 @@ export default function PickManyGridDialog(props) {
                         value={props.value}
                         hidden={i => !props.value.includes(i.id)}
                         onChange={handlePick}
+                        elementContent={props.elementContent}
                         title={props.pick_card_title}
                         subheader={props.pick_card_subheader}
                         img={props.pick_card_img}

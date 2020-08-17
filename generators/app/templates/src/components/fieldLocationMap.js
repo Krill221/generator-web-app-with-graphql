@@ -12,7 +12,7 @@
     
  */
 import React from 'react';
-import { GoogleMap, useLoadScript, Marker } from '@react-google-maps/api';
+import { GoogleMap, LoadScript, Marker } from '@react-google-maps/api';
 import mapStyle from './mapStyle';
 
 const options = {
@@ -28,17 +28,13 @@ let center = { lat: 0, lng: 0 }
 export default function FieldLocationMap(props) {
 
     React.useEffect(() => {
-        center = props.value.coordinates ? 
+        center = props.value.coordinates ?
             { lat: parseFloat(props.value.coordinates[0]), lng: parseFloat(props.value.coordinates[1]) }
             :
             center;
     }, [props.value]);
 
-    const { isLoaded, loadError } = useLoadScript({
-        googleMapsApiKey: process.env.REACT_APP_GOOGLE_API_KEY
-    });
-
-    const [marker, setMarker] = React.useState( props.value.coordinates ?
+    const [marker, setMarker] = React.useState(props.value.coordinates ?
         { lat: parseFloat(props.value.coordinates[0]), lng: parseFloat(props.value.coordinates[1]) } : center);
     const onMapClick = React.useCallback((e) => {
         props.onChange !== undefined && props.onChange({
@@ -50,21 +46,23 @@ export default function FieldLocationMap(props) {
         setMarker({ lat: e.latLng.lat(), lng: e.latLng.lng() });
     }, [props]);
 
-    if (loadError) return "Error";
-    if (!isLoaded) return "Loading...";
-
     return (<React.Fragment>
         <input name={`${props.name}_lat`} type='hidden' value={props.value_lat} />
         <input name={`${props.name}_lng`} type='hidden' value={props.value_lng} />
-        <GoogleMap
-            mapContainerStyle={{ width: props.width, height: props.height }}
-            options={options}
-            center={center}
-            zoom={props.zoom}
-            onClick={onMapClick}
+        <LoadScript
+            id={'google-maps'}
+            googleMapsApiKey={process.env.REACT_APP_GOOGLE_API_KEY}
         >
-            <Marker position={marker} />
-        </GoogleMap>
+            <GoogleMap
+                mapContainerStyle={{ width: props.width, height: props.height }}
+                options={options}
+                center={center}
+                zoom={props.zoom}
+                onClick={onMapClick}
+            >
+                <Marker position={marker} />
+            </GoogleMap>
+        </LoadScript>
     </React.Fragment>
     )
 }

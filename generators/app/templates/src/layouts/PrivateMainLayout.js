@@ -14,8 +14,6 @@ const Layout = ({ component: Component, ...rest }) => {
                 :
                 <React.Fragment>
                     <Component {...props} />
-                    {/* Footer */}
-                    <Footer />
                 </React.Fragment>
             }
         />

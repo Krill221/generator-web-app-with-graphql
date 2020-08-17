@@ -1,22 +1,56 @@
 import React from 'react';
-import { Container, Button, Card, CardContent, CardActions, Typography } from '@material-ui/core';
-import { GET_USERS } from '../../queries/users.js';
-import QueryGrid from '../../components/queryGrid'
+import { Container, Typography, Avatar, CardHeader } from '@material-ui/core';
+////g-key import components
+import ViewSet from '../../components/views/viewSet';
+import CreateMany from '../../components/createMany';
+////g-key import queries
+import { GET_USERS, UPDATE_USER, DELETE_USER } from '../../queries/users.js';
+////g-key import helpers
+import Edit from './edit';
+import Create from './create';
+
 
 const models = 'users';
 
 export default function All() {
-    return <Container>
-        <Button color="primary" aria-label="add" className={'add-button'} href={`${models}/new`} >add</Button>
-        <QueryGrid query={GET_USERS} id={models} renderItem={(item, index) =>
-            <Card>
-                <CardContent>
-                    <Typography gutterBottom variant="h5" component="h2">{item.username}</Typography>
-                </CardContent>
-                <CardActions>
-                    <Button aria-label="edit" className="edit-button" size="small" color="primary" href={`${models}/${item.id}`} >edit</Button>
-                </CardActions>
-            </Card>
-        } />
-    </Container>;
+    return <ViewSet
+        viewType='plan' // can be - tabs plan wizard or button
+        labels={[<Typography variant="h5" gutterBottom>{models}</Typography>]}
+        tabs={[
+            <Container>
+                <CreateMany
+                    name={models}
+                    actionType='create' // create or create-default or none
+                    viewType='grid' // can be grid or list table
+                    query_where={GET_USERS}
+                    query_variables={[]}
+                    query_update={UPDATE_USER}
+                    query_delete={DELETE_USER}
+                    onChange={(e) => {}}
+                    withUrl={true} // use url
+                    EditForm={Edit}
+                    CreateForm={Create}
+                    headers={['']}
+                    elementContent={(item, index) =>
+                        <React.Fragment>
+                            <CardHeader
+                                avatar={<Avatar src={''}></Avatar>}
+                                action={''}
+                                title={item.username}
+                                subheader={item.email}
+                            />
+                        </React.Fragment>
+                    }
+                    cardActions={(item, index) => null}
+                    dialogName=''
+                    actionTypeButton='fab' // floating button create
+                    addButtonName='Add'
+                    editButtonName='Edit'
+                    deleteButtonName="Delete"
+                    deleteButton={(item, i) => 'each'} // can be 'each', 'last', 'none'
+                    editButton={(item, i) => 'each'} // can be 'each', 'last', 'none'
+                />
+            </Container>
+        ]}
+/>;
 }
