@@ -2,7 +2,7 @@ import React from 'react';
 import { Typography } from '@material-ui/core';
 import ViewSet from '../../components/views/viewSet';
 import Form from './_form';
-import EditView1 from './_edit_view1'
+import Fields1 from './_fields1'
 
 
 export default function Edit(props) {
@@ -16,7 +16,7 @@ export default function Edit(props) {
             viewType='plan'
             labels={[<Typography variant="h5" gutterBottom>Edit</Typography>]}
             tabs={[
-                <EditView1
+                <Fields1
                     item={props.item}
                     values={props.values}
                     errors={props.errors}

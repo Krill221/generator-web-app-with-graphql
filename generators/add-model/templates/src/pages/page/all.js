@@ -6,8 +6,7 @@ import Create from './create';
 import ViewSet from '../../components/views/viewSet';
 import CreateMany from '../../components/createMany';
 ////g-key import queries
-import { GET_<%=large_models %> as GETS, UPDATE_<%=large_model %> as UPDATE, DELETE_<%=large_model %> as DELETE
-} from '../../queries/<%=small_models%>.js';
+import { GET_<%=large_models %> as GETS, UPDATE_<%=large_model %> as UPDATE, DELETE_<%=large_model %> as DELETE } from '../../queries/<%=small_models%>.js';
 ////g-key import helpers
 
 const models = '<%=small_models%>';
@@ -24,7 +23,7 @@ export default function All() {
                     actionType='create' // create or create-default or none
                     viewType='grid' // can be grid or list table
                     query_where={GETS}
-                    query_variables={[]}
+                    query_variables={{ids: []}}
                     query_update={UPDATE}
                     query_delete={DELETE}
                     onChange={(e) => { }}

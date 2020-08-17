@@ -2,6 +2,8 @@
 /*
     Example:
 
+    import CreateMany from '../../components/createMany';
+
     <CreateMany
         name='hotels'
         actionType='create' // can be create create-default none
@@ -64,7 +66,7 @@ import { useMutation, useQuery } from '@apollo/react-hooks';
 import {
     Grid, Card, CardActions,
     Dialog, Button, Toolbar, IconButton, Typography, Fab, AppBar,
-    DialogTitle, DialogActions, ListItem, ListItemSecondaryAction, Divider, TableCell, CardActionArea
+    DialogTitle, DialogActions, ListItem, ListItemSecondaryAction, Divider, TableCell
 } from '@material-ui/core';
 import ArrowBack from '@material-ui/icons/ArrowBack';
 import { makeStyles } from '@material-ui/core/styles';
@@ -89,6 +91,8 @@ const useStyles = makeStyles((theme) => ({
 
 export default function CreateMany(props) {
 
+    console.log(props.query_variables);
+
     const classes = useStyles();
 
     const [deleteDialog, setDeleteDialog] = React.useState(false);
@@ -108,16 +112,15 @@ export default function CreateMany(props) {
         setOpenEdit(false);
     };
     const handleCreateDialogClose = () => {
-        console.log(111);
         setOpenCreate(false);
     };
 
     const [deleteMutation] = useMutation(props.query_delete);
     const handleDelete = () => {
-        const ids = props.query_variables.filter(i => i !== currentId);
+        const ids = props.query_variables.ids.filter(i => i !== currentId);
         deleteMutation({
             variables: { id: currentId },
-            refetchQueries: [{ query: props.query_where, variables: { ids: props.query_variables } }]
+            refetchQueries: [{ query: props.query_where, variables: props.query_variables }]
         }).then(res => {
             if (props.onChange !== undefined) props.onChange({ target: { id: props.name, value: ids } });
         });
@@ -128,7 +131,7 @@ export default function CreateMany(props) {
     const { refetch } = useQuery(props.query_where, { skip: true });
 
     const handleChange = (e) => {
-        const ids = props.query_variables.concat(e.target.value).filter((el, i, a) => i === a.indexOf(el));
+        const ids = props.query_variables.ids.concat(e.target.value).filter((el, i, a) => i === a.indexOf(el));
         refetch({ variables: { ids: ids } });
         if (currentId === 'new') {
             if (props.onChange !== undefined) props.onChange({ target: { id: props.name, value: ids } });
@@ -136,10 +139,10 @@ export default function CreateMany(props) {
     }
 
     const [updateMutation] = useMutation(props.query_update, {
-        refetchQueries: [{ query: props.query_where, variables: { ids: props.query_variables } }],
+        refetchQueries: [{ query: props.query_where, variables: props.query_variables }],
         variables: { id: 'new' },
         onCompleted: (data) => {
-            const ids = props.query_variables.concat([data[Object.keys(data)[0]]]);
+            const ids = props.query_variables.ids.concat([data[Object.keys(data)[0]]]);
             if (props.onChange !== undefined) props.onChange({ target: { id: props.name, value: ids } });
         }
     });
@@ -186,7 +189,7 @@ export default function CreateMany(props) {
                                     ((props.editButton(item, index) === 'each') || (props.editButton(item, index) === 'last' && (index === 0)) || (props.editButton(item, index) === true)) && classes.pointer
                                 }
                             >
-                                <CardActionArea
+                                <div
                                     onClick={() => {
                                         if ((props.editButton(item, index) === 'each') || (props.editButton(item, index) === 'last' && (index === 0)) || (props.editButton(item, index) === true)) {
                                             if (props.withUrl !== true) {
@@ -201,7 +204,7 @@ export default function CreateMany(props) {
                                     {
                                         props.elementContent && props.elementContent(item, index)
                                     }
-                                </CardActionArea>
+                                </div>
                                 <CardActions>
                                     {props.cardActions && props.cardActions(item, index)}
 

@@ -1,7 +1,7 @@
 import React from 'react';
-import { Typography } from '@material-ui/core';
+import { Button, Grid, Container, Typography } from '@material-ui/core';
 import ViewSet from '../../components/views/viewSet';
-import CreateView1 from './_create_view_1';
+import Fields1 from './_fields1';
 import Form from './_form';
 
 
@@ -17,19 +17,35 @@ export default function Create(props) {
             viewType='plan'
             labels={[<Typography variant="h5" gutterBottom>New</Typography>]}
             tabs={[
-                <CreateView1
-                    item={props.item}
-                    values={props.values}
-                    errors={props.errors}
-                    touched={props.touched}
-                    onSave={props.onSave}
-                    handleChange={props.handleChange}
-                    handleBlur={props.handleChange}
-                    afterSubmit={afterSubmit}
-                    onDelete={props.onDelete}
-                    setSave={setSave}
-                    submitForm={props.submitForm}
-                />
+                <React.Fragment>
+                    <Fields1
+                        item={props.item}
+                        values={props.values}
+                        errors={props.errors}
+                        touched={props.touched}
+                        onSave={props.onSave}
+                        handleChange={props.handleChange}
+                        handleBlur={props.handleChange}
+                        afterSubmit={afterSubmit}
+                        onDelete={props.onDelete}
+                        setSave={setSave}
+                        submitForm={props.submitForm}
+                    />
+                    <Container>
+                        <Grid container spacing={2} justify="center" alignItems="center">
+                            <Grid item xs={12} sm={12} md={12} >
+                                <Button
+                                    className='save-button'
+                                    fullWidth
+                                    onClick={() => { setSave(true); props.submitForm(); }}
+                                    disabled={props.isSubmitting}
+                                    variant="contained"
+                                    color="primary"
+                                >Save</Button>
+                            </Grid>
+                        </Grid>
+                    </Container>
+                </React.Fragment>
             ]}
         />
         }

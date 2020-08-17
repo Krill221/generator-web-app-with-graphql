@@ -23,7 +23,7 @@ export default function All() {
                     actionType='create' // create or create-default or none
                     viewType='grid' // can be grid or list table
                     query_where={GET_USERS}
-                    query_variables={[]}
+                    query_variables={{ids: []}}
                     query_update={UPDATE_USER}
                     query_delete={DELETE_USER}
                     onChange={(e) => {}}
