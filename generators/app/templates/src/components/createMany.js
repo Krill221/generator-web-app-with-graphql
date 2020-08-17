@@ -5,7 +5,7 @@
     <CreateMany
         name='hotels'
         actionType='create' // can be create create-default none
-        viewType='grid' // can be grid list table raw
+        viewType='grid' // can be grid list table
         withUrl={false} // set url
         query_where={GET_HOTELS}
         query_variables={{ids: props.values.hotels}}
@@ -63,10 +63,9 @@ import React from 'react';
 import { useMutation, useQuery } from '@apollo/react-hooks';
 import {
     Grid, Card, CardActions,
-    Dialog, Button, Toolbar, IconButton, Typography, Fab,
-    DialogTitle, DialogActions, ListItem, ListItemSecondaryAction, Divider, TableCell
+    Dialog, Button, Toolbar, IconButton, Typography, Fab, AppBar,
+    DialogTitle, DialogActions, ListItem, ListItemSecondaryAction, Divider, TableCell, CardActionArea
 } from '@material-ui/core';
-import TopAppBar from './topAppBar';
 import ArrowBack from '@material-ui/icons/ArrowBack';
 import { makeStyles } from '@material-ui/core/styles';
 import AddIcon from '@material-ui/icons/Add';
@@ -107,6 +106,9 @@ export default function CreateMany(props) {
             history.goBack();
         }
         setOpenEdit(false);
+    };
+    const handleCreateDialogClose = () => {
+        console.log(111);
         setOpenCreate(false);
     };
 
@@ -183,22 +185,26 @@ export default function CreateMany(props) {
                                 className={
                                     ((props.editButton(item, index) === 'each') || (props.editButton(item, index) === 'last' && (index === 0)) || (props.editButton(item, index) === true)) && classes.pointer
                                 }
-                                onClick={() => {
-                                    if ((props.editButton(item, index) === 'each') || (props.editButton(item, index) === 'last' && (index === 0)) || (props.editButton(item, index) === true)) {
-                                        if (props.withUrl !== true) {
-                                            setCurrentId(item.id);
-                                            handleEditDialogOpen();
-                                        } else {
-                                            history.push(`/${props.name}/${item.id}`);
+                            >
+                                <CardActionArea
+                                    onClick={() => {
+                                        if ((props.editButton(item, index) === 'each') || (props.editButton(item, index) === 'last' && (index === 0)) || (props.editButton(item, index) === true)) {
+                                            if (props.withUrl !== true) {
+                                                setCurrentId(item.id);
+                                                handleEditDialogOpen();
+                                            } else {
+                                                history.push(`/${props.name}/${item.id}`);
+                                            }
                                         }
+                                    }}
+                                >
+                                    {
+                                        props.elementContent && props.elementContent(item, index)
                                     }
-                                }}>
-                                {
-                                    props.elementContent && props.elementContent(item, index)
-                                }
+                                </CardActionArea>
                                 <CardActions>
                                     {props.cardActions && props.cardActions(item, index)}
-                                    
+
                                     {((props.deleteButton(item, index) === 'each') || (props.deleteButton(item, index) === 'last' && (index === 0)) || (props.deleteButton(item, index) === true)) &&
                                         <Button aria-label="delete" color="secondary" size="small" className={`delete-${props.name}`} onClick={() => { setCurrentId(item.id); setDeleteDialog(true) }} >{props.deleteButtonName}</Button>
                                     }
@@ -286,7 +292,6 @@ export default function CreateMany(props) {
                 </Grid>
 
                 <Grid item xs={12} sm={12} md={12} >
-
                     {props.actionTypeButton === 'fab' && <React.Fragment>
                         {
                             props.actionType === 'create' &&
@@ -348,7 +353,7 @@ export default function CreateMany(props) {
             {
                 (props.actionType === 'create') &&
                 <Dialog fullScreen open={openEdit} onClose={handleEditDialogClose}>
-                    <TopAppBar position="sticky" >
+                    <AppBar position="sticky" >
                         <Toolbar>
                             <IconButton edge="start" aria-label="back" color="inherit" onClick={handleEditDialogClose}>
                                 <ArrowBack />
@@ -358,7 +363,7 @@ export default function CreateMany(props) {
                                 <Typography noWrap variant="h6">{props.dialogName}</Typography>
                             }
                         </Toolbar>
-                    </TopAppBar>
+                    </AppBar>
                     {
                         props.EditForm({ ...props, itemId: currentId, onChange: handleChange, onSave: handleEditDialogClose, onDelete: handleEditDialogClose })
                     }
@@ -366,10 +371,10 @@ export default function CreateMany(props) {
             }
             {
                 (props.actionType === 'create') &&
-                <Dialog fullScreen open={openCreate} onClose={handleEditDialogClose}>
-                    <TopAppBar position="sticky" >
+                <Dialog fullScreen open={openCreate} onClose={handleCreateDialogClose}>
+                    <AppBar position="sticky" >
                         <Toolbar>
-                            <IconButton edge="start" aria-label="back" color="inherit" onClick={handleEditDialogClose}>
+                            <IconButton edge="start" aria-label="back" color="inherit" onClick={handleCreateDialogClose}>
                                 <ArrowBack />
                             </IconButton>
                             {
@@ -377,12 +382,12 @@ export default function CreateMany(props) {
                                 <Typography noWrap variant="h6">{props.dialogName}</Typography>
                             }
                         </Toolbar>
-                    </TopAppBar>
+                    </AppBar>
                     {
                         props.CreateForm !== undefined ?
-                            props.CreateForm({ ...props, itemId: currentId, onChange: handleChange, onSave: handleEditDialogClose, onDelete: handleEditDialogClose })
+                            props.CreateForm({ ...props, itemId: currentId, onChange: handleChange, onSave: handleCreateDialogClose, onDelete: handleEditDialogClose })
                             :
-                            props.EditForm({ ...props, itemId: currentId, onChange: handleChange, onSave: handleEditDialogClose, onDelete: handleEditDialogClose })
+                            props.EditForm({ ...props, itemId: currentId, onChange: handleChange, onSave: handleCreateDialogClose, onDelete: handleEditDialogClose })
                     }
                 </Dialog>
             }
