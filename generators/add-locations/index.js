@@ -49,30 +49,6 @@ module.exports = class extends Generator {
     form = form.toString().replace(regEx2, `initialValues={{ ${this.answers.fields.map(f => `${f[0]}: item.${f[0]}`).join(', ')}, ` );
     this.fs.write(this.destinationPath(`src/pages/${this.answers.small_models}/_form.js`), form);
 
-
-    //helpers
-    var all = this.fs.read(this.destinationPath(`src/pages/${this.answers.small_models}/all.js`));
-    var single = this.fs.read(this.destinationPath(`src/pages/${this.answers.small_models}/single.js`));
-    var wizard = this.fs.read(this.destinationPath(`src/pages/${this.answers.small_models}/wizard.js`));
-    var edit = this.fs.read(this.destinationPath(`src/pages/${this.answers.small_models}/_edit.js`));
-    var show = this.fs.read(this.destinationPath(`src/pages/${this.answers.small_models}/_show.js`));
-    var regExImpComponents =  new RegExp(`////g-key import components`, 'g');
-    var impComponents = [
-      `////g-key import components\n//import FieldLocationMap from '../../components/fieldLocationMap';`,
-    ];
-    impComponents.forEach(item => {
-      all = all.toString().replace(regExImpComponents, item );
-      single = single.toString().replace(regExImpComponents, item );
-      wizard = wizard.toString().replace(regExImpComponents, item );
-      edit = edit.toString().replace(regExImpComponents, item );
-      show = show.toString().replace(regExImpComponents, item );
-    });
-    this.fs.write(this.destinationPath(`src/pages/${this.answers.small_models}/all.js`), all);
-    this.fs.write(this.destinationPath(`src/pages/${this.answers.small_models}/single.js`), single);
-    this.fs.write(this.destinationPath(`src/pages/${this.answers.small_models}/wizard.js`), wizard);
-    this.fs.write(this.destinationPath(`src/pages/${this.answers.small_models}/_edit.js`), edit);
-    this.fs.write(this.destinationPath(`src/pages/${this.answers.small_models}/_show.js`), show);
-
   }
 
   install() {

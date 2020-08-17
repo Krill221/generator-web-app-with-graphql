@@ -53,53 +53,6 @@ module.exports = class extends Generator {
     this.fs.write(this.destinationPath(`src/queries/${this.answers.small_models}.js`), text);
     this.fs.write(this.destinationPath(`src/pages/${this.answers.small_models}/_form.js`), form);
 
-
-    //helpers
-    var all = this.fs.read(this.destinationPath(`src/pages/${this.answers.small_models}/all.js`));
-    var single = this.fs.read(this.destinationPath(`src/pages/${this.answers.small_models}/single.js`));
-    var wizard = this.fs.read(this.destinationPath(`src/pages/${this.answers.small_models}/wizard.js`));
-    var edit = this.fs.read(this.destinationPath(`src/pages/${this.answers.small_models}/_edit.js`));
-    var show = this.fs.read(this.destinationPath(`src/pages/${this.answers.small_models}/_show.js`));
-    var impComponents = [
-      new RegExp(`//import PickOneGrid from '../../components/PickOneGrid';\n`, 'g'),
-      new RegExp(`//import PickOneGridDialod from '../../components/PickOneGridDialod';\n`, 'g'),
-    ];
-    var impQueries = [
-      new RegExp(`//import { GET_${this.answers.large_populations} } from '../../queries/${this.answers.small_populations}';\n`, 'g'),
-    ];
-    var impHelpers = [
-      new RegExp(`//import ${this.answers.population}Show from '../${this.answers.small_populations}/_show';\n`, 'g'),
-      new RegExp(`//import ${this.answers.population}Edit from '../${this.answers.small_populations}/_edit';\n`, 'g'),
-    ];
-
-    impComponents.forEach(item => {
-      all = all.toString().replace(item, '' );
-      single = single.toString().replace(item, '' );
-      wizard = wizard.toString().replace(item, '' );
-      edit = edit.toString().replace(item, '' );
-      show = show.toString().replace(item, '' );
-    });
-    impQueries.forEach(item => {
-      all = all.toString().replace(item, '' );
-      single = single.toString().replace(item, '' );
-      wizard = wizard.toString().replace(item, '' );
-      edit = edit.toString().replace(item, '' );
-      show = show.toString().replace(item, '' );
-    });
-    impHelpers.forEach(item => {
-      all = all.toString().replace(item, '' );
-      single = single.toString().replace(item, '' );
-      wizard = wizard.toString().replace(item, '' );
-      edit = edit.toString().replace(item, '' );
-      show = show.toString().replace(item, '' );
-    });
-
-    this.fs.write(this.destinationPath(`src/pages/${this.answers.small_models}/all.js`), all);
-    this.fs.write(this.destinationPath(`src/pages/${this.answers.small_models}/single.js`), single);
-    this.fs.write(this.destinationPath(`src/pages/${this.answers.small_models}/wizard.js`), wizard);
-    this.fs.write(this.destinationPath(`src/pages/${this.answers.small_models}/_edit.js`), edit);
-    this.fs.write(this.destinationPath(`src/pages/${this.answers.small_models}/_show.js`), show);
-
   }
 
   install() {

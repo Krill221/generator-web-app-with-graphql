@@ -41,30 +41,6 @@ module.exports = class extends Generator {
     });
     this.fs.write(this.destinationPath(`src/queries/${this.answers.small_models}.js`), text);
 
-    //helpers
-    var all = this.fs.read(this.destinationPath(`src/pages/${this.answers.small_models}/all.js`));
-    var single = this.fs.read(this.destinationPath(`src/pages/${this.answers.small_models}/single.js`));
-    var wizard = this.fs.read(this.destinationPath(`src/pages/${this.answers.small_models}/wizard.js`));
-    var edit = this.fs.read(this.destinationPath(`src/pages/${this.answers.small_models}/_edit.js`));
-    var show = this.fs.read(this.destinationPath(`src/pages/${this.answers.small_models}/_show.js`));
-    var impComponents = [     
-      new RegExp(`//import EstimateLike from '../../components/estimateLike';\n`, 'g'),
-      new RegExp(`//import EstimateStar from '../../components/estimateStar';\n`, 'g'),
-      new RegExp(`//import EstimateCondition from '../../components/estimateCondition';\n`, 'g'),
-    ];
-    impComponents.forEach(item => {
-      all = all.toString().replace(item, '' );
-      single = single.toString().replace(item, '' );
-      wizard = wizard.toString().replace(item, '' );
-      edit = edit.toString().replace(item, '' );
-      show = show.toString().replace(item, '' );
-    });
-    this.fs.write(this.destinationPath(`src/pages/${this.answers.small_models}/all.js`), all);
-    this.fs.write(this.destinationPath(`src/pages/${this.answers.small_models}/single.js`), single);
-    this.fs.write(this.destinationPath(`src/pages/${this.answers.small_models}/wizard.js`), wizard);
-    this.fs.write(this.destinationPath(`src/pages/${this.answers.small_models}/_edit.js`), edit);
-    this.fs.write(this.destinationPath(`src/pages/${this.answers.small_models}/_show.js`), show);
-
   }
 
   install() {

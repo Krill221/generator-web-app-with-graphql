@@ -42,31 +42,6 @@ module.exports = class extends Generator {
     text = text.toString().replace(regExUpdate2, `update${this.answers.model}( ${this.answers.fields.map(f => f[0]+': $'+f[0]).join(', ')}, ` );
     this.fs.write(this.destinationPath(`src/queries/${this.answers.small_models}.js`), text);
 
-    //helpers
-    var all = this.fs.read(this.destinationPath(`src/pages/${this.answers.small_models}/all.js`));
-    var single = this.fs.read(this.destinationPath(`src/pages/${this.answers.small_models}/single.js`));
-    var wizard = this.fs.read(this.destinationPath(`src/pages/${this.answers.small_models}/wizard.js`));
-    var edit = this.fs.read(this.destinationPath(`src/pages/${this.answers.small_models}/_edit.js`));
-    var show = this.fs.read(this.destinationPath(`src/pages/${this.answers.small_models}/_show.js`));
-    var regExImpComponents =  new RegExp(`////g-key import components`, 'g');
-    var impComponents = [
-      `////g-key import components\n//import EstimateLike from '../../components/estimateLike';`,
-      `////g-key import components\n//import EstimateStar from '../../components/estimateStar';`,
-      `////g-key import components\n//import EstimateCondition from '../../components/estimateCondition';`,
-    ];
-    impComponents.forEach(item => {
-      all = all.toString().replace(regExImpComponents, item );
-      single = single.toString().replace(regExImpComponents, item );
-      wizard = wizard.toString().replace(regExImpComponents, item );
-      edit = edit.toString().replace(regExImpComponents, item );
-      show = show.toString().replace(regExImpComponents, item );
-    });
-    this.fs.write(this.destinationPath(`src/pages/${this.answers.small_models}/all.js`), all);
-    this.fs.write(this.destinationPath(`src/pages/${this.answers.small_models}/single.js`), single);
-    this.fs.write(this.destinationPath(`src/pages/${this.answers.small_models}/wizard.js`), wizard);
-    this.fs.write(this.destinationPath(`src/pages/${this.answers.small_models}/_edit.js`), edit);
-    this.fs.write(this.destinationPath(`src/pages/${this.answers.small_models}/_show.js`), show);
-
   }
 
   install() {

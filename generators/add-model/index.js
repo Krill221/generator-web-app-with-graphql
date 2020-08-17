@@ -45,23 +45,23 @@ module.exports = class extends Generator {
       this.answers,
     );
     this.fs.copyTpl(
-      this.templatePath('src/pages/page/_edit.js'),
-      this.destinationPath(`src/pages/${this.answers.small_models}/_edit.js`),
+      this.templatePath('src/pages/page/edit.js'),
+      this.destinationPath(`src/pages/${this.answers.small_models}/edit.js`),
       this.answers,
     );
     this.fs.copyTpl(
-      this.templatePath('src/pages/page/_show.js'),
-      this.destinationPath(`src/pages/${this.answers.small_models}/_show.js`),
+      this.templatePath('src/pages/page/create.js'),
+      this.destinationPath(`src/pages/${this.answers.small_models}/create.js`),
       this.answers,
     );
     this.fs.copyTpl(
-      this.templatePath('src/pages/page/single.js'),
-      this.destinationPath(`src/pages/${this.answers.small_models}/single.js`),
+      this.templatePath('src/pages/page/_create_view_1.js'),
+      this.destinationPath(`src/pages/${this.answers.small_models}/_create_view_1.js`),
       this.answers,
     );
     this.fs.copyTpl(
-      this.templatePath('src/pages/page/wizard.js'),
-      this.destinationPath(`src/pages/${this.answers.small_models}/wizard.js`),
+      this.templatePath('src/pages/page/_edit_view_1.js'),
+      this.destinationPath(`src/pages/${this.answers.small_models}/_edit_view_1.js`),
       this.answers,
     );
     this.fs.copyTpl(
@@ -75,12 +75,9 @@ module.exports = class extends Generator {
     var index = this.fs.read(this.destinationPath('src/App.js'));
     var regExTop = new RegExp('//top for generator', 'g');
     var regExList = new RegExp(/list for generator\*\/}/, 'g');
-    var regExSingle = new RegExp(/single for generator\*\/}/, 'g');
     
-    index = index.toString().replace(regExTop, `//top for generator\nimport {${this.answers.models}, Single${this.answers.model}, Wizard${this.answers.model} } from './pages/${this.answers.small_models}';`);
-    index = index.toString().replace(regExList, `list for generator*/}\n\t\t\t<PublicMainLayout exact path="/${this.answers.small_models}" component={${this.answers.models}} /> `);
-    index = index.toString().replace(regExSingle, `single for generator*/}\n\t\t\t<PublicEmptyLayout exact path="/${this.answers.small_models}/new" component={Wizard${this.answers.model}} /> `);
-    index = index.toString().replace(regExSingle, `single for generator*/}\n\t\t\t<PublicPageLayout exact path="/${this.answers.small_models}/:itemId([\\S\\s]{24})" component={Single${this.answers.model}} /> `);
+    index = index.toString().replace(regExTop, `//top for generator\nimport {${this.answers.models} } from './pages/${this.answers.small_models}';`);
+    index = index.toString().replace(regExList, `list for generator*/}\n\t\t\t<PublicMainLayout path="/${this.answers.small_models}" component={${this.answers.models}} /> `);
 
     this.fs.write(this.destinationPath('src/App.js'), index );
 

@@ -48,14 +48,7 @@ module.exports = class extends Generator {
     form = form.toString().replace(regEx1, `let item = data ? data[model] : { ${this.answers.fields.map(f => ( (f[1] === 'String') ? `${f[0]}: ''` : ((f[1] === 'Boolean') ? `${f[0]}: false` : `${f[0]}: ''`) ) ).join(', ')}, ` );
     form = form.toString().replace(regEx2, `initialValues={{ ${this.answers.fields.map(f => `${f[0]}: item.${f[0]}`).join(', ')}, ` );
     this.fs.write(this.destinationPath(`src/pages/${this.answers.small_models}/_form.js`), form);
-
-    var show = this.fs.read(this.destinationPath(`src/pages/${this.answers.small_models}/_show.js`));
-    var regEx1 = new RegExp(`let item = data \\? data\\[model\\] : { `, 'g');
-    show = show.toString().replace(regEx1, `let item = data ? data[model] : { ${this.answers.fields.map(f => ( (f[1] === 'String') ? `${f[0]}: ''` : ((f[1] === 'Boolean') ? `${f[0]}: false` : `${f[0]}: ''`) ) ).join(', ')}, ` );
-    this.fs.write(this.destinationPath(`src/pages/${this.answers.small_models}/_show.js`), show);
-
-
-
+    
   }
 
   install() {

@@ -20,25 +20,26 @@ const FieldsSchema = Yup.object().shape({
     <% }}) %>
 });
 
-export default function Form({itemId, onChange, onDelete, afterSubmit, onSave, children}) {
+export default function Form({query_where, query_variables, itemId, onChange, onDelete, afterSubmit, onSave, children}) {
 
-    const { data, loading } = useQuery(GET, { variables: { id: itemId }, skip: itemId === 'new'  });
-    const handleSave = (onSave !== undefined) ? onSave : () => {};
-
+    const { data, loading } = useQuery(GET, { variables: { id: itemId }, skip: itemId === 'new' });
     const [updateMutation] = useMutation(UPDATE, {
         refetchQueries: [{ query: GETS }],
         onCompleted: (data) => {
             const value = data[Object.keys(data)[0]];
-            if ( onChange !== undefined) onChange({ target: { id: model, value: value } });
+            if (onChange !== undefined) onChange({ target: { id: model, value: value } });
         }
     });
+
     const [deleteMutation] = useMutation(DELETE, {
         refetchQueries: [{ query: GETS }],
         variables: { id: itemId },
-        onCompleted: (data) => { if ( onDelete !== undefined) onDelete(data) }
+        onCompleted: (data) => { if (onDelete !== undefined) onDelete(data) }
     });
-    if(loading) return null;
+
+    if (loading) return null;
     let item = data ? data[model] : { id: 'new', <% fields.forEach(function(field){ %><%= field[0] %>: <%if(field[1] === 'String'){%>''<%}%><%if(field[1] === 'ID'){%>''<%}%><%if(field[1] === 'Boolean'){%>false<%}%>, <% }) %> }
+    
     return <Formik
         initialValues={{ id: item.id, <%= fields.map(f => `${f[0]}: item.${f[0]}` ).join(', ') %>, }}
         enableReinitialize={true}
@@ -50,6 +51,6 @@ export default function Form({itemId, onChange, onDelete, afterSubmit, onSave, c
             (afterSubmit !== undefined) && afterSubmit();
         }}
     >
-        { props => children({...props, item: item, handleDelete: deleteMutation, onSave: handleSave}) }
+        {props => children({ ...props, handleDelete: deleteMutation })}
     </Formik>;
 }
