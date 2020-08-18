@@ -43,7 +43,7 @@ export default function All() {
                     }
                     cardActions={(item, index) => null}
                     dialogName=''
-                    actionTypeButton='fab' // floating button create
+                    addButtonType='fab' // floating button create
                     addButtonName='Add'
                     editButtonName='Edit'
                     deleteButtonName="Delete"

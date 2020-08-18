@@ -51,7 +51,7 @@
         }
         cardActions={(item, index) => null}
         dialogName=""
-        actionTypeButton='button' // can be fab button inline(view create inline) none
+        addButtonType='button' // can be fab button inline(view create inline) none
         deleteButton={(item, i) => 'each'} // can be 'each', 'last', 'none'
         editButton={(item, i) => 'each'} // can be 'each', 'last', 'none'
         addButtonName="Добавить"
@@ -166,7 +166,7 @@ export default function CreateMany(props) {
     return (
         <React.Fragment>
             <Grid container spacing={2} justify="center" alignItems="center">
-                {props.actionTypeButton === 'inline' &&
+                {props.addButtonType === 'inline' &&
                     <Grid item xs={12} sm={12} md={12} >
                         {
                             props.CreateForm !== undefined ?
@@ -309,7 +309,7 @@ export default function CreateMany(props) {
                 </Grid>
 
                 <Grid item xs={12} sm={12} md={12} >
-                    {props.actionTypeButton === 'fab' && <React.Fragment>
+                    {props.addButtonType === 'fab' && <React.Fragment>
                         {
                             props.actionType === 'create' &&
                             <Fab
@@ -337,7 +337,7 @@ export default function CreateMany(props) {
                     }
 
                     {
-                        props.actionTypeButton === 'button' && <React.Fragment>
+                        props.addButtonType === 'button' && <React.Fragment>
                             {props.actionType === 'create' &&
                                 <Button
                                     color="secondary"
