@@ -132,11 +132,10 @@ export default function CreateMany(props) {
 
     const handleChange = (e) => {
         const ids = props.query_variables.ids.concat(e.target.value).filter((el, i, a) => i === a.indexOf(el));
-        refetch({ variables: { ids: ids } });
-        if (currentId === 'new') {
-            if (props.onChange !== undefined) props.onChange({ target: { id: props.name, value: ids } });
-        }
+        refetch({ variables: props.query_variables });
+        if (props.onChange !== undefined) props.onChange({ target: { id: props.name, value: ids } });
     }
+
 
     const [updateMutation] = useMutation(props.query_update, {
         refetchQueries: [{ query: props.query_where, variables: props.query_variables }],
@@ -151,14 +150,15 @@ export default function CreateMany(props) {
     React.useEffect(() => {
         if (props.withUrl) {
             const locationArr = location.pathname.split('/');
-            const id = locationArr[locationArr.length - 1];
-
-            if (id !== props.name) {
-                setCurrentId(id);
-                handleEditDialogOpen();
-            } else {
-                setOpenEdit(false);
-                setOpenCreate(false);
+            if (locationArr[1] === props.name) {
+                const id = locationArr[locationArr.length - 1];
+                if (id !== props.name) {
+                    setCurrentId(id);
+                    handleEditDialogOpen();
+                } else {
+                    setOpenEdit(false);
+                    setOpenCreate(false);
+                }
             }
         }
     }, [props.withUrl, location.pathname, props.name]);
@@ -170,9 +170,9 @@ export default function CreateMany(props) {
                     <Grid item xs={12} sm={12} md={12} >
                         {
                             props.CreateForm !== undefined ?
-                                props.CreateForm({ ...props, itemId: 'new', onChange: handleChange, onSave: handleEditDialogClose, onDelete: handleEditDialogClose })
+                                props.CreateForm({ ...props, itemId: 'new', onChange: e => { setCurrentId('new'); handleChange(e); }, onSave: handleCreateDialogClose, onDelete: handleCreateDialogClose })
                                 :
-                                props.EditForm({ ...props, itemId: 'new', onChange: handleChange, onSave: handleEditDialogClose, onDelete: handleEditDialogClose })
+                                props.EditForm({ ...props, itemId: 'new', onChange: e => { setCurrentId('new'); handleChange(e); }, onSave: handleEditDialogClose, onDelete: handleEditDialogClose })
                         }
                     </Grid>
 
@@ -299,9 +299,9 @@ export default function CreateMany(props) {
                             query_where={props.query_where}
                             query_variables={props.query_variables}
                             renderItem={(item, index) => <React.Fragment>
-                                    {
-                                        props.elementContent && props.elementContent(item, index)
-                                    }
+                                {
+                                    props.elementContent && props.elementContent(item, index)
+                                }
                             </React.Fragment>
                             }
                         />
