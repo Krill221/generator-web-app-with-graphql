@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Grid, Container, Typography } from '@material-ui/core';
+import { Button, Grid, Container } from '@material-ui/core';
 import ViewSet from '../../components/views/viewSet';
 import Fields1 from './_fields1';
 import Form from './_form';
@@ -15,7 +15,7 @@ export default function Create(props) {
     return <Form itemId={itemId} onSave={props.onSave} onChange={props.onChange} afterSubmit={afterSubmit} onDelete={props.onDelete}>
         {props => <ViewSet
             viewType='plan'
-            labels={[<Typography variant="h5" gutterBottom>New</Typography>]}
+            labels={['New']}
             tabs={[
                 <React.Fragment>
                     <Fields1

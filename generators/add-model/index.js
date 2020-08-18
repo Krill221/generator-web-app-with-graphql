@@ -55,13 +55,8 @@ module.exports = class extends Generator {
       this.answers,
     );
     this.fs.copyTpl(
-      this.templatePath('src/pages/page/_create_view_1.js'),
-      this.destinationPath(`src/pages/${this.answers.small_models}/_create_view_1.js`),
-      this.answers,
-    );
-    this.fs.copyTpl(
-      this.templatePath('src/pages/page/_edit_view_1.js'),
-      this.destinationPath(`src/pages/${this.answers.small_models}/_edit_view_1.js`),
+      this.templatePath('src/pages/page/_fields1.js'),
+      this.destinationPath(`src/pages/${this.answers.small_models}/_fields1.js`),
       this.answers,
     );
     this.fs.copyTpl(

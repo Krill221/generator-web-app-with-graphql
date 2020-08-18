@@ -15,7 +15,7 @@ export default function All() {
 
     return <ViewSet
         viewType='plan' // can be - tabs plan wizard or button
-        labels={[<Typography variant="h5" gutterBottom>{models}</Typography>]}
+        labels={[models]}
         tabs={[
             <Container>
                 <CreateMany

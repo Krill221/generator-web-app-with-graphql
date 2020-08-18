@@ -5,17 +5,17 @@
     import CreateMany from '../../components/createMany';
 
     <CreateMany
-        name='hotels'
+        name={models}
         actionType='create' // can be create create-default none
         viewType='grid' // can be grid list table
         withUrl={false} // set url
-        query_where={GET_HOTELS}
-        query_variables={{ids: props.values.hotels}}
-        query_update={UPDATE_HOTEL}
-        query_delete={DELETE_HOTEL}
+        query_where={GETS}
+        query_variables={{ids: props.values[models]}}
+        query_update={UPDATE}
+        query_delete={DELETE}
         onChange={e => { props.handleChange(e); if (props.values.id !== 'new') { props.setSave(false); props.submitForm(); } }}
-        EditForm={EditHotel}
-        CreateForm={CreateHotel}
+        EditForm={Edit}
+        CreateForm={Create}
         headers={['header 1','header 2']} // if table
         elementContent={(item, index) =>
             <React.Fragment>
@@ -36,7 +36,7 @@
         }
         elementContent={(item, index) => <React.Fragment>
                 <ListItemAvatar>
-                    <Avatar alt='' className={classes.large} src={item.picture} />
+                    <Avatar alt='' src={item.picture} />
                 </ListItemAvatar>
                 <ListItemText
                     primary={item.name}
@@ -51,7 +51,7 @@
         }
         cardActions={(item, index) => null}
         dialogName=""
-        actionTypeButton='fab' // can be fab button inline(view create inline) none
+        actionTypeButton='button' // can be fab button inline(view create inline) none
         deleteButton={(item, i) => 'each'} // can be 'each', 'last', 'none'
         editButton={(item, i) => 'each'} // can be 'each', 'last', 'none'
         addButtonName="Добавить"
@@ -90,8 +90,6 @@ const useStyles = makeStyles((theme) => ({
 
 
 export default function CreateMany(props) {
-
-    console.log(props.query_variables);
 
     const classes = useStyles();
 
