@@ -65,7 +65,7 @@ import React from 'react';
 import { useMutation, useQuery } from '@apollo/react-hooks';
 import {
     Grid, Card, CardActions,
-    Dialog, Button, Toolbar, IconButton, Typography, Fab, AppBar,
+    Dialog, Button, Toolbar, IconButton, Typography, Fab,
     DialogTitle, DialogActions, ListItem, ListItemSecondaryAction, Divider, TableCell
 } from '@material-ui/core';
 import ArrowBack from '@material-ui/icons/ArrowBack';
