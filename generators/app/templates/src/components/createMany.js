@@ -7,7 +7,7 @@
     <CreateMany
         name={models}
         actionType='create' // can be create create-default none
-        viewType='grid' // can be grid list table
+        viewType='grid' // can be grid list table raw
         withUrl={false} // set url
         query_where={GETS}
         query_variables={{ids: props.values[models]}}
@@ -288,6 +288,20 @@ export default function CreateMany(props) {
                                     </ListItemSecondaryAction>
                                 </ListItem>
                                 <Divider light />
+                            </React.Fragment>
+                            }
+                        />
+                    }
+                    {
+                        props.viewType === 'raw' && <QueryItems
+                            name={props.name}
+                            viewType={props.viewType}
+                            query_where={props.query_where}
+                            query_variables={props.query_variables}
+                            renderItem={(item, index) => <React.Fragment>
+                                    {
+                                        props.elementContent && props.elementContent(item, index)
+                                    }
                             </React.Fragment>
                             }
                         />
