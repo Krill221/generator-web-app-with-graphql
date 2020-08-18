@@ -69,11 +69,13 @@ import {
     DialogTitle, DialogActions, ListItem, ListItemSecondaryAction, Divider, TableCell
 } from '@material-ui/core';
 import ArrowBack from '@material-ui/icons/ArrowBack';
+import CloseIcon from '@material-ui/icons/Close';
 import { makeStyles } from '@material-ui/core/styles';
 import AddIcon from '@material-ui/icons/Add';
 import QueryItems from './queryItems';
 import DeleteIcon from '@material-ui/icons/Delete';
 import { useHistory, Link, useLocation } from "react-router-dom";
+import TopAppBar from './topAppBar';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -354,7 +356,7 @@ export default function CreateMany(props) {
             {
                 (props.actionType === 'create') &&
                 <Dialog fullScreen open={openEdit} onClose={handleEditDialogClose}>
-                    <AppBar position="sticky" >
+                    <TopAppBar position="sticky" >
                         <Toolbar>
                             <IconButton edge="start" aria-label="back" color="inherit" onClick={handleEditDialogClose}>
                                 <ArrowBack />
@@ -364,7 +366,7 @@ export default function CreateMany(props) {
                                 <Typography noWrap variant="h6">{props.dialogName}</Typography>
                             }
                         </Toolbar>
-                    </AppBar>
+                    </TopAppBar>
                     {
                         props.EditForm({ ...props, itemId: currentId, onChange: handleChange, onSave: handleEditDialogClose, onDelete: handleEditDialogClose })
                     }
@@ -373,17 +375,17 @@ export default function CreateMany(props) {
             {
                 (props.actionType === 'create') &&
                 <Dialog fullScreen open={openCreate} onClose={handleCreateDialogClose}>
-                    <AppBar position="sticky" >
+                    <TopAppBar position="sticky" >
                         <Toolbar>
                             <IconButton edge="start" aria-label="back" color="inherit" onClick={handleCreateDialogClose}>
-                                <ArrowBack />
+                                <CloseIcon />
                             </IconButton>
                             {
                                 props.dialogName &&
                                 <Typography noWrap variant="h6">{props.dialogName}</Typography>
                             }
                         </Toolbar>
-                    </AppBar>
+                    </TopAppBar>
                     {
                         props.CreateForm !== undefined ?
                             props.CreateForm({ ...props, itemId: currentId, onChange: handleChange, onSave: handleCreateDialogClose, onDelete: handleEditDialogClose })

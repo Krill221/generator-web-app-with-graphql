@@ -5,11 +5,12 @@ import { useHistory } from 'react-router-dom';
 import { AuthContext } from '../auth';
 import { makeStyles } from '@material-ui/core/styles';
 import {
-    AppBar, Toolbar, Typography, Button,
+    Toolbar, Typography, Button,
     BottomNavigation, BottomNavigationAction,
 } from '@material-ui/core';
 import SearchIcon from '@material-ui/icons/Search';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
+import TopAppBar from '../components/topAppBar';
 
 const useStyles = makeStyles((theme) => ({
     stickToBottom: {
@@ -30,7 +31,7 @@ const Layout = (props) => {
     return (
         <React.Fragment>
             {is_mobile ?
-                <AppBar position="sticky">
+                <TopAppBar position="sticky">
                     <Toolbar id="menu">
                         <Button color="inherit" onClick={() => history.push('/')} startIcon={<SearchIcon />}>Main</Button>
                         <Typography style={{ flexGrow: 1 }} variant="h5" noWrap />
@@ -40,7 +41,7 @@ const Layout = (props) => {
                             <Button color="inherit" onClick={() => history.push('/profile')} startIcon={<AccountCircleIcon />} >SignIn</Button>
                         }
                     </Toolbar>
-                </AppBar>
+                </TopAppBar>
                 :
                 <BottomNavigation
                     className={classes.stickToBottom}
