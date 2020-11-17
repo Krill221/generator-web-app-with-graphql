@@ -2,6 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
 import { AuthProvider } from './auth';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
+import CssBaseline from '@material-ui/core/CssBaseline';
 import pink from '@material-ui/core/colors/pink';
 import blue from '@material-ui/core/colors/blue';
 import Menu from './layouts/Menu';
@@ -22,6 +23,7 @@ const theme = createMuiTheme({
 function App() {
   return (
     <ThemeProvider theme={theme}>
+      <CssBaseline />
       <AuthProvider>
         <Router>
           <React.Fragment>

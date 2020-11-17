@@ -8,7 +8,8 @@ import {
     Toolbar, Typography, Button,
     BottomNavigation, BottomNavigationAction,
 } from '@material-ui/core';
-import SearchIcon from '@material-ui/icons/Search';
+import HomeIcon from '@material-ui/icons/Home';
+//import SearchIcon from '@material-ui/icons/Search';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import TopAppBar from '../components/topAppBar';
 
@@ -33,7 +34,7 @@ const Layout = (props) => {
             {is_mobile ?
                 <TopAppBar position="sticky">
                     <Toolbar id="menu">
-                        <Button color="inherit" onClick={() => history.push('/')} startIcon={<SearchIcon />}>Main</Button>
+                        <Button color="inherit" onClick={() => history.push('/')} startIcon={<HomeIcon />}>Main</Button>
                         <Typography style={{ flexGrow: 1 }} variant="h5" noWrap />
                         {user ?
                             <Button color="inherit" onClick={() => history.push('/profile')} startIcon={<AccountCircleIcon />} >Profile</Button>
@@ -52,7 +53,7 @@ const Layout = (props) => {
                     }}
                     showLabels
                 >
-                    <BottomNavigationAction value='/' label="Main" icon={<SearchIcon />} />
+                    <BottomNavigationAction value='/' label="Main" icon={<HomeIcon />} />
                     {user ?
                         <BottomNavigationAction value='/profile' label="Profile" icon={<AccountCircleIcon />} />
                         :

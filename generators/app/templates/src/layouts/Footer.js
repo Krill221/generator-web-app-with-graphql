@@ -18,10 +18,10 @@ const Footer = ({ component: Component, ...rest }) => {
                         spacing={2}
                     >
                         <Grid item >
-                            <Typography variant="subtitle2" align="center" color="textSecondary" component="p">© {new Date().getFullYear()} One Hotel. Все права защищены.</Typography>
+                            <Typography variant="subtitle2" align="center" color="textSecondary" component="p">© {new Date().getFullYear()} New app. Все права защищены.</Typography>
                         </Grid>
                         <Grid item >
-                            <Typography variant="subtitle2" align="center" color="textSecondary" component="p">· Тел.: +7 (925) 286-49-43</Typography>
+                            <Typography variant="subtitle2" align="center" color="textSecondary" component="p">· Тел.: +7 (900) 000-00-00</Typography>
                         </Grid>
                         <Grid item >
                             <Link href='/person.pdf' target="_blank" rel="noopener" variant="subtitle2" align="center" color="textSecondary">· Конфиденциальность</Link>
