@@ -2,7 +2,7 @@
     Example:
 
     <ViewSet
-        viewType='plan' // can be - tabs plan wizard or button
+        viewType='plan' // can be - tabs plan wizard raw or button
         labels={['1','2','3']}
         tabs={['1content','2content','3content']}
     />

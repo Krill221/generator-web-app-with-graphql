@@ -7,7 +7,7 @@
     <CreateMany
         name={models}
         actionType='create' // can be create create-default none
-        viewType='grid' // can be grid list table raw
+        viewType='grid' // can be grid list table supertable raw
         withUrl={false} // set url
         query_where={GETS}
         query_variables={{ids: props.values[models]}}
@@ -108,6 +108,7 @@ export default function CreateMany(props) {
     const handleEditDialogClose = () => {
         if (props.withUrl === true) {
             history.goBack();
+            history.goBack();
         }
         setOpenEdit(false);
     };
@@ -184,6 +185,7 @@ export default function CreateMany(props) {
                             viewType={props.viewType}
                             query_where={props.query_where}
                             query_variables={props.query_variables}
+                            hidden={props.hidden}
                             renderItem={(item, index) => <Card
                                 className={
                                     ((props.editButton(item, index) === 'each') || (props.editButton(item, index) === 'last' && (index === 0)) || (props.editButton(item, index) === true)) && classes.pointer
@@ -223,6 +225,7 @@ export default function CreateMany(props) {
                             headers={props.headers.concat(['', ''])}
                             query_where={props.query_where}
                             query_variables={props.query_variables}
+                            hidden={props.hidden}
                             renderItem={(item, index) => <React.Fragment>
                                 {
                                     props.elementContent && props.elementContent(item, index)
@@ -258,11 +261,64 @@ export default function CreateMany(props) {
                         />
                     }
                     {
+                        props.viewType === 'supertable' && <QueryItems
+                            name={props.name}
+                            viewType={props.viewType}
+                            headers={props.headers.concat([
+                                {
+                                    name: "id",
+                                    label: " ",
+                                    options: {
+                                        empty: true,
+                                        sort: false,
+                                        filter: false,
+                                        customBodyRender: id => {
+                                            return (props.editButton('', '') === 'each') && <Button
+                                                color="primary"
+                                                size="small"
+                                                className={`edit-${props.name}`}
+                                                component={Link}
+                                                to={`/${props.name}/${id}`}
+                                                onClick={() => {
+                                                    if (props.withUrl !== true) {
+                                                        setCurrentId(id);
+                                                        handleEditDialogOpen();
+                                                    } else {
+                                                        history.push(`/${props.name}/${id}`);
+                                                    }
+                                                }}
+                                            >
+                                                {props.editButtonName}
+                                            </Button>
+                                        }
+                                    }
+                                },
+                                {
+                                    name: "id",
+                                    label: " ",
+                                    options: {
+                                        empty: true,
+                                        sort: false,
+                                        filter: false,
+                                        customBodyRender: id => {
+                                            return ((props.deleteButton('', '') === 'each') || (props.deleteButton('', '') === 'last' && ('' === 0)) || (props.deleteButton('', '') === true)) && <Button aria-label="delete" color="secondary" size="small" className={`delete-${props.name}`} onClick={() => { setCurrentId(id); setDeleteDialog(true) }} >{props.deleteButtonName}</Button>
+                                        }
+                                    }
+                                }
+                            ])}
+                            query_where={props.query_where}
+                            query_variables={props.query_variables}
+                            hidden={props.hidden}
+                            renderItem={(item, index) => props.elementContent && props.elementContent(item, index)}
+                        />
+                    }
+                    {
                         props.viewType === 'list' && <QueryItems
                             name={props.name}
                             viewType={props.viewType}
                             query_where={props.query_where}
                             query_variables={props.query_variables}
+                            hidden={props.hidden}
                             renderItem={(item, index) => <React.Fragment>
                                 <ListItem
                                     button={((props.editButton(item, index) === 'each') || (props.editButton(item, index) === 'last' && (index === 0)) || (props.editButton(item, index) === true)) ? true : false}
@@ -298,6 +354,7 @@ export default function CreateMany(props) {
                             viewType={props.viewType}
                             query_where={props.query_where}
                             query_variables={props.query_variables}
+                            hidden={props.hidden}
                             renderItem={(item, index) => <React.Fragment>
                                 {
                                     props.elementContent && props.elementContent(item, index)
