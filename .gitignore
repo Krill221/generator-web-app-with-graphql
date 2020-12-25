@@ -10,6 +10,8 @@
 .env.test.local
 .env.production.local
 .history
+yarn.lock
+package-lock.json
 
 
 npm-debug.log*
