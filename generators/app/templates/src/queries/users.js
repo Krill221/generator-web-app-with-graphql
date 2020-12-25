@@ -3,13 +3,12 @@ import gql from 'graphql-tag';
 export const GET_USERS = gql`
   {
     users {
-        email
-        username
-        password
-
-        id
-        createdAt
-        updatedAt
+      id
+      createdAt
+      updatedAt
+      email
+      username
+      password
     }
   }
 `;
@@ -17,24 +16,30 @@ export const GET_USERS = gql`
 export const GET_USER = gql`
   query($id: ID!) {
     user(id: $id) {
-        email
-        username
-        password
-
-        id
-        createdAt
-        updatedAt
+      id
+      createdAt
+      updatedAt
+      email
+      username
+      password
     }
   }
 `;
 
 export const UPDATE_USER = gql`
    mutation updateUser( $id: ID, $username: String!, $email: String!, $password: String!) {
-    updateUser( id: $id, username: $username, email: $email, password : $password)
+    updateUser( id: $id, username: $username, email: $email, password : $password){
+      id
+      createdAt
+      updatedAt
+      email
+      username
+      password
+    }
   }
 `;
 
-export const  DELETE_USER = gql`
+export const DELETE_USER = gql`
   mutation deleteUser($id: ID!) {
     deleteUser(id: $id)
   }

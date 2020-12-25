@@ -4,13 +4,56 @@ import { Container, Typography, Avatar, CardHeader } from '@material-ui/core';
 import ViewSet from '../../components/views/viewSet';
 import CreateMany from '../../components/createMany';
 ////g-key import queries
-import { GET_USERS, UPDATE_USER, DELETE_USER } from '../../queries/users.js';
+import { GET_USERS as GETS, UPDATE_USER as UPDATE, DELETE_USER as DELETE} from '../../queries/users.js';
 ////g-key import helpers
 import Edit from './edit';
 import Create from './create';
 
-
 const models = 'users';
+
+const headers = [
+    {
+        name: "id",
+        label: "ID",
+        options: {
+            filter: false,
+            sort: true,
+            sortThirdClickReset: true,
+            sortDescFirst: false,
+        }
+    },
+    {
+        name: "username",
+        label: "username",
+        options: {
+            filter:  true,
+            sort: true,
+            sortThirdClickReset: true,
+            sortDescFirst: false,
+        }
+    },
+    {
+        name: "email",
+        label: "email",
+        options: {
+            filter:  true,
+            sort: true,
+            sortThirdClickReset: true,
+            sortDescFirst: false,
+        }
+    },
+]
+
+const superTableOptions = {
+    filter: true,
+    filterType: "checkbox",
+    selectableRows: 'none',
+    fixedHeader: true,
+    responsive: 'simple',
+    rowsPerPageOptions: [10,50,100,1000],
+    rowsPerPage: 50,
+    
+};
 
 export default function All() {
     return <ViewSet
@@ -20,30 +63,23 @@ export default function All() {
             <Container>
                 <CreateMany
                     name={models}
+                    label='Users'
                     actionType='create' // create or create-default or none
-                    viewType='grid' // can be grid or list table
-                    query_where={GET_USERS}
-                    query_variables={{ids: []}}
-                    query_update={UPDATE_USER}
-                    query_delete={DELETE_USER}
-                    onChange={(e) => {}}
+                    viewType='supertable' // can be grid list table supertable
+                    superTableOptions={superTableOptions}
+                    query_where={GETS}
+                    query_variables={{ ids: [] }}
+                    query_update={UPDATE}
+                    query_delete={DELETE}
+                    onChange={(e) => { }}
                     withUrl={true} // use url
                     EditForm={Edit}
                     CreateForm={Create}
-                    headers={['']}
-                    elementContent={(item, index) =>
-                        <React.Fragment>
-                            <CardHeader
-                                avatar={<Avatar src={''}></Avatar>}
-                                action={''}
-                                title={item.username}
-                                subheader={item.email}
-                            />
-                        </React.Fragment>
-                    }
+                    headers={headers}
+                    elementContent={(item, index) => item}
                     cardActions={(item, index) => null}
                     dialogName=''
-                    addButtonType='fab' // floating button create
+                    addButtonType='none' // can be fab button inline(view create inline) none
                     addButtonName='Add'
                     editButtonName='Edit'
                     deleteButtonName="Delete"

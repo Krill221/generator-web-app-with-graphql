@@ -9,7 +9,6 @@ import {
     BottomNavigation, BottomNavigationAction,
 } from '@material-ui/core';
 import HomeIcon from '@material-ui/icons/Home';
-//import SearchIcon from '@material-ui/icons/Search';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import TopAppBar from '../components/topAppBar';
 

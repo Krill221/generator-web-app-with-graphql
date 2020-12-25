@@ -62,11 +62,11 @@
  */
 
 import React from 'react';
-import { useMutation, useQuery } from '@apollo/react-hooks';
+import { useMutation } from '@apollo/react-hooks';
 import {
     Grid, Card, CardActions,
     Dialog, Button, Toolbar, IconButton, Typography, Fab,
-    DialogTitle, DialogActions, ListItem, ListItemSecondaryAction, Divider, TableCell
+    DialogTitle, DialogActions, ListItem, ListItemSecondaryAction, Divider, TableCell,
 } from '@material-ui/core';
 import ArrowBack from '@material-ui/icons/ArrowBack';
 import CloseIcon from '@material-ui/icons/Close';
@@ -74,7 +74,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import AddIcon from '@material-ui/icons/Add';
 import QueryItems from './queryItems';
 import DeleteIcon from '@material-ui/icons/Delete';
-import { useHistory, Link, useLocation } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 import TopAppBar from './topAppBar';
 
 
@@ -87,7 +87,7 @@ const useStyles = makeStyles((theme) => ({
     },
     pointer: {
         cursor: 'pointer'
-    }
+    },
 }));
 
 
@@ -103,12 +103,15 @@ export default function CreateMany(props) {
 
     const history = useHistory();
 
+    const parent_url = '/' + window.document.location.pathname.split('/')[1];
+    
+
     const handleEditDialogOpen = () => { setOpenEdit(true); };
     const handleCreateDialogOpen = () => { setOpenCreate(true); };
     const handleEditDialogClose = () => {
         if (props.withUrl === true) {
-            history.goBack();
-            history.goBack();
+            history.push(parent_url);
+            //history.goBack();
         }
         setOpenEdit(false);
     };
@@ -120,7 +123,7 @@ export default function CreateMany(props) {
     const handleDelete = () => {
         const ids = props.query_variables.ids.filter(i => i !== currentId);
         deleteMutation({
-            variables: { id: currentId },
+            variables: { id: currentId, parentId: props.parentId },
             refetchQueries: [{ query: props.query_where, variables: props.query_variables }]
         }).then(res => {
             if (props.onChange !== undefined) props.onChange({ target: { id: props.name, value: ids } });
@@ -129,11 +132,11 @@ export default function CreateMany(props) {
         setDeleteDialog(false);
     }
 
-    const { refetch } = useQuery(props.query_where, { skip: true });
+    //const { refetch } = useQuery(props.query_where, { skip: true });
 
     const handleChange = (e) => {
-        const ids = props.query_variables.ids.concat(e.target.value).filter((el, i, a) => i === a.indexOf(el));
-        refetch({ variables: props.query_variables });
+        const ids = props.query_variables.ids.concat(e.target.value.id).filter((el, i, a) => i === a.indexOf(el));
+        //refetch(props.query_variables);
         if (props.onChange !== undefined) props.onChange({ target: { id: props.name, value: ids } });
     }
 
@@ -186,9 +189,9 @@ export default function CreateMany(props) {
                             query_where={props.query_where}
                             query_variables={props.query_variables}
                             hidden={props.hidden}
-                            renderItem={(item, index) => <Card
+                            renderItem={(item, index) => <Card variant="outlined"
                                 className={
-                                    ((props.editButton(item, index) === 'each') || (props.editButton(item, index) === 'last' && (index === 0)) || (props.editButton(item, index) === true)) && classes.pointer
+                                    ((props.editButton(item, index) === 'each') || (props.editButton(item, index) === 'last' && (index === 0)) || (props.editButton(item, index) === true)) ? classes.pointer : ''
                                 }
                             >
                                 <div
@@ -207,13 +210,16 @@ export default function CreateMany(props) {
                                         props.elementContent && props.elementContent(item, index)
                                     }
                                 </div>
-                                <CardActions>
+                                <CardActions disableSpacing>
                                     {props.cardActions && props.cardActions(item, index)}
 
                                     {((props.deleteButton(item, index) === 'each') || (props.deleteButton(item, index) === 'last' && (index === 0)) || (props.deleteButton(item, index) === true)) &&
                                         <Button aria-label="delete" color="secondary" size="small" className={`delete-${props.name}`} onClick={() => { setCurrentId(item.id); setDeleteDialog(true) }} >{props.deleteButtonName}</Button>
                                     }
                                 </CardActions>
+                                <React.Fragment>
+                                    {props.cardCollapse && props.cardCollapse(item, index)}
+                                </React.Fragment>
                             </Card>
                             }
                         />
@@ -236,8 +242,6 @@ export default function CreateMany(props) {
                                             color="primary"
                                             size="small"
                                             className={`edit-${props.name}`}
-                                            component={Link}
-                                            to={`/${props.name}/${item.id}`}
                                             onClick={() => {
                                                 if (props.withUrl !== true) {
                                                     setCurrentId(item.id);
@@ -263,7 +267,9 @@ export default function CreateMany(props) {
                     {
                         props.viewType === 'supertable' && <QueryItems
                             name={props.name}
+                            label={props.label}
                             viewType={props.viewType}
+                            superTableOptions={props.superTableOptions}
                             headers={props.headers.concat([
                                 {
                                     name: "id",
@@ -271,14 +277,13 @@ export default function CreateMany(props) {
                                     options: {
                                         empty: true,
                                         sort: false,
+                                        viewColumns: false,
                                         filter: false,
                                         customBodyRender: id => {
                                             return (props.editButton('', '') === 'each') && <Button
                                                 color="primary"
                                                 size="small"
                                                 className={`edit-${props.name}`}
-                                                component={Link}
-                                                to={`/${props.name}/${id}`}
                                                 onClick={() => {
                                                     if (props.withUrl !== true) {
                                                         setCurrentId(id);
@@ -295,11 +300,12 @@ export default function CreateMany(props) {
                                 },
                                 {
                                     name: "id",
-                                    label: " ",
+                                    label: ' ',
                                     options: {
                                         empty: true,
                                         sort: false,
                                         filter: false,
+                                        viewColumns: false,
                                         customBodyRender: id => {
                                             return ((props.deleteButton('', '') === 'each') || (props.deleteButton('', '') === 'last' && ('' === 0)) || (props.deleteButton('', '') === true)) && <Button aria-label="delete" color="secondary" size="small" className={`delete-${props.name}`} onClick={() => { setCurrentId(id); setDeleteDialog(true) }} >{props.deleteButtonName}</Button>
                                         }
@@ -397,10 +403,10 @@ export default function CreateMany(props) {
                         props.addButtonType === 'button' && <React.Fragment>
                             {props.actionType === 'create' &&
                                 <Button
-                                    color="secondary"
+                                    color="default"
                                     className={`add-${props.name}`}
                                     fullWidth
-                                    variant="contained"
+                                    variant="outlined"
                                     onClick={() => {
                                         setCurrentId('new');
                                         handleCreateDialogOpen();

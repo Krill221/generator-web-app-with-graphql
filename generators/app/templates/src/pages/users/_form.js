@@ -26,18 +26,16 @@ const FieldsSchema = Yup.object().shape({
         .oneOf([Yup.ref('password'), null], 'Passwords must match')
 });
 
-export default function Form({query_where, query_variables, itemId, onChange, onDelete, afterSubmit, onSave, children}) {
+export default function Form({query_where, query_variables, itemId, onChange, onDelete, afterSubmit, onSave, children, parentId}) {
 
     const { data, loading } = useQuery(GET, { variables: { id: itemId }, skip: itemId === 'new' });
     const [updateMutation] = useMutation(UPDATE, {
-        refetchQueries: [{ query: GETS }],
         onCompleted: (data) => {
             const value = data[Object.keys(data)[0]];
             if (onChange !== undefined) onChange({ target: { id: model, value: value } });
         }
     });
     const [deleteMutation] = useMutation(DELETE, {
-        refetchQueries: [{ query: GETS }],
         variables: { id: itemId },
         onCompleted: (data) => { if (onDelete !== undefined) onDelete(data) }
     });
