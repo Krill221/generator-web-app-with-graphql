@@ -1,4 +1,6 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext } from 'react';
+import { useTheme } from '@material-ui/core/styles';
+import { useSnackbar } from 'notistack';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import {
@@ -9,14 +11,11 @@ import {
   LinearProgress,
   CssBaseline,
   Grid,
-  FormControl,
-  RadioGroup,
-  Radio,
-  FormControlLabel,
 } from '@material-ui/core';
 import { useMutation } from '@apollo/react-hooks';
 import { REGISTER_USER } from '../../queries/users'
 import { AuthContext } from '../../auth';
+
 
 
 const SignupSchema = Yup.object().shape({
@@ -38,7 +37,9 @@ const SignupSchema = Yup.object().shape({
 function SignUpDialog(props) {
 
   const context = useContext(AuthContext);
-  const [err, setErr] = useState('');
+  const theme = useTheme();
+  const { enqueueSnackbar } = useSnackbar();
+
 
   const [regUser, { loading }] = useMutation(REGISTER_USER, {
     update(
@@ -51,8 +52,8 @@ function SignUpDialog(props) {
       props.onChange && props.onChange(context);
     },
     onError(error) {
-      setErr(error.graphQLErrors[0].message);
       console.log(error);
+      enqueueSnackbar(error.graphQLErrors[0].message, {variant: 'warning'});
     }
   });
 
@@ -72,7 +73,7 @@ function SignUpDialog(props) {
             <Grid container spacing={2} >
               <Grid item xs={12}></Grid>
               <Grid item xs={12}>
-                <Typography component="h1" variant="h5" id='signupheader'>Регистрация</Typography>
+                <Typography component="h1" variant="h5" id='signupheader'>{theme.props.profile.SignUpHeader}</Typography>
               </Grid>
               <Grid item xs={12}>
                 <TextField
@@ -81,7 +82,7 @@ function SignUpDialog(props) {
                   required
                   fullWidth
                   id="username"
-                  label="Username"
+                  label={theme.props.models.user.Username}
                   name="username"
                   autoComplete="username"
                   value={props.values.username}
@@ -98,7 +99,7 @@ function SignUpDialog(props) {
                   required
                   fullWidth
                   id="email"
-                  label="Email"
+                  label={theme.props.models.user.Email}
                   name="email"
                   autoComplete="email"
                   value={props.values.email}
@@ -109,21 +110,13 @@ function SignUpDialog(props) {
                 />
               </Grid>
               <Grid item xs={12}>
-                <FormControl component="fieldset" >
-                  <RadioGroup aria-label="admin" name="admin" value={props.values.admin} onChange={props.handleChange}>
-                    <FormControlLabel value='false' control={<Radio />} label="Пользователь" />
-                    <FormControlLabel value='true' control={<Radio />} label="Менеджер отеля" />
-                  </RadioGroup>
-                </FormControl>
-              </Grid>
-              <Grid item xs={12}>
                 <TextField
                   variant="outlined"
                   margin="normal"
                   required
                   fullWidth
                   name="password"
-                  label="Password"
+                  label={theme.props.models.user.Password}
                   type="password"
                   id="password"
                   value={props.values.password}
@@ -140,7 +133,7 @@ function SignUpDialog(props) {
                   required
                   fullWidth
                   name="confirmPassword"
-                  label="Confirm Password"
+                  label={theme.props.profile.ConfirmPassword}
                   type="password"
                   id="confirmPassword"
                   value={props.values.confirmPassword}
@@ -152,12 +145,11 @@ function SignUpDialog(props) {
               </Grid>
               <Grid item xs={12}>
                 <Button type="submit" id='signup' fullWidth variant="contained" color="primary">
-                  Зарегистрироваться
+                  {theme.props.profile.SignUp}
                 </Button>
               </Grid>
               <Grid item xs={12}>
                 {loading && <LinearProgress />}
-                {err && <Typography component="h6" variant="h6" id='error'>{err}</Typography>}
               </Grid>
             </Grid>
           </form>

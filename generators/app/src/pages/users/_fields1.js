@@ -1,7 +1,9 @@
 import React from 'react';
+import { useTheme } from '@material-ui/core/styles';
 import { TextField, Grid, Container } from '@material-ui/core';
 
 export default function EditView1(props) {
+    const theme = useTheme();
 
     return <Container>
         <Grid container spacing={2} justify="center" alignItems="center">
@@ -9,7 +11,7 @@ export default function EditView1(props) {
                 <TextField
                     id="username"
                     name="username"
-                    label="Логин"
+                    label={theme.props.models.user.Username}
                     variant="outlined"
                     margin="normal"
                     required
@@ -17,7 +19,7 @@ export default function EditView1(props) {
                     value={props.values.username}
                     error={props.errors.username && props.touched.username ? true : false}
                     helperText={props.errors.username && props.touched.username ? props.errors.username : null}
-                    onBlur={e => { props.handleBlur(e); props.handleChange(e); if (props.values.id !== 'new') { props.setSave(false); props.submitForm(); } }}
+                    onBlur={e => { props.handleChange(e); props.submitForm(); }}
                     onChange={props.handleChange}
                 />
             </Grid>
@@ -25,7 +27,7 @@ export default function EditView1(props) {
                 <TextField
                     id="email"
                     name="email"
-                    label="Email"
+                    label={theme.props.models.user.Email}
                     variant="outlined"
                     margin="normal"
                     required
@@ -33,7 +35,7 @@ export default function EditView1(props) {
                     value={props.values.email}
                     error={props.errors.email && props.touched.email ? true : false}
                     helperText={props.errors.email && props.touched.email ? props.errors.email : null}
-                    onBlur={e => { props.handleBlur(e); props.handleChange(e); if (props.values.id !== 'new') { props.setSave(false); props.submitForm(); } }}
+                    onBlur={e => { props.handleChange(e); props.submitForm(); }}
                     onChange={props.handleChange}
                 />
             </Grid>
@@ -41,7 +43,7 @@ export default function EditView1(props) {
                 <TextField
                     id="password"
                     name="password"
-                    label="Пароль"
+                    label={theme.props.models.user.Password}
                     variant="outlined"
                     margin="normal"
                     fullWidth
@@ -49,23 +51,7 @@ export default function EditView1(props) {
                     value={props.values.password}
                     error={props.errors.password && props.touched.password ? true : false}
                     helperText={props.errors.password && props.touched.password ? props.errors.password : null}
-                    onBlur={e => { props.handleBlur(e); if (props.values.id !== 'new') { props.setSave(false); props.submitForm(); } }}
-                    onChange={props.handleChange}
-                />
-            </Grid>
-            <Grid item xs={12} sm={12} md={12} >
-                <TextField
-                    id="confirmPassword"
-                    name="confirmPassword"
-                    label="Пароль второй раз"
-                    variant="outlined"
-                    margin="normal"
-                    fullWidth
-                    type="password"
-                    value={props.values.confirmPassword}
-                    error={props.errors.confirmPassword && props.touched.confirmPassword ? true : false}
-                    helperText={props.errors.confirmPassword && props.touched.confirmPassword ? props.errors.confirmPassword : null}
-                    onBlur={e => { props.handleBlur(e); if (props.values.id !== 'new') { props.setSave(false); props.submitForm(); } }}
+                    onBlur={e => { props.handleChange(e); props.submitForm(); } }
                     onChange={props.handleChange}
                 />
             </Grid>

@@ -8,33 +8,18 @@ export const GET_USERS = gql`
       updatedAt
       email
       username
-      password
-    }
-  }
-`;
-
-export const GET_USER = gql`
-  query($id: ID!) {
-    user(id: $id) {
-      id
-      createdAt
-      updatedAt
-      email
-      username
-      password
     }
   }
 `;
 
 export const UPDATE_USER = gql`
-   mutation updateUser( $id: ID, $username: String!, $email: String!, $password: String!) {
+   mutation updateUser( $id: ID, $username: String, $email: String, $password: String) {
     updateUser( id: $id, username: $username, email: $email, password : $password){
       id
       createdAt
       updatedAt
       email
       username
-      password
     }
   }
 `;

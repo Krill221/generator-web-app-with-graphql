@@ -47,11 +47,10 @@ export default function ViewSet(props) {
     const handleBack = () => { setActiveStep( prevActiveStep => prevActiveStep - 1); };
 
     return <React.Fragment>
-        {
+        { 
             props.viewType === 'wizard' &&
             <TopAppBarSecond>
                 <div className={classes.wizard}>
-
                     <Stepper activeStep={activeStep} alternativeLabel>
                         {props.labels.map((label) => (
                             <Step key={label}>
@@ -97,7 +96,7 @@ export default function ViewSet(props) {
             </TopStick>
         </React.Fragment>
         }
-        {props.viewType !== 'button' && props.tabs.map((step, index) => (activeStep === index) && <div key={index}>{step}</div>)}
+        {props.viewType !== 'button' && props.tabs.map((step, index) => (activeStep === index) && <div style={{marginTop: '15px'}} key={index}>{step}</div>)}
 
         {props.viewType === 'button' && <React.Fragment>
             {
@@ -125,6 +124,7 @@ export default function ViewSet(props) {
                 </React.Fragment>
             }
         </React.Fragment>
+        
         }
     </React.Fragment>;
 }

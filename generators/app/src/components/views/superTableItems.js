@@ -23,12 +23,12 @@ const options = {
 
 export default function SuperTableItems(props) {
 
-    const columns = props.headers;
+    const headers = props.headers;
 
     return <MUIDataTable
         title={''}
         data={props.items.map((item, index) => props.renderItem(item, index))}
-        columns={columns}
+        columns={headers}
         options={options}
     />;
 }

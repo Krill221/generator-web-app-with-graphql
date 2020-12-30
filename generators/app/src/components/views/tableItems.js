@@ -13,7 +13,7 @@ export default function TableItems(props) {
             <TableHead>
                 <TableRow>
                     {props.headers.map((header, index) =>
-                        <TableCell key={index} >{header}</TableCell>
+                        <TableCell key={index} >{header.label}</TableCell>
                     )}
                 </TableRow>
             </TableHead>
