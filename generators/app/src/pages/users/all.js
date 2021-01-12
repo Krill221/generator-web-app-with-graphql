@@ -1,6 +1,6 @@
 import React from 'react';
 import { useTheme } from '@material-ui/core/styles';
-import { Avatar, CardHeader, CardMedia, Container, ListItemAvatar, ListItemText, TableCell } from '@material-ui/core';
+import { Container } from '@material-ui/core';
 ////g-key import components
 import ViewSet from '../../components/views/viewSet';
 import CreateMany from '../../components/createMany';
@@ -68,7 +68,7 @@ export default function All() {
                     <CreateMany
                         name={models}
                         label='Users'
-                        viewType='list' // can be grid list table supertable raw
+                        viewType='supertable' // can be grid list table supertable raw
                         superTableOptions={superTableOptions}
                         query_where={GETS}
                         query_variables={{ ids: [] }}
@@ -80,6 +80,8 @@ export default function All() {
                         CreateForm={Create}
                         headers={headers}
                         elementContent={(item, index) => {
+
+                            // grid
                             /*return <React.Fragment>
                                 <CardHeader
                                     avatar={<Avatar src={item.usename}></Avatar>}
@@ -98,7 +100,7 @@ export default function All() {
                             */
 
                             // list
-                            return <React.Fragment>
+                            /*return <React.Fragment>
                                 <ListItemAvatar>
                                     <Avatar alt='' src={item.picture} />
                                 </ListItemAvatar>
@@ -106,7 +108,7 @@ export default function All() {
                                     primary={item.username}
                                     secondary={item.email} />
                             </React.Fragment>
-                            
+                            */
 
                             // table
                             /*return <React.Fragment>

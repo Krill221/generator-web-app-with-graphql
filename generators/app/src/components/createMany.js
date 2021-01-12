@@ -1,12 +1,13 @@
+
 /*
     Example:
 
     import CreateMany from '../../components/createMany';
 
-    <CreateMany
+<CreateMany
                         name={models}
                         label='Users'
-                        viewType='list' // can be grid list table supertable raw
+                        viewType='supertable' // can be grid list table supertable raw
                         superTableOptions={superTableOptions}
                         query_where={GETS}
                         query_variables={{ ids: [] }}
@@ -35,6 +36,7 @@
                                     title=""
                                 />
                             </React.Fragment>
+                            
 
                             // list
                             return <React.Fragment>
@@ -46,8 +48,9 @@
                                     secondary={item.email} />
                             </React.Fragment>
                             
+
                             // table
-                            /*return <React.Fragment>
+                            return <React.Fragment>
                                 <TableCell>
                                     {item.username}
                                 </TableCell>
@@ -55,13 +58,13 @@
                                     {item.email}
                                 </TableCell>
                             </React.Fragment>
-
+                            
 
                             // supertable
                             return item;
 
                             // raw
-                            //return <React.Fragment>item</React.Fragment>;
+                            return <React.Fragment>item</React.Fragment>;
                         }}
                         cardActions={(item, index) => null}
                         dialogName=''
@@ -73,7 +76,7 @@
                         deleteButton={(item, i) => 'each'} // can be 'each', 'last', 'none'
                         editButton={(item, i) => 'each'} // can be 'each', 'last', 'none'
                     />
-
+    
  */
 
 import React from 'react';
