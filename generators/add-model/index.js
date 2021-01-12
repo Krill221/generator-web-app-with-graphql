@@ -72,7 +72,7 @@ module.exports = class extends Generator {
     var regExList = new RegExp(/list for generator\*\/}/, 'g');
     
     index = index.toString().replace(regExTop, `//top for generator\nimport {${this.answers.models} } from './pages/${this.answers.small_models}';`);
-    index = index.toString().replace(regExList, `list for generator*/}\n\t\t\t<PublicMainLayout path="/${this.answers.small_models}" component={${this.answers.models}} /> `);
+    index = index.toString().replace(regExList, `list for generator*/}\n\t\t\t\t\t\t\t<PublicMainLayout path="/${this.answers.small_models}" component={${this.answers.models}} /> `);
 
     this.fs.write(this.destinationPath('src/App.js'), index );
 

@@ -16,7 +16,7 @@ export default function EditView1(props) {
                     value={props.values.<%= field[0] %>}
                     error={props.errors.<%= field[0] %> && props.touched.<%= field[0] %> ? true : false}
                     helperText={props.errors.<%= field[0] %> && props.touched.<%= field[0] %> ? props.errors.<%= field[0] %> : null}
-                    onBlur={e => { props.handleBlur(e); props.handleChange(e); if (props.values.id !== 'new') { props.setSave(false); props.submitForm(); } }}
+                    onBlur={e => { props.handleChange(e); props.submitForm(); }}
                     onChange={props.handleChange}
                 />
             </Grid>

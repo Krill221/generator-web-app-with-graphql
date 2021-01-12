@@ -64,81 +64,78 @@ export default function All() {
         labels={[models]}
         tabs={[
             <Container>
-                {
-                    <CreateMany
-                        name={models}
-                        label='Users'
-                        viewType='supertable' // can be grid list table supertable raw
-                        superTableOptions={superTableOptions}
-                        query_where={GETS}
-                        query_variables={{ ids: [] }}
-                        query_update={UPDATE}
-                        query_delete={DELETE}
-                        onChange={(e) => { }}
-                        withUrl={true} // use url
-                        EditForm={(Edit)}
-                        CreateForm={Create}
-                        headers={headers}
-                        elementContent={(item, index) => {
+                <CreateMany
+                    name={models}
+                    label='Users'
+                    viewType='supertable' // can be grid list table supertable raw
+                    superTableOptions={superTableOptions}
+                    query_where={GETS}
+                    query_variables={{ ids: [] }}
+                    query_update={UPDATE}
+                    query_delete={DELETE}
+                    onChange={(e) => { }}
+                    withUrl={true} // use url
+                    EditForm={(Edit)}
+                    CreateForm={Create}
+                    headers={headers}
+                    elementContent={(item, index) => {
 
-                            // grid
-                            /*return <React.Fragment>
-                                <CardHeader
-                                    avatar={<Avatar src={item.usename}></Avatar>}
-                                    action={''}
-                                    title={item.username}
-                                    subheader=""
-                                />
-                                <CardMedia
-                                    component="img"
-                                    alt=""
-                                    height="200"
-                                    image={item.username}
-                                    title=""
-                                />
-                            </React.Fragment>
-                            */
+                        // grid
+                        /*return <React.Fragment>
+                            <CardHeader
+                                avatar={<Avatar src={item.usename}></Avatar>}
+                                action={''}
+                                title={item.username}
+                                subheader=""
+                            />
+                            <CardMedia
+                                component="img"
+                                alt=""
+                                height="200"
+                                image={item.username}
+                                title=""
+                            />
+                        </React.Fragment>
+                        */
 
-                            // list
-                            /*return <React.Fragment>
-                                <ListItemAvatar>
-                                    <Avatar alt='' src={item.picture} />
-                                </ListItemAvatar>
-                                <ListItemText
-                                    primary={item.username}
-                                    secondary={item.email} />
-                            </React.Fragment>
-                            */
+                        // list
+                        /*return <React.Fragment>
+                            <ListItemAvatar>
+                                <Avatar alt='' src={item.picture} />
+                            </ListItemAvatar>
+                            <ListItemText
+                                primary={item.username}
+                                secondary={item.email} />
+                        </React.Fragment>
+                        */
 
-                            // table
-                            /*return <React.Fragment>
-                                <TableCell>
-                                    {item.username}
-                                </TableCell>
-                                <TableCell>
-                                    {item.email}
-                                </TableCell>
-                            </React.Fragment>
-                            */
+                        // table
+                        /*return <React.Fragment>
+                            <TableCell>
+                                {item.username}
+                            </TableCell>
+                            <TableCell>
+                                {item.email}
+                            </TableCell>
+                        </React.Fragment>
+                        */
 
-                            // supertable
-                            return item;
+                        // supertable
+                        return item;
 
-                            // raw
-                            //return <React.Fragment>item</React.Fragment>;
-                        }}
-                        cardActions={(item, index) => null}
-                        dialogName=''
-                        actionType='create' // create or create-default
-                        addButtonType='fab' // can be fab button inline none
-                        addButtonName={theme.props.components.Add}
-                        editButtonName={theme.props.components.Edit}
-                        deleteButtonName={theme.props.components.Delete}
-                        deleteButton={(item, i) => 'each'} // can be 'each', 'last', 'none'
-                        editButton={(item, i) => 'each'} // can be 'each', 'last', 'none'
-                    />
-
-                }
+                        // raw
+                        //return <React.Fragment>item</React.Fragment>;
+                    }}
+                    cardActions={(item, index) => null}
+                    dialogName=''
+                    actionType='create' // create or create-default
+                    addButtonType='fab' // can be fab button inline none
+                    addButtonName={theme.props.components.Add}
+                    editButtonName={theme.props.components.Edit}
+                    deleteButtonName={theme.props.components.Delete}
+                    deleteButton={(item, i) => 'each'} // can be 'each', 'last', 'none'
+                    editButton={(item, i) => 'each'} // can be 'each', 'last', 'none'
+                />
             </Container>
         ]}
     />;
