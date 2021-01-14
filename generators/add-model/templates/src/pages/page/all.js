@@ -5,7 +5,7 @@ import { Container } from '@material-ui/core';
 import ViewSet from '../../components/views/viewSet';
 import CreateMany from '../../components/createMany';
 ////g-key import queries
-import { GET_<%=large_models %> as GETS, UPDATE_<%=large_model %> as UPDATE, DELETE_<%=large_model %> as DELETE } from '../../queries/<%=small_models%>.js';
+import { GETS, UPDATE, DELETE } from '../../queries/<%=small_models%>.js';
 ////g-key import helpers
 import Edit from './edit';
 import Create from './create';

@@ -1,43 +1,34 @@
 import gql from 'graphql-tag';
 
-export const GET_<%=large_models%> = gql`
-{
-    <%=small_models%> {
-        id
-        <% fields.forEach(function(field){ %><%= field[0] %>
-        <% }) %>
-        createdAt
-        updatedAt
-    }
+const MODEL = '<%=model%>';
+
+const FIELDS = [<%fields.forEach(function(f) { %>['<%=f[0]%>', '<%=f[1]%>'], <% }) %>];
+
+// Standard queries
+const FRAGMENT_FIELDS = gql`
+fragment fragmentFields on <%=model%> {
+    id ${FIELDS.map( f => f[0]).join(' ')} createdAt updatedAt
 }
 `;
-
-export const GET_<%=large_models%>_WHERE = gql`
+export const GETS = gql` {
+    ${MODEL}s { ...fragmentFields }
+}
+${FRAGMENT_FIELDS}
+`;
+export const GETS_WHERE = gql`
 query($ids: [ID]) {
-    <%=small_models%>_where (ids: $ids) {
-        id
-        <% fields.forEach(function(field){ %><%= field[0] %>
-        <% }) %>
-        createdAt
-        updatedAt
-    }
+    ${MODEL}sWhere (ids: $ids) { ...fragmentFields }
 }
+${FRAGMENT_FIELDS}
 `;
-
-export const UPDATE_<%=large_model%> = gql`
-mutation update<%=model%>($id: ID, <%= fields.map(f => `$${f[0]}: ${f[1]}` ).join(', ') %>) {
-    update<%=model%>( id: $id, <%= fields.map(f => `${f[0]}: $${f[0]}` ).join(', ') %>){
-        id
-        <% fields.forEach(function(field){ %><%= field[0] %>
-        <% }) %>
-        createdAt
-        updatedAt        
-    }
+export const UPDATE = gql`
+mutation update${MODEL}($id: ID, ${FIELDS.map( f => `$${f[0]}: ${f[1]}`).join(', ')}) {
+    update${MODEL}(input:{id: $id, ${FIELDS.map( f => `${f[0]}: $${f[0]}`).join(', ')}}){ ...fragmentFields }
 }
+${FRAGMENT_FIELDS}
 `;
-
-export const  DELETE_<%=large_model%> = gql`
-mutation delete<%=model%>($id: ID!) {
-    delete<%=model%>(id: $id)
+export const DELETE = gql`
+mutation delete${MODEL}($id: ID!) {
+    delete${MODEL}(id: $id)
 }
 `;

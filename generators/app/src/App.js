@@ -47,7 +47,7 @@ function App() {
               <PrivateMainLayout path="/users" component={Users} />
               <PublicMainLayout exact path="/profile" component={Profile} />
               {/*list for generator*/}
-
+                            
               {/*single for generator*/}
 
               <Route exact path="/:menu([\D]*)" component={Footer} />

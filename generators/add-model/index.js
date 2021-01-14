@@ -25,9 +25,6 @@ module.exports = class extends Generator {
 
   }
 
-  async prompting() {
-  }
-
   writing() {
     this.fs.copyTpl(
       this.templatePath('src/pages/page/all.js'),
@@ -64,21 +61,32 @@ module.exports = class extends Generator {
       this.destinationPath(`src/queries/${this.answers.small_models}.js`),
       this.answers,
     );
+    this.fs.copyTpl(
+      this.templatePath('src/locale/ru/model.js'),
+      this.destinationPath(`src/locale/ru/${this.answers.small_model}.js`),
+      this.answers,
+    );
 
-
-    
-    var index = this.fs.read(this.destinationPath('src/App.js'));
     var regExTop = new RegExp('//top for generator', 'g');
-    var regExList = new RegExp(/list for generator\*\/}/, 'g');
+    var regExTopLocaleFile = `//top for generator\nimport ${this.answers.small_model} from './${this.answers.small_model}';`;
+    var regExModels = new RegExp('// models for generator', 'g');
+    var regExModelsNew = `// models for generator\n\t\t\t${this.answers.small_model} : { ...${this.answers.small_model} },`;
     
-    index = index.toString().replace(regExTop, `//top for generator\nimport {${this.answers.models} } from './pages/${this.answers.small_models}';`);
-    index = index.toString().replace(regExList, `list for generator*/}\n\t\t\t\t\t\t\t<PublicMainLayout path="/${this.answers.small_models}" component={${this.answers.models}} /> `);
+    var regExTopAppFile = `//top for generator\nimport { ${this.answers.models} } from './pages/${this.answers.small_models}';`;
+    var regExList = /list for generator\*\/}/;
+    var regExListNew = `list for generator*/}\n\t\t\t\t\t\t\t<PublicMainLayout path="/${this.answers.small_models}" component={${this.answers.models}} /> `;
 
-    this.fs.write(this.destinationPath('src/App.js'), index );
+
+    var LocaleFile = this.fs.read(this.destinationPath('src/locale/ru/index.js'));
+    LocaleFile = LocaleFile.toString().replace( new RegExp(regExTop, 'g'), regExTopLocaleFile);
+    LocaleFile = LocaleFile.toString().replace( new RegExp(regExModels, 'g'), regExModelsNew);
+    this.fs.write(this.destinationPath('src/locale/ru/index.js'), LocaleFile );
+
+    var AppFile = this.fs.read(this.destinationPath('src/App.js'));
+    AppFile = AppFile.toString().replace(new RegExp(regExTop, 'g'), regExTopAppFile);
+    AppFile = AppFile.toString().replace(new RegExp(regExList, 'g'), regExListNew);
+    this.fs.write(this.destinationPath('src/App.js'), AppFile );
 
   }
 
-  install() {
-    //this.installDependencies();
-  }
 };

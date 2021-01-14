@@ -1,8 +1,8 @@
 import gql from 'graphql-tag';
 
-export const GET_USERS = gql`
+export const GETS = gql`
   {
-    users {
+    Users {
       id
       createdAt
       updatedAt
@@ -12,7 +12,7 @@ export const GET_USERS = gql`
   }
 `;
 
-export const UPDATE_USER = gql`
+export const UPDATE = gql`
    mutation updateUser( $id: ID, $username: String, $email: String, $password: String) {
     updateUser( id: $id, username: $username, email: $email, password : $password){
       id
@@ -24,7 +24,7 @@ export const UPDATE_USER = gql`
   }
 `;
 
-export const DELETE_USER = gql`
+export const DELETE = gql`
   mutation deleteUser($id: ID!) {
     deleteUser(id: $id)
   }

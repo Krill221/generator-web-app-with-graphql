@@ -5,7 +5,7 @@ import { Container } from '@material-ui/core';
 import ViewSet from '../../components/views/viewSet';
 import CreateMany from '../../components/createMany';
 ////g-key import queries
-import { GET_USERS as GETS, UPDATE_USER as UPDATE, DELETE_USER as DELETE } from '../../queries/users.js';
+import { GETS, UPDATE, DELETE } from '../../queries/users.js';
 ////g-key import helpers
 import Edit from './edit';
 import Create from './create';
