@@ -35,8 +35,6 @@ module.exports = class extends Generator {
     var appTextTop = `import { ${this.answers.models} } from './pages/${this.answers.small_models}';\n`;
     var appText = `\n\t\t\t\t\t\t\t<PublicMainLayout path="/${this.answers.small_models}" component={${this.answers.models}} />`;
 
-    this.log(appText);
-
     LocaleFile = LocaleFile.toString().replace( new RegExp(localeTextTop, 'g'), '');
     LocaleFile = LocaleFile.toString().replace( new RegExp(localeText, 'g'), '');
     this.fs.write(this.destinationPath('src/locale/ru/index.js'), LocaleFile );

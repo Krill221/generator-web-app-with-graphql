@@ -17,10 +17,7 @@ export default function Form({item, afterSubmit, children}) {
     item = item.id !== 'new' ? item : { id: 'new', <% fields.forEach(function(field){ %><%= field[0] %>: <%if(field[1] === 'String'){%>''<%}%><%if(field[1] === 'ID'){%>''<%}%><%if(field[1] === 'Boolean'){%>false<%}%>, <% }) %> }
     
     return <Formik
-        initialValues={{
-            id: item.id,<% fields.forEach(function(f){ %>
-            <%= f[0] %>: item.<%= f[0] %>,<% }) %>
-        }}
+        initialValues={item}
         enableReinitialize={true}
         validationSchema={FieldsSchema}
         onSubmit={(values, actions) => {

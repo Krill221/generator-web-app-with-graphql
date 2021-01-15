@@ -24,43 +24,17 @@ module.exports = class extends Generator {
 
   }
 
-  async prompting() {
-  }
-
   writing() {
 
-    var text = this.fs.read(this.destinationPath(`src/queries/${this.answers.small_models}.js`));
+    var queryFile = this.fs.read(this.destinationPath(`src/queries/${this.answers.small_models}.js`));
+    var fieldsQuery = `${this.answers.fields.map(f => '\\[\''+f[0]+'\', \''+f[1]+'\'\\]').join(', ')}, `;
+    queryFile = queryFile.toString().replace(new RegExp(fieldsQuery, 'g'), '');
+    this.fs.write(this.destinationPath(`src/queries/${this.answers.small_models}.js`), queryFile);
+
     var form = this.fs.read(this.destinationPath(`src/pages/${this.answers.small_models}/_form.js`));
-    var show = this.fs.read(this.destinationPath(`src/pages/${this.answers.small_models}/_show.js`));
-
-    this.answers.fields.forEach(f => {
-      var regEx1 = new RegExp(`${f[0]}: \\$${f[0]}, `, 'g');
-      var regEx2 = new RegExp(`\\$${f[0]}: ${f[1]}, `, 'g');
-      var regEx3 = new RegExp(`\t\t${f[0]}\n`, 'g');
-      text = text.toString().replace(regEx1, '');
-      text = text.toString().replace(regEx2, '');
-      text = text.toString().replace(regEx3, '');
-
-      var regEx21 = new RegExp(`${f[0]}: '', `, 'g');
-      var regEx22 = new RegExp(`${f[0]}: false, `, 'g');
-      var regEx23 = new RegExp(`${f[0]}: true, `, 'g');
-      var regEx24 =  new RegExp(`${f[0]}: item.${f[0]}, `, 'g');
-      form = form.toString().replace(regEx21, '');
-      form = form.toString().replace(regEx22, '');
-      form = form.toString().replace(regEx23, '');
-      form = form.toString().replace(regEx24, '');
-
-      show = show.toString().replace(regEx21, '');
-      show = show.toString().replace(regEx22, '');
-      show = show.toString().replace(regEx23, '');
-      show = show.toString().replace(regEx24, '');
-
-    });
-    this.fs.write(this.destinationPath(`src/queries/${this.answers.small_models}.js`), text);
+    var regEx = `${this.answers.fields.map(f => ((f[1] === 'String') ? `${f[0]}: ''` : ((f[1] === 'Boolean') ? `${f[0]}: false` : `${f[0]}: ''`))).join(', ')}, `;
+    form = form.toString().replace(new RegExp(regEx, 'g'), '');
     this.fs.write(this.destinationPath(`src/pages/${this.answers.small_models}/_form.js`), form);
-    this.fs.write(this.destinationPath(`src/pages/${this.answers.small_models}/_show.js`), show);
-
-
 
   }
 

@@ -24,31 +24,20 @@ module.exports = class extends Generator {
 
   }
 
-  async prompting() {
-  }
-
   writing() {
 
     var queryFile = this.fs.read(this.destinationPath(`src/queries/${this.answers.small_models}.js`));
-    var regExQuerys = new RegExp(`${this.answers.small_models} {`, 'g');
-    var regExQueryWhere =  new RegExp(`${this.answers.small_models}_where \\(ids: \\$ids\\) {`, 'g');
-    var regExQuery =  new RegExp(`${this.answers.small_model} \\(id: \\$id\\) {`, 'g');
-    var regExUpdate = new RegExp(`mutation update${this.answers.model}\\(\\$`, 'g');
-    var regExUpdate2 = new RegExp(`update${this.answers.model}\\( `, 'g');
-    queryFile = queryFile.toString().replace(regExQuerys, `${this.answers.small_models} {\n\t\t${this.answers.fields.map(f => f[0]).join('\n\t\t')}` );
-    queryFile = queryFile.toString().replace(regExQueryWhere, `${this.answers.small_models}_where (ids: $ids) {\n\t\t${this.answers.fields.map(f => f[0]).join('\n\t\t')}` );
-    queryFile = queryFile.toString().replace(regExQuery, `${this.answers.small_model} (id: $id) {\n\t\t${this.answers.fields.map(f => f[0]).join('\n\t\t')}` );
-    queryFile = queryFile.toString().replace(regExUpdate, `mutation update${this.answers.model}(${this.answers.fields.map(f => '$'+f[0]+': '+f[1]).join(', ')}, $` );
-    queryFile = queryFile.toString().replace(regExUpdate2, `update${this.answers.model}( ${this.answers.fields.map(f => f[0]+': $'+f[0]).join(', ')}, ` );
+    var fieldsQuery = `const FIELDS = \\[`;
+    var fieldsQueryNew = `const FIELDS = [${this.answers.fields.map(f => '[\''+f[0]+'\', \''+f[1]+'\']').join(', ')}, `;
+    queryFile = queryFile.toString().replace(new RegExp(fieldsQuery, 'g'), fieldsQueryNew);
     this.fs.write(this.destinationPath(`src/queries/${this.answers.small_models}.js`), queryFile);
 
     var form = this.fs.read(this.destinationPath(`src/pages/${this.answers.small_models}/_form.js`));
-    var regEx1 = new RegExp(`let item = data \\? data\\[model\\] : { `, 'g');
-    var regEx2 =  new RegExp(`initialValues={{ `, 'g');
-    form = form.toString().replace(regEx1, `let item = data ? data[model] : { ${this.answers.fields.map(f => ( (f[1] === 'String') ? `${f[0]}: ''` : ((f[1] === 'Boolean') ? `${f[0]}: false` : `${f[0]}: ''`) ) ).join(', ')}, ` );
-    form = form.toString().replace(regEx2, `initialValues={{ ${this.answers.fields.map(f => `${f[0]}: item.${f[0]}`).join(', ')}, ` );
+    var regEx = `item : { `;
+    var regExNew = `item : { ${this.answers.fields.map(f => ((f[1] === 'String') ? `${f[0]}: ''` : ((f[1] === 'Boolean') ? `${f[0]}: false` : `${f[0]}: ''`))).join(', ')}, `;
+    form = form.toString().replace(new RegExp(regEx, 'g'), regExNew);
     this.fs.write(this.destinationPath(`src/pages/${this.answers.small_models}/_form.js`), form);
-    
+
   }
 
   install() {
