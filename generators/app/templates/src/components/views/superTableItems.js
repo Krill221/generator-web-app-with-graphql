@@ -27,7 +27,7 @@ export default function SuperTableItems(props) {
 
     return <MUIDataTable
         title={''}
-        data={props.items.map((item, index) => props.renderItem(item, index))}
+        data={props.items.map((item, index) => props.elementContent(item, index))}
         columns={headers}
         options={options}
     />;

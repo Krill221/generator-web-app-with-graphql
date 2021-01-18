@@ -26,7 +26,7 @@ import { GoogleMap, OverlayView, LoadScript } from '@react-google-maps/api';
 import { useQuery } from '@apollo/react-hooks';
 import { Chip, Button, Card, CardMedia, CardContent, AppBar, Dialog, Toolbar, IconButton, } from '@material-ui/core';
 import ArrowBack from '@material-ui/icons/ArrowBack';
-import mapStyle from './mapStyle';
+import mapStyle from '../mapStyle';
 import MobileStepper from '@material-ui/core/MobileStepper';
 import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
 import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';

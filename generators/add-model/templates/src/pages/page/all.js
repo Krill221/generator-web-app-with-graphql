@@ -3,7 +3,7 @@ import { useTheme } from '@material-ui/core/styles';
 import { Container } from '@material-ui/core';
 ////g-key import components
 import ViewSet from '../../components/views/viewSet';
-import CreateMany from '../../components/createMany';
+import CreateMany from '../../components/hasMany/createMany';
 ////g-key import queries
 import { GETS, UPDATE, DELETE } from '../../queries/<%=small_models%>.js';
 ////g-key import helpers
@@ -57,7 +57,6 @@ export default function All() {
             <Container>
                 <CreateMany
                     name={models}
-                    label={models}
                     viewType='supertable' // can be grid list table supertable raw
                     superTableOptions={superTableOptions}
                     query_where={GETS}

@@ -18,10 +18,65 @@ import SuperTableItems from './superTableItems'
 
 
 export default function QueryItems(props) {
-    if (props.viewType === 'grid') return <GridItems name={props.name} items={props.items} renderItem={props.renderItem} />;
-    if (props.viewType === 'table') return <TableItems name={props.name} headers={props.headers} items={props.items} renderItem={props.renderItem} />;
-    if (props.viewType === 'list') return <ListItems name={props.name} items={props.items} renderItem={props.renderItem} />;
-    if (props.viewType === 'supertable') return <SuperTableItems superTableOptions={props.superTableOptions} name={props.name} label={props.label} headers={props.headers} items={props.items} renderItem={props.renderItem} />;
-    return <RawItems name={props.name} items={props.items} renderItem={props.renderItem} />;
+
+    if (props.viewType === 'grid') {
+        return <GridItems
+            name={props.name}
+            items={props.items}
+            editButton={props.editButton}
+            deleteButton={props.deleteButton}
+            elementContent={props.elementContent}
+            cardActions={props.cardActions}
+            cardCollapse={props.cardCollapse}
+            deleteButtonName={props.deleteButtonName}
+            handleEditDialogOpen={props.handleEditDialogOpen}
+            handleDeleteDialogOpen={props.handleDeleteDialogOpen}
+        />;
+    }
+
+    if (props.viewType === 'table') {
+        return <TableItems
+            name={props.name}
+            headers={props.headers}
+            items={props.items}
+            editButton={props.editButton}
+            deleteButton={props.deleteButton}
+            elementContent={props.elementContent}
+            editButtonName={props.editButtonName}
+            deleteButtonName={props.deleteButtonName}
+            handleEditDialogOpen={props.handleEditDialogOpen}
+            handleDeleteDialogOpen={props.handleDeleteDialogOpen}
+        />;
+    }
+    if (props.viewType === 'list') {
+        return <ListItems
+            name={props.name}
+            items={props.items}
+            editButton={props.editButton}
+            deleteButton={props.deleteButton}
+            elementContent={props.elementContent}
+            deleteButtonName={props.deleteButtonName}
+            handleEditDialogOpen={props.handleEditDialogOpen}
+            handleDeleteDialogOpen={props.handleDeleteDialogOpen}
+        />;
+    }
+
+    if (props.viewType === 'supertable') {
+        return <SuperTableItems
+            superTableOptions={props.superTableOptions}
+            name={props.name}
+            headers={props.headers}
+            items={props.items}
+            elementContent={props.elementContent}
+            handleEditDialogOpen={props.handleEditDialogOpen}
+            handleDeleteDialogOpen={props.handleDeleteDialogOpen}
+        />;
+    }
+
+    return <RawItems
+        name={props.name}
+        items={props.items}
+        elementContent={props.elementContent}
+    />;
 
 }

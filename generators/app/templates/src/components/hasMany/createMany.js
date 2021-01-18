@@ -2,11 +2,10 @@
 /*
     Example:
 
-    import CreateMany from '../../components/createMany';
+import CreateMany from '../../components/hasMany/createMany';
 
 <CreateMany
                         name={models}
-                        label='Users'
                         viewType='supertable' // can be grid list table supertable raw
                         superTableOptions={superTableOptions}
                         query_where={GETS}
@@ -67,6 +66,7 @@
                             return <React.Fragment>item</React.Fragment>;
                         }}
                         cardActions={(item, index) => null}
+                        cardCollapse={(item, index) => null}
                         dialogName=''
                         actionType='create' // create or create-default
                         addButtonType='fab' // can be fab button inline none
@@ -83,14 +83,12 @@ import React from 'react';
 import { useTheme } from '@material-ui/core/styles';
 import { useQuery, useMutation } from '@apollo/react-hooks';
 import {
-    Grid, Card, CardActions,
-    Button, IconButton, Fab,
-    ListItem, ListItemSecondaryAction, Divider, TableCell,
+    Grid,
+    Button, Fab,
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import AddIcon from '@material-ui/icons/Add';
 import QueryItems from '../views/queryItems';
-import DeleteIcon from '@material-ui/icons/Delete';
 import { useHistory } from "react-router-dom";
 import DialogFullScreen from '../views/dialogFullScreen';
 import DialogPromt from '../views/dialogPromt';
@@ -173,7 +171,7 @@ export default function CreateMany(props) {
                 } catch (error) { console.error(error); }
                 */
             },
-            refetchQueries: props.withUrl ? [{ query: props.query_where, variables: props.query_variables}] :[]
+            refetchQueries: props.withUrl ? [{ query: props.query_where, variables: props.query_variables }] : []
         }).then(res => {
             if (props.onChange !== undefined) props.onChange({ target: { id: props.name, value: ids } });
         });
@@ -202,7 +200,7 @@ export default function CreateMany(props) {
                 ids = ids.concat(newItem.id);
                 //if (props.onChange !== undefined) props.onChange({ target: { id: props.name, value: ids } });
             },
-            refetchQueries: props.withUrl ? [{ query: props.query_where, variables: props.query_variables}] :[]
+            refetchQueries: props.withUrl ? [{ query: props.query_where, variables: props.query_variables }] : []
         }).then(res => {
             if (props.onChange !== undefined) props.onChange({ target: { id: props.name, value: ids } });
         });
@@ -321,149 +319,22 @@ export default function CreateMany(props) {
                 }
 
                 <Grid item xs={12} sm={12} md={12} >
-                    {
-                        props.viewType === 'grid' && <QueryItems
+                    <QueryItems
                             name={props.name}
                             viewType={props.viewType}
                             items={items}
-                            renderItem={(item, index) => {
-                                const editable = ((props.editButton(item, index) === 'each') || (props.editButton(item, index) === 'last' && (index === 0)) || (props.editButton(item, index) === true));
-                                const deletable = ((props.deleteButton(item, index) === 'each') || (props.deleteButton(item, index) === 'last' && (index === 0)) || (props.deleteButton(item, index) === true));
-
-                                return <Card variant="outlined"
-                                    className={editable ? classes.pointer : ''}
-                                >
-                                    <div
-                                        onClick={() => { if (editable) handleEditDialogOpen(item.id) }}
-                                    >
-                                        {
-                                            props.elementContent && props.elementContent(item, index)
-                                        }
-                                    </div>
-                                    <CardActions disableSpacing>
-                                        {props.cardActions && props.cardActions(item, index)}
-
-                                        {deletable &&
-                                            <Button
-                                                aria-label="delete"
-                                                color="secondary"
-                                                size="small"
-                                                className={`delete-${props.name}`}
-                                                onClick={() => handleDeleteDialogOpen(item.id)}
-                                            >
-                                                {props.deleteButtonName}
-                                            </Button>
-                                        }
-                                    </CardActions>
-                                    <React.Fragment>
-                                        {props.cardCollapse && props.cardCollapse(item, index)}
-                                    </React.Fragment>
-                                </Card>
-                            }}
-                        />
-                    }
-                    {
-                        props.viewType === 'table' && <QueryItems
-                            name={props.name}
-                            viewType={props.viewType}
-                            headers={props.headers.concat(['', ''])}
-                            items={items}
-                            renderItem={(item, index) => {
-                                const editable = ((props.editButton(item, index) === 'each') || (props.editButton(item, index) === 'last' && (index === 0)) || (props.editButton(item, index) === true));
-                                const deletable = ((props.deleteButton(item, index) === 'each') || (props.deleteButton(item, index) === 'last' && (index === 0)) || (props.deleteButton(item, index) === true));
-
-                                return <React.Fragment>
-                                    {
-                                        props.elementContent && props.elementContent(item, index)
-                                    }
-                                    <TableCell>
-                                        {editable &&
-                                            <Button
-                                                color="primary"
-                                                size="small"
-                                                className={`edit-${props.name}`}
-                                                onClick={() => handleEditDialogOpen(item.id)}
-                                            >
-                                                {props.editButtonName}
-                                            </Button>
-                                        }
-                                    </TableCell>
-                                    <TableCell>
-                                        {deletable &&
-                                            <Button
-                                                aria-label="delete"
-                                                color="secondary"
-                                                size="small"
-                                                className={`delete-${props.name}`}
-                                                onClick={() => handleDeleteDialogOpen(item.id)}
-                                            >
-                                                {props.deleteButtonName}
-                                            </Button>
-                                        }
-                                    </TableCell>
-                                </React.Fragment>
-                            }}
-                        />
-                    }
-                    {
-                        props.viewType === 'supertable' &&
-                        <QueryItems
-                            name={props.name}
-                            viewType={props.viewType}
                             headers={headers}
                             superTableOptions={props.superTableOptions}
-                            items={items}
-                            renderItem={(item, index) => {
-                                return props.elementContent && props.elementContent(item, index)
-                            }}
-                        />
-                    }
-                    {
-                        props.viewType === 'list' &&
-                        <QueryItems
-                            name={props.name}
-                            viewType={props.viewType}
-                            items={items}
-                            renderItem={(item, index) => {
-                                const editable = ((props.editButton(item, index) === 'each') || (props.editButton(item, index) === 'last' && (index === 0)) || (props.editButton(item, index) === true));
-                                const deletable = ((props.deleteButton(item, index) === 'each') || (props.deleteButton(item, index) === 'last' && (index === 0)) || (props.deleteButton(item, index) === true));
-
-                                return <React.Fragment>
-                                    <ListItem
-                                        button={editable}
-                                        onClick={() => {
-                                            if (editable) handleEditDialogOpen(item.id);
-                                        }}
-                                    >
-                                        {
-                                            props.elementContent && props.elementContent(item, index)
-                                        }
-                                        <ListItemSecondaryAction>
-                                            {deletable &&
-                                                <IconButton
-                                                    color='secondary'
-                                                    aria-label="delete"
-                                                    className={`delete-${props.name}`}
-                                                    onClick={() => handleDeleteDialogOpen(item.id)}
-                                                >
-                                                    <DeleteIcon />
-                                                </IconButton>
-                                            }
-                                        </ListItemSecondaryAction>
-                                    </ListItem>
-                                    <Divider light />
-                                </React.Fragment>
-                            }}
-                        />
-                    }
-                    {
-                        props.viewType === 'raw' && <QueryItems
-                            name={props.name}
-                            items={items}
-                            viewType={props.viewType}
-                            renderItem={(item, index) => props.elementContent && props.elementContent(item, index)}
-                        />
-                    }
+                            editButton={props.editButton}
+                            deleteButton={props.deleteButton}
+                            elementContent={props.elementContent}
+                            cardActions={props.cardActions}
+                            cardCollapse={props.cardCollapse}
+                            editButtonName={props.editButtonName}
+                            deleteButtonName={props.deleteButtonName}
+                            handleEditDialogOpen={handleEditDialogOpen}
+                            handleDeleteDialogOpen={handleDeleteDialogOpen}
+                    />
                 </Grid>
             </Grid>
 

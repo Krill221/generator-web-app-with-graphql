@@ -9,7 +9,7 @@ export default function RawItems(props) {
         {
             props.items && props.items.map((item, index) => <React.Fragment key={index}>
                 {
-                    props.renderItem(item, index)
+                    props.elementContent(item, index)
                 }
             </React.Fragment>
             )

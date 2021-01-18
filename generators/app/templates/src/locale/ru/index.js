@@ -1,5 +1,7 @@
 import user from './user';
 //top for generator
+import comment from './comment';
+import post from './post';
 
 const ruRU = {
   props: {
@@ -35,12 +37,15 @@ const ruRU = {
       Add: "Добавить",
       Edit: "Редактироовать",
       Delete: "Удалить",
+      Choose: "Выбрать",
       Yes: "Да",
       No: "Нет"
     },
     models: {
       // models for generator
-      user: { ...user },
+			comment : { ...comment },
+			post : { ...post },
+			user: { ...user },
     }
   }
 };
