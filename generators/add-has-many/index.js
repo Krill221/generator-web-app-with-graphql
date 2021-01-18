@@ -35,24 +35,16 @@ module.exports = class extends Generator {
 
   writing() {
     
-    var text = this.fs.read(this.destinationPath(`src/queries/${this.answers.small_models}.js`));
-    var regExQuerys = new RegExp(`${this.answers.small_models} {`, 'g');
-    var regExQueryWhere =  new RegExp(`${this.answers.small_models}_where \\(ids: \\$ids\\) {`, 'g');
-    var regExQuery =  new RegExp(`${this.answers.small_model} \\(id: \\$id\\) {`, 'g');
-    var regExUpdate = new RegExp(`mutation update${this.answers.model}\\(\\$`, 'g');
-    var regExUpdate2 = new RegExp(`update${this.answers.model}\\( `, 'g');
-    text = text.toString().replace(regExQuerys, `${this.answers.small_models} {\n\t\t${this.answers.small_populations}` );
-    text = text.toString().replace(regExQueryWhere, `${this.answers.small_models}_where (ids: $ids) {\n\t\t${this.answers.small_populations}` );
-    text = text.toString().replace(regExQuery, `${this.answers.small_model} (id: $id) {\n\t\t${this.answers.small_populations}` );
-    text = text.toString().replace(regExUpdate, `mutation update${this.answers.model}($${this.answers.small_populations}: [ID], $` );
-    text = text.toString().replace(regExUpdate2, `update${this.answers.model}( ${this.answers.small_populations}: $${this.answers.small_populations}, ` );
-    this.fs.write(this.destinationPath(`src/queries/${this.answers.small_models}.js`), text);
+    var queryFile = this.fs.read(this.destinationPath(`src/queries/${this.answers.small_models}.js`));
+    var fieldsQuery = `const FIELDS = \\[`;
+    var fieldsQueryNew = `const FIELDS = [[\'${this.answers.small_populations}'\, \'[ID]\'], `;
+    queryFile = queryFile.toString().replace(new RegExp(fieldsQuery, 'g'), fieldsQueryNew);
+    this.fs.write(this.destinationPath(`src/queries/${this.answers.small_models}.js`), queryFile);
 
     var form = this.fs.read(this.destinationPath(`src/pages/${this.answers.small_models}/_form.js`));
-    var regEx1 = new RegExp(`let item = data \\? data\\[model\\] : { `, 'g');
-    var regEx2 =  new RegExp(`initialValues={{ `, 'g');
-    form = form.toString().replace(regEx1, `let item = data ? data[model] : { ${this.answers.small_populations}: [], ` );
-    form = form.toString().replace(regEx2, `initialValues={{ ${this.answers.small_populations}: item.${this.answers.small_populations}, ` );
+    var regEx = `item : { `;
+    var regExNew = `item : { ${this.answers.small_populations}: [], `;
+    form = form.toString().replace(new RegExp(regEx, 'g'), regExNew);
     this.fs.write(this.destinationPath(`src/pages/${this.answers.small_models}/_form.js`), form);
 
   }

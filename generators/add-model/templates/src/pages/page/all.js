@@ -57,7 +57,7 @@ export default function All() {
             <Container>
                 <CreateMany
                     name={models}
-                    label='Users'
+                    label={models}
                     viewType='supertable' // can be grid list table supertable raw
                     superTableOptions={superTableOptions}
                     query_where={GETS}

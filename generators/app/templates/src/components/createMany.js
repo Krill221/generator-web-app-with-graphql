@@ -13,8 +13,8 @@
                         query_variables={{ ids: [] }}
                         query_update={UPDATE}
                         query_delete={DELETE}
-                        onChange={(e) => { }}
-                        withUrl={true} // use url
+                        onChange={e => { props.handleChange(e); props.submitForm(); }}
+                        withUrl={false} // use url
                         EditForm={(Edit)}
                         CreateForm={Create}
                         headers={headers}
@@ -89,11 +89,12 @@ import {
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import AddIcon from '@material-ui/icons/Add';
-import QueryItems from './views/queryItems';
+import QueryItems from '../views/queryItems';
 import DeleteIcon from '@material-ui/icons/Delete';
 import { useHistory } from "react-router-dom";
-import DialogFullScreen from './views/dialogFullScreen';
-import DialogPromt from './views/dialogPromt';
+import DialogFullScreen from '../views/dialogFullScreen';
+import DialogPromt from '../views/dialogPromt';
+
 
 const useStyles = makeStyles((theme) => ({
     fab: {
@@ -119,9 +120,6 @@ export default function CreateMany(props) {
     const [openEdit, setOpenEdit] = React.useState(false);
     const [openCreate, setOpenCreate] = React.useState(false);
     const [currentId, setCurrentId] = React.useState('new');
-    const { error, data, loading } = useQuery(props.query_where, { variables: props.query_variables });
-    const [deleteMutation] = useMutation(props.query_delete);
-    const [updateMutation] = useMutation(props.query_update);
 
 
     const handleAddButton = () => {
@@ -155,10 +153,11 @@ export default function CreateMany(props) {
     const handleCreateDialogClose = () => { setOpenCreate(false); };
     const handleDelete = () => {
         const ids = props.query_variables.ids.filter(i => i !== currentId);
+        console.log(ids);
         deleteMutation({
             variables: { id: currentId },
             update: (proxy) => {
-                try {
+                /*try {
                     const vars = ids.length !== 0 ? ids : {};
                     const items = proxy.readQuery({
                         query: props.query_where,
@@ -172,33 +171,38 @@ export default function CreateMany(props) {
                         data: items
                     });
                 } catch (error) { console.error(error); }
+                */
             },
+            refetchQueries: props.withUrl ? [{ query: props.query_where, variables: props.query_variables}] :[]
         }).then(res => {
             if (props.onChange !== undefined) props.onChange({ target: { id: props.name, value: ids } });
         });
         setDeleteDialog(false);
     }
     const handleUpdate = (e) => {
-        const ids = props.query_variables.ids.concat(e.target.value.id).filter((el, i, a) => i === a.indexOf(el));
+        //const ids = props.query_variables.ids.concat(e.target.value.id).filter((el, i, a) => i === a.indexOf(el));
         updateMutation({
             variables: e.target.value
         }).then(res => {
-            if (props.onChange !== undefined) props.onChange({ target: { id: props.name, value: ids } });
+            //if (props.onChange !== undefined) props.onChange({ target: { id: props.name, value: ids } });
         });
     }
     const handleCreate = (e) => {
-        const ids = props.query_variables.ids.concat(e.target.value.id).filter((el, i, a) => i === a.indexOf(el));
+        let ids = props.query_variables.ids; //.concat(e.target.value.id).filter((el, i, a) => i === a.indexOf(el));
         updateMutation({
             variables: e.target.value,
             update: (proxy, { data }) => {
-                const vars = ids.length !== 0 ? ids : {};
-                const items = proxy.readQuery({ query: props.query_where, variables: vars });
+                //const vars = {ids: ids};
                 const key = Object.keys(data)[0];
                 const newItem = data[key];
-                const key2 = Object.keys(items)[0];
-                items[key2].unshift(newItem);
-                proxy.writeQuery({ query: props.query_where, variables: vars, data: items });
+                //const items = proxy.readQuery({ query: props.query_where, variables: vars });
+                //const key2 = Object.keys(items)[0];
+                //items[key2].unshift(newItem);
+                //proxy.writeQuery({ query: props.query_where, variables: vars, data: items });
+                ids = ids.concat(newItem.id);
+                //if (props.onChange !== undefined) props.onChange({ target: { id: props.name, value: ids } });
             },
+            refetchQueries: props.withUrl ? [{ query: props.query_where, variables: props.query_variables}] :[]
         }).then(res => {
             if (props.onChange !== undefined) props.onChange({ target: { id: props.name, value: ids } });
         });
@@ -223,6 +227,9 @@ export default function CreateMany(props) {
     }, [props.withUrl, pathname, props.name]);
 
 
+    const { error, data, loading } = useQuery(props.query_where, { variables: props.query_variables });
+    const [deleteMutation] = useMutation(props.query_delete);
+    const [updateMutation] = useMutation(props.query_update);
     if (loading) return null;
     if (error) { console.log(error); return null; }
     let items = data ? data[Object.keys(data)[0]] : [];
