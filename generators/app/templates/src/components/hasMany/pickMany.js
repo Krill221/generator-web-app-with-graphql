@@ -1,4 +1,6 @@
 /*
+    import PickMany from '../../components/hasMany/pickMany';
+
     Example:
 
                 <PickMany
