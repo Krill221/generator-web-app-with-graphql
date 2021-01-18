@@ -31,28 +31,17 @@ module.exports = class extends Generator {
 
   }
 
-  async prompting() {
-  }
-
   writing() {
 
-    var text = this.fs.read(this.destinationPath(`src/queries/${this.answers.small_models}.js`));
-    var form = this.fs.read(this.destinationPath(`src/pages/${this.answers.small_models}/_form.js`));
+    var queriesFile = this.fs.read(this.destinationPath(`src/queries/${this.answers.small_models}.js`));
+    var queriesText = `\\[\'${this.answers.small_populations}'\, \'\\[ID\\]\'\\], `;
+    queriesFile = queriesFile.toString().replace(new RegExp(queriesText, 'g'), '');
+    this.fs.write(this.destinationPath(`src/queries/${this.answers.small_models}.js`), queriesFile);
 
-    var regEx1 = new RegExp(`${this.answers.small_populations}: \\$${this.answers.small_populations}, `, 'g');
-    var regEx2 = new RegExp(`\\$${this.answers.small_populations}: \\[ID\\], `, 'g');
-    var regEx3 = new RegExp(`\t\t${this.answers.small_populations}\n`, 'g');
-    text = text.toString().replace(regEx1, '');
-    text = text.toString().replace(regEx2, '');
-    text = text.toString().replace(regEx3, '');
-
-    var regEx21 = new RegExp(`${this.answers.small_populations}: \\[\\], `, 'g');
-    var regEx22 =  new RegExp(`${this.answers.small_populations}: item.${this.answers.small_populations}, `, 'g');
-    form = form.toString().replace(regEx21, '');
-    form = form.toString().replace(regEx22, '');
-
-    this.fs.write(this.destinationPath(`src/queries/${this.answers.small_models}.js`), text);
-    this.fs.write(this.destinationPath(`src/pages/${this.answers.small_models}/_form.js`), form);
+    var formFile = this.fs.read(this.destinationPath(`src/pages/${this.answers.small_models}/_form.js`));
+    var formText = `${this.answers.small_populations}: \\[\\], `;
+    formFile = formFile.toString().replace(new RegExp(formText, 'g'), '');
+    this.fs.write(this.destinationPath(`src/pages/${this.answers.small_models}/_form.js`), formFile);
 
   }
 
