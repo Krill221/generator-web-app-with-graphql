@@ -19,7 +19,7 @@ export default function ListItems(props) {
                     <ListItem
                         button={editable}
                         onClick={() => {
-                            if (editable) props.handleEditDialogOpen(item.id);
+                            if (editable) props.handleEditDialogOpen(item);
                         }}
                     >
                         {
@@ -31,7 +31,7 @@ export default function ListItems(props) {
                                     color='secondary'
                                     aria-label="delete"
                                     className={`delete-${props.name}`}
-                                    onClick={() => props.handleDeleteDialogOpen(item.id)}
+                                    onClick={() => props.handleDeleteDialogOpen(item)}
                                 >
                                     <DeleteIcon />
                                 </IconButton>

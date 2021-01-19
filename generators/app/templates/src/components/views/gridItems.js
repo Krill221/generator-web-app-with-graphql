@@ -30,7 +30,7 @@ export default function GridItems(props) {
                     className={editable ? classes.pointer : ''}
                 >
                     <div
-                        onClick={() => { if (editable) props.handleEditDialogOpen(item.id) }}
+                        onClick={() => { if (editable) props.handleEditDialogOpen(item) }}
                     >
                         {
                             props.elementContent && props.elementContent(item, index)
@@ -45,7 +45,7 @@ export default function GridItems(props) {
                                 color="secondary"
                                 size="small"
                                 className={`delete-${props.name}`}
-                                onClick={() => props.handleDeleteDialogOpen(item.id)}
+                                onClick={() => props.handleDeleteDialogOpen(item)}
                             >
                                 {props.deleteButtonName}
                             </Button>

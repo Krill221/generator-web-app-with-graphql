@@ -35,7 +35,7 @@ export default function TableItems(props) {
                                     color="primary"
                                     size="small"
                                     className={`edit-${props.name}`}
-                                    onClick={() => props.handleEditDialogOpen(item.id)}
+                                    onClick={() => props.handleEditDialogOpen(item)}
                                 >
                                     {props.editButtonName}
                                 </Button>
@@ -48,7 +48,7 @@ export default function TableItems(props) {
                                     color="secondary"
                                     size="small"
                                     className={`delete-${props.name}`}
-                                    onClick={() => props.handleDeleteDialogOpen(item.id)}
+                                    onClick={() => props.handleDeleteDialogOpen(item)}
                                 >
                                     {props.deleteButtonName}
                                 </Button>

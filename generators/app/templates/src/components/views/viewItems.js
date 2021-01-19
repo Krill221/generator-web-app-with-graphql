@@ -17,7 +17,7 @@ import TableItems from './tableItems'
 import SuperTableItems from './superTableItems'
 
 
-export default function QueryItems(props) {
+export default function ViewItems(props) {
 
     if (props.viewType === 'grid') {
         return <GridItems
@@ -67,6 +67,10 @@ export default function QueryItems(props) {
             name={props.name}
             headers={props.headers}
             items={props.items}
+            editButton={props.editButton}
+            deleteButton={props.deleteButton}
+            editButtonName={props.editButtonName}
+            deleteButtonName={props.deleteButtonName}
             elementContent={props.elementContent}
             handleEditDialogOpen={props.handleEditDialogOpen}
             handleDeleteDialogOpen={props.handleDeleteDialogOpen}

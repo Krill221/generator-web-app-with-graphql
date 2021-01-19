@@ -81,17 +81,19 @@ import CreateMany from '../../components/hasMany/createMany';
 
 import React from 'react';
 import { useTheme } from '@material-ui/core/styles';
-import { useQuery, useMutation } from '@apollo/react-hooks';
+import { useMutation } from '@apollo/react-hooks';
 import {
     Grid,
     Button, Fab,
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import AddIcon from '@material-ui/icons/Add';
-import QueryItems from '../views/queryItems';
+import ViewItems from '../views/viewItems';
 import { useHistory } from "react-router-dom";
 import DialogFullScreen from '../views/dialogFullScreen';
 import DialogPromt from '../views/dialogPromt';
+import QueryItems from './queryItems';
+
 
 
 const useStyles = makeStyles((theme) => ({
@@ -117,24 +119,23 @@ export default function CreateMany(props) {
     const [deleteDialog, setDeleteDialog] = React.useState(false);
     const [openEdit, setOpenEdit] = React.useState(false);
     const [openCreate, setOpenCreate] = React.useState(false);
-    const [currentId, setCurrentId] = React.useState('new');
+    const [currentItem, setCurrentItem] = React.useState({ id: 'new' });
 
 
     const handleAddButton = () => {
         if (props.actionType === 'create') {
-            setCurrentId('new');
+            setCurrentItem({ id: 'new' });
             handleCreateDialogOpen();
         } else {
             handleCreate({ target: { value: { id: 'new' } } })
         }
     }
-
-    const handleEditDialogOpen = (id) => {
+    const handleEditDialogOpen = (item) => {
         if (props.withUrl !== true) {
-            setCurrentId(id);
+            setCurrentItem(item);
             setOpenEdit(true);
         } else {
-            history.push(`/${props.name}/${id}`);
+            history.push(`/${props.name}/${item.id}`);
         }
     };
     const handleEditDialogClose = () => {
@@ -142,7 +143,7 @@ export default function CreateMany(props) {
         setOpenEdit(false);
     };
     const handleDeleteDialogOpen = (id) => {
-        setCurrentId(id); setDeleteDialog(true);
+        setCurrentItem(id); setDeleteDialog(true);
     };
     const handleDeleteDialogClose = () => {
         setDeleteDialog(false);
@@ -150,10 +151,9 @@ export default function CreateMany(props) {
     const handleCreateDialogOpen = () => { setOpenCreate(true); };
     const handleCreateDialogClose = () => { setOpenCreate(false); };
     const handleDelete = () => {
-        const ids = props.query_variables.ids.filter(i => i !== currentId);
-        console.log(ids);
+        const ids = props.query_variables.ids.filter(i => i !== currentItem.id);
         deleteMutation({
-            variables: { id: currentId },
+            variables: { id: currentItem.id },
             update: (proxy) => {
                 /*try {
                     const vars = ids.length !== 0 ? ids : {};
@@ -207,14 +207,13 @@ export default function CreateMany(props) {
         handleEditDialogClose();
         handleCreateDialogClose();
     }
-
     React.useEffect(() => {
         if (props.withUrl) {
             const locationArr = pathname.split('/');
             if (locationArr[1] === props.name) {
                 const id = locationArr[locationArr.length - 1];
                 if (id !== props.name) {
-                    setCurrentId(id);
+                    setCurrentItem({ id: id });
                     setOpenEdit(true);
                 } else {
                     setOpenEdit(false);
@@ -222,164 +221,119 @@ export default function CreateMany(props) {
                 }
             }
         }
-    }, [props.withUrl, pathname, props.name]);
+    }, [props.withUrl, pathname, props.name, setCurrentItem]);
 
-
-    const { error, data, loading } = useQuery(props.query_where, { variables: props.query_variables });
     const [deleteMutation] = useMutation(props.query_delete);
     const [updateMutation] = useMutation(props.query_update);
-    if (loading) return null;
-    if (error) { console.log(error); return null; }
-    let items = data ? data[Object.keys(data)[0]] : [];
-    if (props.hidden !== undefined) items = items.filter(props.hidden);
 
 
-    let currentItem = { id: 'new' };
-    if (currentId !== 'new') {
-        currentItem = items.find(item => item.id === currentId);
-        if (currentItem === undefined) {
-            currentItem = { id: 'new' };
+
+    return <Grid container spacing={2} justify="center" alignItems="center">
+        {props.addButtonType === 'fab' && <Fab
+            color="secondary"
+            variant='extended'
+            aria-label="add"
+            className={classes.fab}
+            onClick={handleAddButton}
+        ><AddIcon />{props.addButtonName !== undefined && props.addButtonName}</Fab>
         }
-    }
-
-    const headers = props.headers.concat([
-        {
-            name: "id",
-            label: ' ',
-            options: {
-                empty: true,
-                sort: false,
-                viewColumns: false,
-                filter: false,
-                customBodyRender: id => {
-                    const editable = ((props.editButton('', '') === 'each') || (props.editButton('', '') === true));
-                    return editable && <Button
-                        color="primary"
-                        size="small"
-                        className={`edit-${props.name}`}
-                        onClick={() => handleEditDialogOpen(id)}
-                    >
-                        {props.editButtonName}
-                    </Button>
-                }
-            }
-        },
-        {
-            name: "id",
-            label: ' ',
-            options: {
-                empty: true,
-                sort: false,
-                filter: false,
-                viewColumns: false,
-                customBodyRender: id => {
-                    const deletable = ((props.deleteButton('', '') === 'each') || (props.deleteButton('', '') === true));
-                    return deletable && <Button
-                        aria-label="delete"
-                        color="secondary"
-                        size="small"
-                        className={`delete-${props.name}`}
-                        onClick={() => { setCurrentId(id); setDeleteDialog(true) }} >
-                        {props.deleteButtonName}
-                    </Button>
-                }
-            }
+        {props.addButtonType === 'button' && <Grid item xs={12} sm={12} md={12} >
+            <Button
+                color="default"
+                className={`add-${props.name}`}
+                fullWidth
+                variant="outlined"
+                onClick={handleAddButton}
+            >
+                {props.addButtonName !== undefined ? props.addButtonName : 'add'}
+            </Button>
+        </Grid>
         }
-    ]);
 
-    return (
-        <React.Fragment>
-            <Grid container spacing={2} justify="center" alignItems="center">
-                {props.addButtonType === 'inline' &&
-                    <Grid item xs={12} sm={12} md={12} >
-                        {
-                            props.CreateForm({ addButtonName: props.addButtonName, item: currentItem, afterSubmit: handleCreate })
-                        }
-                    </Grid>
-                }
-                {props.addButtonType === 'fab' && <Fab
-                    color="secondary"
-                    variant='extended'
-                    aria-label="add"
-                    className={classes.fab}
-                    onClick={handleAddButton}
-                ><AddIcon />{props.addButtonName !== undefined && props.addButtonName}</Fab>
-                }
-                {props.addButtonType === 'button' && <Grid item xs={12} sm={12} md={12} >
-                    <Button
-                        color="default"
-                        className={`add-${props.name}`}
-                        fullWidth
-                        variant="outlined"
-                        onClick={handleAddButton}
-                    >
-                        {props.addButtonName !== undefined ? props.addButtonName : 'add'}
-                    </Button>
-                </Grid>
-                }
-
-                <Grid item xs={12} sm={12} md={12} >
-                    <QueryItems
-                            name={props.name}
-                            viewType={props.viewType}
-                            items={items}
-                            headers={headers}
-                            superTableOptions={props.superTableOptions}
-                            editButton={props.editButton}
-                            deleteButton={props.deleteButton}
-                            elementContent={props.elementContent}
-                            cardActions={props.cardActions}
-                            cardCollapse={props.cardCollapse}
-                            editButtonName={props.editButtonName}
-                            deleteButtonName={props.deleteButtonName}
-                            handleEditDialogOpen={handleEditDialogOpen}
-                            handleDeleteDialogOpen={handleDeleteDialogOpen}
-                    />
-                </Grid>
-            </Grid>
-
-
-
+        <QueryItems {...props} >
             {
-                (props.actionType === 'create') &&
-                <React.Fragment>
-                    <DialogFullScreen
-                        isNew={false}
-                        open={openEdit}
-                        onClose={handleEditDialogClose}
-                        dialogName={props.dialogName}
-                        content={
-                            props.EditForm({
-                                item: currentItem,
-                                afterSubmit: handleUpdate
-                            })
+                props => {
+
+                    let items = props.items;
+                    let item = currentItem;
+                    if (item !== 'new') {
+                        item = items.find(item => item.id === currentItem.id)
+                        if (!item) {
+                            item = { id: 'new' };
                         }
-                    />
-                    <DialogFullScreen
-                        isNew={true}
-                        open={openCreate}
-                        onClose={handleCreateDialogClose}
-                        dialogName={props.dialogName}
-                        content={
-                            props.CreateForm({
-                                addButtonName: props.addButtonName,
-                                item: currentItem,
-                                afterSubmit: handleCreate
-                            })}
-                    />
-                </React.Fragment>
+                    }
+
+                    return <React.Fragment>
+
+                        {props.addButtonType === 'inline' ?
+                            <Grid item xs={12} sm={12} md={12} >
+                                {
+                                    props.CreateForm({
+                                        addButtonName: props.addButtonName,
+                                        item: item,
+                                        afterSubmit: handleCreate
+                                    })
+                                }
+                            </Grid>
+                            :
+                            <DialogFullScreen
+                                isNew={true}
+                                open={openCreate}
+                                onClose={handleCreateDialogClose}
+                                dialogName={props.dialogName}
+                                content={
+                                    props.CreateForm({
+                                        addButtonName: props.addButtonName,
+                                        item: item,
+                                        afterSubmit: handleCreate
+                                    })}
+                            />
+
+                        }
+
+                        <DialogFullScreen
+                            isNew={false}
+                            open={openEdit}
+                            onClose={handleEditDialogClose}
+                            dialogName={props.dialogName}
+                            content={
+                                props.EditForm({
+                                    item: item,
+                                    afterSubmit: handleUpdate
+                                })
+                            }
+                        />
+
+                        <Grid item xs={12} sm={12} md={12} >
+                            <ViewItems
+                                name={props.name}
+                                viewType={props.viewType}
+                                items={items}
+                                headers={props.headers}
+                                superTableOptions={props.superTableOptions}
+                                editButton={props.editButton}
+                                deleteButton={props.deleteButton}
+                                elementContent={props.elementContent}
+                                cardActions={props.cardActions}
+                                cardCollapse={props.cardCollapse}
+                                editButtonName={props.editButtonName}
+                                deleteButtonName={props.deleteButtonName}
+                                handleEditDialogOpen={handleEditDialogOpen}
+                                handleDeleteDialogOpen={handleDeleteDialogOpen}
+                            />
+                        </Grid>
+                    </React.Fragment>
+                }
             }
-
-            <DialogPromt
-                open={deleteDialog}
-                onClose={handleDeleteDialogClose}
-                dialogName={`${theme.props.components.Delete}?`}
-                onYes={handleDelete}
-                yes={theme.props.components.Yes}
-                no={theme.props.components.No}
-            />
-
-        </React.Fragment>
-    );
+        </QueryItems>
+        <DialogPromt
+            open={deleteDialog}
+            onClose={handleDeleteDialogClose}
+            dialogName={`${theme.props.components.Delete}?`}
+            onYes={handleDelete}
+            yes={theme.props.components.Yes}
+            no={theme.props.components.No}
+        />
+    </Grid>
 
 }

@@ -1,6 +1,4 @@
 /*
-    import PickMany from '../../components/hasMany/pickMany';
-
     Example:
 
                 <PickMany
@@ -62,10 +60,6 @@
                     editButtonName={theme.props.components.Choose}
                     deleteButtonName={theme.props.components.Delete}
                     deleteButton={(item, i) => 'each'} // can be 'each', 'last', 'none'
-                    pick_card_title='name'
-                    pick_card_subheader='name'
-                    pick_card_img='img'
-                    dialogName=''
                 />
 
  */
@@ -77,8 +71,8 @@ import {
 } from '@material-ui/core';
 import AddIcon from '@material-ui/icons/Add';
 import DialogFullScreen from '../views/dialogFullScreen';
-import PickOne from './pickOne';
-import QueryItems from '../views/queryItems';
+import QueryItems2 from './queryItems2';
+import QueryItems from '../views/viewItems';
 
 const useStyles = makeStyles((theme) => ({
     fab: {
@@ -101,8 +95,8 @@ export default function PickMany(props) {
     const handlePickDialogOpen = () => { setOpenPick(true); };
     const handlePickDialogClose = () => { setOpenPick(false); };
 
-    const handleDelete = (id) => {
-        const value = props.value.filter(i => i !== id);
+    const handleDelete = (item) => {
+        const value = props.value.filter(i => i !== item.id);
         if (props.onChange !== undefined) props.onChange({ target: { id: props.name, value: value } });
 
     }
@@ -170,7 +164,7 @@ export default function PickMany(props) {
                 onClose={handlePickDialogClose}
                 dialogName={props.dialogName}
                 content={
-                    <PickOne
+                    <QueryItems2
                         viewType={props.viewType}
                         query_where={props.query_from}
                         query_variables={props.query_from_variables}
@@ -187,10 +181,6 @@ export default function PickMany(props) {
                         hidden={i => !props.value.includes(i.id)}
                         onChange={handlePick}
                         elementContent={props.elementContent}
-                        title={props.pick_card_title}
-                        subheader={props.pick_card_subheader}
-                        img={props.pick_card_img}
-                        button_name={props.pick_card_button_name}
                     />
                 }
             />
