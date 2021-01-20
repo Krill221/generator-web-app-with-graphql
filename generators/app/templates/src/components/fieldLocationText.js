@@ -76,7 +76,7 @@ const FieldLocationText = React.forwardRef((props, ref) => {
 
     if (typeof window !== 'undefined') {
         if (!document.querySelector('#google-maps')) {
-            console.log('#google-maps');
+            //console.log('#google-maps');
             loadScript(
                 `https://maps.googleapis.com/maps/api/js?key=${process.env.REACT_APP_GOOGLE_API_KEY}&libraries=places&language=ru`,
                 document.querySelector('head'),

@@ -29,24 +29,17 @@ module.exports = class extends Generator {
 
   writing() {
 
-    var query = this.fs.read(this.destinationPath(`src/queries/${this.answers.small_models}.js`));
-    var regExQuerys = new RegExp(`${this.answers.small_models} {`, 'g');
-    var regExQueryWhere =  new RegExp(`${this.answers.small_models}_where \\(ids: \\$ids\\) {`, 'g');
-    var regExQuery =  new RegExp(`${this.answers.small_model} \\(id: \\$id\\) {`, 'g');
-    var regExUpdate = new RegExp(`mutation update${this.answers.model}\\(\\$`, 'g');
-    var regExUpdate2 = new RegExp(`update${this.answers.model}\\( `, 'g');
-    query = query.toString().replace(regExQuerys, `${this.answers.small_models} {\n\t\t${this.answers.fields.map(f => `${f[0]} {\n\t\t\ttype\n\t\t\tcoordinates\n\t\t}`).join('\n\t\t')}` );
-    query = query.toString().replace(regExQueryWhere, `${this.answers.small_models}_where (ids: $ids) {\n\t\t${this.answers.fields.map(f => `${f[0]} {\n\t\t\ttype\n\t\t\tcoordinates\n\t\t}`).join('\n\t\t')}` );
-    query = query.toString().replace(regExQuery, `${this.answers.small_model} (id: $id) {\n\t\t${this.answers.fields.map(f => `${f[0]} {\n\t\t\ttype\n\t\t\tcoordinates\n\t\t}`).join('\n\t\t')}` );
-    query = query.toString().replace(regExUpdate, `mutation update${this.answers.model}(${this.answers.fields.map(f => '$'+f[0]+'_lat: String, $'+f[0]+'_lng: String').join(', ')}, $` );
-    query = query.toString().replace(regExUpdate2, `update${this.answers.model}( ${this.answers.fields.map(f => f[0]+'_lat: $'+f[0]+'_lat, ' + f[0]+'_lng: $'+f[0]+'_lng').join(', ')}, ` );
-    this.fs.write(this.destinationPath(`src/queries/${this.answers.small_models}.js`), query);
+    var queryFile = this.fs.read(this.destinationPath(`src/queries/${this.answers.small_models}.js`));
+    var fieldsQuery = `const FIELDS = \\[`;
+    var fieldsQueryNew = `const FIELDS = [${this.answers.fields.map(f => `[\'${f[0]} {type coordinates}\', \'Location\']` ).join(', ')}, `;
+    queryFile = queryFile.toString().replace(new RegExp(fieldsQuery, 'g'), fieldsQueryNew);
+    this.fs.write(this.destinationPath(`src/queries/${this.answers.small_models}.js`), queryFile);
+
 
     var form = this.fs.read(this.destinationPath(`src/pages/${this.answers.small_models}/_form.js`));
-    var regEx1 = new RegExp(`let item = data \\? data\\[model\\] : { `, 'g');
-    var regEx2 =  new RegExp(`initialValues={{ `, 'g');
-    form = form.toString().replace(regEx1, `let item = data ? data[model] : { ${this.answers.fields.map(f => `${f[0]}: { coordinates: [0, 0] }` ).join(', ')}, ` );
-    form = form.toString().replace(regEx2, `initialValues={{ ${this.answers.fields.map(f => `${f[0]}: item.${f[0]}`).join(', ')}, ` );
+    var regEx = `item : { `;
+    var regExNew = `item : { ${this.answers.fields.map(f => `${f[0]}: { coordinates: [0, 0] }`).join(', ')}, `;
+    form = form.toString().replace(new RegExp(regEx, 'g'), regExNew);
     this.fs.write(this.destinationPath(`src/pages/${this.answers.small_models}/_form.js`), form);
 
   }

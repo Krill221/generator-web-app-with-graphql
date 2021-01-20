@@ -3,6 +3,7 @@ import gql from 'graphql-tag';
 const MODEL = '<%=model%>';
 
 const FIELDS = [<%fields.forEach(function(f) { %>['<%=f[0]%>', '<%=f[1]%>'], <% }) %>];
+const FIELDS_MUTATION = FIELDS.map(f => [f[0].replace(' {type coordinates}', ''), f[1]]);
 
 // Standard queries
 const FRAGMENT_FIELDS = gql`
@@ -22,8 +23,8 @@ query($ids: [ID]) {
 ${FRAGMENT_FIELDS}
 `;
 export const UPDATE = gql`
-mutation update${MODEL}($id: ID, ${FIELDS.map( f => `$${f[0]}: ${f[1]}`).join(', ')}) {
-    update${MODEL}(input:{id: $id, ${FIELDS.map( f => `${f[0]}: $${f[0]}`).join(', ')}}){ ...<%=small_model%>Fields }
+mutation update${MODEL}($id: ID, ${FIELDS_MUTATION.map( f => `$${f[0]}: ${f[1]}`).join(', ')}) {
+    update${MODEL}(input:{id: $id, ${FIELDS_MUTATION.map( f => `${f[0]}: $${f[0]}`).join(', ')}}){ ...<%=small_model%>Fields }
 }
 ${FRAGMENT_FIELDS}
 `;

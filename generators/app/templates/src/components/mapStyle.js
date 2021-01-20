@@ -1,4 +1,4 @@
-export default [
+const mapStype = [
     {
         "featureType": "administrative",
         "elementType": "all",
@@ -155,4 +155,6 @@ export default [
             }
         ]
     }
-]
+];
+
+export default mapStype;

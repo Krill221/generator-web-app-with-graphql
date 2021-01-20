@@ -24,32 +24,17 @@ module.exports = class extends Generator {
 
   }
 
-  async prompting() {
-  }
-
   writing() {
 
-    var queries = this.fs.read(this.destinationPath(`src/queries/${this.answers.small_models}.js`));
+    var queryFile = this.fs.read(this.destinationPath(`src/queries/${this.answers.small_models}.js`));
+    var fieldsQuery = `${this.answers.fields.map(f => `\\[\'${f[0]} {type coordinates}\', \'Location\'\\]` ).join(', ')}, `;
+    queryFile = queryFile.toString().replace(new RegExp(fieldsQuery, 'g'), '');
+    this.fs.write(this.destinationPath(`src/queries/${this.answers.small_models}.js`), queryFile);
+
+
     var form = this.fs.read(this.destinationPath(`src/pages/${this.answers.small_models}/_form.js`));
-
-    this.answers.fields.forEach(f => {
-      var regEx1 = new RegExp(`\t\t${f[0]} {\n\t\t\ttype\n\t\t\tcoordinates\n\t\t}\n`, 'g');
-      var regEx21 = new RegExp(`\\$${f[0]}_lat: String, `, 'g');
-      var regEx22 = new RegExp(`\\$${f[0]}_lng: String, `, 'g');
-      var regEx31 = new RegExp(`${f[0]}_lat: \\$${f[0]}_lat, `, 'g');
-      var regEx32 = new RegExp(`${f[0]}_lng: \\$${f[0]}_lng, `, 'g');
-      queries = queries.toString().replace(regEx1, '');
-      queries = queries.toString().replace(regEx21, '');
-      queries = queries.toString().replace(regEx22, '');
-      queries = queries.toString().replace(regEx31, '');
-      queries = queries.toString().replace(regEx32, '');
-
-      var regExFrom1 = new RegExp(`${f[0]}: \\{ coordinates: \\[0, 0\\] \\}, `, 'g');
-      var regExFrom2 =  new RegExp(`${f[0]}: item.${f[0]}, `, 'g');
-      form = form.toString().replace(regExFrom1, '');
-      form = form.toString().replace(regExFrom2, '');
-    });
-    this.fs.write(this.destinationPath(`src/queries/${this.answers.small_models}.js`), queries);
+    var regEx = `${this.answers.fields.map(f => `${f[0]}: { coordinates: \\[0, 0\\] }`).join(', ')}, `;
+    form = form.toString().replace(new RegExp(regEx, 'g'), '');
     this.fs.write(this.destinationPath(`src/pages/${this.answers.small_models}/_form.js`), form);
 
   }
