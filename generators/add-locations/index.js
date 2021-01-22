@@ -39,7 +39,12 @@ module.exports = class extends Generator {
     var form = this.fs.read(this.destinationPath(`src/pages/${this.answers.small_models}/_form.js`));
     var regEx = `item : { `;
     var regExNew = `item : { ${this.answers.fields.map(f => `${f[0]}: { coordinates: [0, 0] }`).join(', ')}, `;
+
+    var regEx2 = `// items gen`;
+    var regExNew2 = `// items gen\n${this.answers.fields.map(f => `\tdelete item.${f[0]}.__typename;`).join('\n')}`;
+
     form = form.toString().replace(new RegExp(regEx, 'g'), regExNew);
+    form = form.toString().replace(new RegExp(regEx2, 'g'), regExNew2);
     this.fs.write(this.destinationPath(`src/pages/${this.answers.small_models}/_form.js`), form);
 
   }

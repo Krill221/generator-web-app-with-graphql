@@ -24,23 +24,25 @@ module.exports = class extends Generator {
 
   }
 
-  async prompting() {
-  }
-
   writing() {
 
-    var text = this.fs.read(this.destinationPath(`src/queries/${this.answers.small_models}.js`));
-    var regExQuerys = new RegExp(`${this.answers.small_models} {`, 'g');
-    var regExQueryWhere =  new RegExp(`${this.answers.small_models}_where \\(ids: \\$ids\\) {`, 'g');
-    var regExQuery =  new RegExp(`${this.answers.small_model} \\(id: \\$id\\) {`, 'g');
-    var regExUpdate = new RegExp(`mutation update${this.answers.model}\\(\\$`, 'g');
-    var regExUpdate2 = new RegExp(`update${this.answers.model}\\( `, 'g');
-    text = text.toString().replace(regExQuerys, `${this.answers.small_models} {\n\t\t${this.answers.fields.map(f => `${f[0]} {\n\t\t\towner\n\t\t\tvalue\n\t\t}`).join('\n\t\t')}` );
-    text = text.toString().replace(regExQueryWhere, `${this.answers.small_models}_where (ids: $ids) {\n\t\t${this.answers.fields.map(f => `${f[0]} {\n\t\t\towner\n\t\t\tvalue\n\t\t}`).join('\n\t\t')}` );
-    text = text.toString().replace(regExQuery, `${this.answers.small_model} (id: $id) {\n\t\t${this.answers.fields.map(f => `${f[0]} {\n\t\t\towner\n\t\t\tvalue\n\t\t}`).join('\n\t\t')}` );
-    text = text.toString().replace(regExUpdate, `mutation update${this.answers.model}(${this.answers.fields.map(f => '$'+f[0]+': Float').join(', ')}, $` );
-    text = text.toString().replace(regExUpdate2, `update${this.answers.model}( ${this.answers.fields.map(f => f[0]+': $'+f[0]).join(', ')}, ` );
-    this.fs.write(this.destinationPath(`src/queries/${this.answers.small_models}.js`), text);
+    var queryFile = this.fs.read(this.destinationPath(`src/queries/${this.answers.small_models}.js`));
+    var fieldsQuery = `const FIELDS = \\[`;
+    var fieldsQueryNew = `const FIELDS = [${this.answers.fields.map(f => `[\'${f[0]} {owner value}\', \'[Estimate]\']` ).join(', ')}, `;
+    queryFile = queryFile.toString().replace(new RegExp(fieldsQuery, 'g'), fieldsQueryNew);
+    this.fs.write(this.destinationPath(`src/queries/${this.answers.small_models}.js`), queryFile);
+
+    var form = this.fs.read(this.destinationPath(`src/pages/${this.answers.small_models}/_form.js`));
+    var regEx = `item : { `;
+    var regExNew = `item : { ${this.answers.fields.map(f => `${f[0]}: { owner: '', value: 0 }`).join(', ')}, `;
+
+    var regEx2 = `// items gen`;
+    var regExNew2 = `// items gen\n${this.answers.fields.map(f => `\titem.${f[0]}.forEach(f => delete f.__typename);`).join('\n')}`;
+
+    form = form.toString().replace(new RegExp(regEx, 'g'), regExNew);
+    form = form.toString().replace(new RegExp(regEx2, 'g'), regExNew2);
+    this.fs.write(this.destinationPath(`src/pages/${this.answers.small_models}/_form.js`), form);
+
 
   }
 

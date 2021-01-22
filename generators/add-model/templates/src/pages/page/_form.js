@@ -16,6 +16,8 @@ export default function Form({item, afterSubmit, children}) {
 
     item = item.id !== 'new' ? item : { id: 'new', <% fields.forEach(function(field){ %><%= field[0] %>: <%if(field[1] === 'String'){%>''<%}%><%if(field[1] === 'ID'){%>''<%}%><%if(field[1] === 'Boolean'){%>false<%}%>, <% }) %> }
     
+    // items gen
+
     return <Formik
         initialValues={item}
         enableReinitialize={true}

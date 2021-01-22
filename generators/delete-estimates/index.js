@@ -24,22 +24,19 @@ module.exports = class extends Generator {
 
   }
 
-  async prompting() {
-  }
-
   writing() {
 
-    var text = this.fs.read(this.destinationPath(`src/queries/${this.answers.small_models}.js`));
+    var queryFile = this.fs.read(this.destinationPath(`src/queries/${this.answers.small_models}.js`));
+    var fieldsQuery = `${this.answers.fields.map(f => `\\[\'${f[0]} \\{owner value\\}\', \'\\[Estimate\\]\'\\]` ).join(', ')}, `;
+    queryFile = queryFile.toString().replace(new RegExp(fieldsQuery, 'g'), '');
+    this.fs.write(this.destinationPath(`src/queries/${this.answers.small_models}.js`), queryFile);
 
-    this.answers.fields.forEach(f => {
-      var regEx1 = new RegExp(`\t\t${f[0]} {\n\t\t\towner\n\t\t\tvalue\n\t\t}\n`, 'g');
-      var regEx2 = new RegExp(`\\$${f[0]}: Float, `, 'g');
-      var regEx3 = new RegExp(`${f[0]}: \\$${f[0]}, `, 'g');
-      text = text.toString().replace(regEx1, '');
-      text = text.toString().replace(regEx2, '');
-      text = text.toString().replace(regEx3, '');
-    });
-    this.fs.write(this.destinationPath(`src/queries/${this.answers.small_models}.js`), text);
+    var form = this.fs.read(this.destinationPath(`src/pages/${this.answers.small_models}/_form.js`));
+    var regEx = `${this.answers.fields.map(f => `${f[0]}: \\{ owner: \'\', value: 0 \\}`).join(', ')}, `;
+    var regEx2 = `${this.answers.fields.map(f => `\titem.${f[0]}.forEach\\(f => delete f.__typename\\);`).join('\n')}\n`;
+    form = form.toString().replace(new RegExp(regEx, 'g'), '');
+    form = form.toString().replace(new RegExp(regEx2, 'g'), '');
+    this.fs.write(this.destinationPath(`src/pages/${this.answers.small_models}/_form.js`), form);
 
   }
 

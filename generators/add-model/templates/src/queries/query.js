@@ -3,7 +3,10 @@ import gql from 'graphql-tag';
 const MODEL = '<%=model%>';
 
 const FIELDS = [<%fields.forEach(function(f) { %>['<%=f[0]%>', '<%=f[1]%>'], <% }) %>];
-const FIELDS_MUTATION = FIELDS.map(f => [f[0].replace(' {type coordinates}', ''), f[1]]);
+const FIELDS_MUTATION = FIELDS.map(f => [
+    f[0].replace(' {type coordinates}', '').replace(' {owner value}', ''),
+    f[1]
+]);
 
 // Standard queries
 const FRAGMENT_FIELDS = gql`
