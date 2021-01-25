@@ -1,41 +1,41 @@
 /*
     Example:
-    <EstimateCondition
-        name="est"
-        itemId={item.id}
-        value={item.est}
-        onChange={e => { }}
-        queryUpdate={UPDATE_POST}
-        refetchQueries={[{ query: GET_POSTS }]}
-        states={[
-            { name: 'confirm', value: 1 },
-            { name: 'retry', value: 2 },
-        ]}
-    />
+    
+                <EstimateCondition
+                name={'like'}
+                itemId={props.values.id}
+                value={props.values.like}
+                onChange={e => { props.handleChange(e); props.submitForm(); }}
+                states={[
+                    { name: 'confirm', value: 1 },
+                    { name: 'retry', value: 2 },
+                ]}
+            />
  */
 import React, { useContext } from 'react';
-import { useMutation } from '@apollo/react-hooks';
 import { AuthContext } from '../auth';
 import ToggleButton from '@material-ui/lab/ToggleButton';
 import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup';
 import { AuthArea } from './authArea';
 
-export default function EstimateStar(props) {
+export default function EstimateCondition(props) {
 
-    const [updateEstime] = useMutation(props.queryUpdate);
     const { user } = useContext(AuthContext);
     const userId = user ? user.id : null;
 
-    const f = props.value.find(i => i.owner === userId);
+    const f = Array.isArray(props.value) ? props.value.find(i => i.owner === userId) : undefined;
     const myEstime = f !== undefined ? f.value : 0;
     const handleChange = (event, newValue) => {
-        let variables = { id: props.itemId };
-        variables[props.name] = newValue;
-        updateEstime({
-            variables: variables,
-            refetchQueries: props.refetchQueries,
-        })
-        props.onChange !== undefined && props.onChange({ target: { id: props.name, value: newValue } });
+        if (newValue !== null) {
+            props.onChange !== undefined && props.onChange({
+                target: {
+                    id: `${props.name}`, value: {
+                        owner: '',
+                        value: newValue
+                    }
+                }
+            });
+        }
     }
 
     return <AuthArea
@@ -54,19 +54,24 @@ export default function EstimateStar(props) {
                 }
             </ToggleButtonGroup>
         }
-        privateArea={<ToggleButtonGroup
-            value={myEstime}
-            exclusive
-            onChange={handleChange}
-            size="small"
-        >
-            {
-                props.states && props.states.map((state, index) =>
-                    <ToggleButton key={index} value={state.value}>
-                        {state.name}
-                    </ToggleButton>
-                )
-            }
-        </ToggleButtonGroup>}
+        privateArea={
+            <React.Fragment>
+                <input name={`${props.name}`} type='hidden' value={props.value} />
+                <ToggleButtonGroup
+                    value={myEstime}
+                    exclusive
+                    onChange={handleChange}
+                    size="small"
+                >
+                    {
+                        props.states && props.states.map((state, index) =>
+                            <ToggleButton key={index} value={state.value}>
+                                {state.name}
+                            </ToggleButton>
+                        )
+                    }
+                </ToggleButtonGroup>
+            </React.Fragment>
+        }
     />;
 }

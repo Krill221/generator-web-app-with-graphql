@@ -1,14 +1,13 @@
 /*
     Example:
-        <EstimateLike name="like"
-            itemId={item.id}
-            value={item.like}
-            onChange={e => {}}
-            queryUpdate={UPDATE_POST}
-            refetchQueries={[{ query: GET_POSTS }]}
-            clickedIcon={<FavoriteIcon />}
-            unclickedIcon={<FavoriteBorderIcon />}
-        />
+            <EstimateLike
+                name={'like'}
+                itemId={props.values.id}
+                value={props.values.like}
+                onChange={e => { props.handleChange(e); props.submitForm(); }}
+                clickedIcon={<FavoriteIcon />}
+                unclickedIcon={<FavoriteBorderIcon />}
+            />
  */
 import React, { useContext } from 'react';
 import { IconButton } from '@material-ui/core';
@@ -22,24 +21,14 @@ export default function EstimateLike(props) {
     const userId = user ? user.id : null;
 
     const handleChange = () => {
-        //let variables = { id: props.itemId };
-        //variables[props.name] = [{ owner: '', value: 1 }];
-        //if (props.itemId !== 'new') {
-            //updateMutation({
-            //    refetchQueries: props.refetchQueries,
-            //    variables: variables,
-            //});
-
-            props.onChange !== undefined && props.onChange({
-                target: {
-                    id: `${props.name}`, value: {
-                        owner: '',
-                        value: 1
-                    }
+        props.onChange !== undefined && props.onChange({
+            target: {
+                id: `${props.name}`, value: {
+                    owner: '',
+                    value: 1
                 }
-            });
-            //props.onChange !== undefined && props.onChange({ target: { id: props.name, value: props.value } });
-        //}
+            }
+        });
     }
     return <AuthArea
         publicArea={
