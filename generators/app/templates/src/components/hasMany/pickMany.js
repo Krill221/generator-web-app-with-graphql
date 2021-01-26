@@ -72,7 +72,7 @@ import {
 import AddIcon from '@material-ui/icons/Add';
 import DialogFullScreen from '../views/dialogFullScreen';
 import QueryItems2 from './queryItems2';
-import QueryItems from '../views/viewItems';
+import ViewItems from '../views/viewItems';
 
 const useStyles = makeStyles((theme) => ({
     fab: {
@@ -113,12 +113,11 @@ export default function PickMany(props) {
     let items = data ? data[Object.keys(data)[0]] : [];
     if (props.hidden !== undefined) items = items.filter(props.hidden);
 
-
     return (
         <React.Fragment>
             <Grid container spacing={2} justify="center" alignItems="center">
                 <Grid item xs={12} sm={12} md={12} >
-                    <QueryItems
+                    <ViewItems
                         name={props.name}
                         viewType={props.viewType}
                         items={items}

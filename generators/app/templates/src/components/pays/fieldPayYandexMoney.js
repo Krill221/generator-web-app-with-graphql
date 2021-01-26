@@ -17,7 +17,6 @@ export default function FieldPayYandexMoney(props) {
     const handleClose = () => { setOpen(false); };
     const [updateMutation] = useMutation(props.query_update, { variables: { id: props.orderId, payStatus: 'processing'}} );
 
-
     return <React.Fragment>
         <Dialog
             open={open}
@@ -53,6 +52,6 @@ export default function FieldPayYandexMoney(props) {
                 </Grid>
             </DialogContent>
         </Dialog>
-        <label onClick={handleClickOpen} style={{ display: 'block' }} htmlFor={`delete-button-${props.name}`}>{props.payButton}</label>
+        <label onClick={handleClickOpen} style={{ display: 'block' }} htmlFor={`delete-button-${props.name}`}>{props.payButtonName}</label>
     </React.Fragment>
 }

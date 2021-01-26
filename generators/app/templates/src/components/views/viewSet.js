@@ -2,7 +2,7 @@
     Example:
 
     <ViewSet
-        viewType='plan' // can be - tabs plan wizard raw or button
+        viewType='plan' // can be - tabs plan wizard raw
         labels={['1','2','3']}
         tabs={['1content','2content','3content']}
     />
@@ -12,12 +12,11 @@
 import React from 'react';
 import {
     Stepper, Step, StepLabel, Button, ButtonGroup,
-    Tabs, Tab, Grid, Container, Fab, Dialog, AppBar, Toolbar, IconButton
+    Tabs, Tab, Grid, Container,
 } from '@material-ui/core';
-import TopAppBarSecond from '../topAppBarSecond';
+import TopAppBarSecond from '../bars/topAppBarSecond';
 import { makeStyles } from '@material-ui/core/styles';
-import TopStick from '../topStick';
-import ArrowBack from '@material-ui/icons/ArrowBack';
+import TopStick from '../bars/topStick';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -43,11 +42,11 @@ export default function ViewSet(props) {
 
     const [activeStep, setActiveStep] = React.useState(0);
 
-    const handleNext = () => { setActiveStep( prevActiveStep => prevActiveStep + 1); };
-    const handleBack = () => { setActiveStep( prevActiveStep => prevActiveStep - 1); };
+    const handleNext = () => { setActiveStep(prevActiveStep => prevActiveStep + 1); };
+    const handleBack = () => { setActiveStep(prevActiveStep => prevActiveStep - 1); };
 
     return <React.Fragment>
-        { 
+        {
             props.viewType === 'wizard' &&
             <TopAppBarSecond>
                 <div className={classes.wizard}>
@@ -96,35 +95,9 @@ export default function ViewSet(props) {
             </TopStick>
         </React.Fragment>
         }
-        {props.viewType !== 'button' && props.tabs.map((step, index) => (activeStep === index) && <div style={{marginTop: '15px'}} key={index}>{step}</div>)}
-
-        {props.viewType === 'button' && <React.Fragment>
-            {
-                (props.labels.length > 1) && (props.tabs.length > 1) && <React.Fragment>
-                    {activeStep === 0 && props.tabs[0]}
-                    <Fab
-                        variant="extended"
-                        color="primary"
-                        aria-label="add"
-                        className={classes.fab}
-                        onClick={() => setActiveStep(1)}
-                    >
-                        {props.labels[1]}
-                    </Fab>
-                    <Dialog fullScreen open={activeStep === 1}>
-                        <AppBar position="static">
-                            <Toolbar>
-                                <IconButton edge="start" aria-label="back" color="inherit" onClick={() => setActiveStep(0)}>
-                                    <ArrowBack />
-                                </IconButton>
-                            </Toolbar>
-                        </AppBar>
-                        {activeStep === 1 && props.tabs[1]}
-                    </Dialog>
-                </React.Fragment>
-            }
-        </React.Fragment>
-        
+        {
+            props.tabs.map((step, index) => (activeStep === index) && <div style={{ marginTop: '15px' }} key={index}>{step}</div>)
         }
+
     </React.Fragment>;
 }

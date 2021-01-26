@@ -3,8 +3,8 @@
 
     <ShowMap
         zoom={17}
-        lat={props.item.lat}
-        lng={props.item.lng}
+        lat={item.location1.coordinates[0]}
+        lng={item.location1.coordinates[1]}
         marker={<div>11</div>}
     />
 
@@ -34,23 +34,23 @@ export default function ShowMap(props) {
     const onUnmount = React.useCallback(function callback() { }, []);
     const center = { lat: parseFloat(props.lat), lng: parseFloat(props.lng) };
     return <LoadScript
-                id={'google-maps'}
-                googleMapsApiKey={process.env.REACT_APP_GOOGLE_API_KEY}
+        id={'google-maps'}
+        googleMapsApiKey={process.env.REACT_APP_GOOGLE_API_KEY}
+    >
+        <GoogleMap
+            mapContainerStyle={containerStyle}
+            options={options}
+            center={center}
+            zoom={props.zoom}
+            onLoad={onLoad}
+            onUnmount={onUnmount}
+        >
+            <OverlayView
+                position={center}
+                mapPaneName={OverlayView.OVERLAY_MOUSE_TARGET}
             >
-                <GoogleMap
-                    mapContainerStyle={containerStyle}
-                    options={options}
-                    center={center}
-                    zoom={props.zoom}
-                    onLoad={onLoad}
-                    onUnmount={onUnmount}
-                >
-                    <OverlayView
-                        position={center}
-                        mapPaneName={OverlayView.OVERLAY_MOUSE_TARGET}
-                    >
-                        {props.marker}
-                    </OverlayView>
-                </GoogleMap>
-            </LoadScript>;
+                {props.marker}
+            </OverlayView>
+        </GoogleMap>
+    </LoadScript>;
 }

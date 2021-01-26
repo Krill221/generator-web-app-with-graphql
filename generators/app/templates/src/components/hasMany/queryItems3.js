@@ -105,7 +105,7 @@ export default function QueryItems3(props) {
                 mapContainerStyle={containerStyle}
                 options={options}
                 center={center}
-                zoom={12}
+                zoom={8}
                 onLoad={(map) => onLoad(items)}
                 onUnmount={onUnmount}
             >

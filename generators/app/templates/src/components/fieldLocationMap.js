@@ -38,17 +38,16 @@ export default function FieldLocationMap(props) {
         { lat: parseFloat(props.value.coordinates[0]), lng: parseFloat(props.value.coordinates[1]) } : center);
     const onMapClick = React.useCallback((e) => {
         props.onChange !== undefined && props.onChange({
-            target: { id: `${props.name}_lat`, value: e.latLng.lat().toString() }
-        });
-        props.onChange !== undefined && props.onChange({
-            target: { id: `${props.name}_lng`, value: e.latLng.lng().toString() }
+            target: { id: `${props.name}`, value: {
+                coordinates: [e.latLng.lat(),e.latLng.lng()],
+                type: 'Point'
+            } }
         });
         setMarker({ lat: e.latLng.lat(), lng: e.latLng.lng() });
     }, [props]);
 
     return (<React.Fragment>
-        <input name={`${props.name}_lat`} type='hidden' value={props.value_lat} />
-        <input name={`${props.name}_lng`} type='hidden' value={props.value_lng} />
+        <input name={`${props.name}`} type='hidden' value={props.value} />
         <LoadScript
             id={'google-maps'}
             googleMapsApiKey={process.env.REACT_APP_GOOGLE_API_KEY}

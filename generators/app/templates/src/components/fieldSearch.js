@@ -18,7 +18,7 @@ import {
 import SearchIcon from '@material-ui/icons/Search';
 import ArrowBack from '@material-ui/icons/ArrowBack';
 import MenuOpenIcon from '@material-ui/icons/MenuOpen';
-import TopAppBar from './topAppBar';
+import TopAppBar from './bars/topAppBar';
 import ViewSet from './views/viewSet';
 
 

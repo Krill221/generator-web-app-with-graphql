@@ -6,7 +6,7 @@ import CreateMany from '../../components/hasMany/createMany';
 
 <CreateMany
                         name={models}
-                        viewType='supertable' // can be grid list table supertable raw
+                        viewType='supertable' // can be grid list table supertable swipe raw
                         superTableOptions={superTableOptions}
                         query_where={GETS}
                         query_variables={{ ids: [] }}
@@ -18,6 +18,15 @@ import CreateMany from '../../components/hasMany/createMany';
                         CreateForm={Create}
                         headers={headers}
                         elementContent={(item, index) => {
+
+                            // swipe
+                            return <React.Fragment>
+                                <CardMedia
+                                    className={classes.media}
+                                    image={item.img1}
+                                    title="Paella"
+                                />
+                            </React.Fragment>
 
                             // grid
                             return <React.Fragment>
@@ -155,21 +164,6 @@ export default function CreateMany(props) {
         deleteMutation({
             variables: { id: currentItem.id },
             update: (proxy) => {
-                /*try {
-                    const vars = ids.length !== 0 ? ids : {};
-                    const items = proxy.readQuery({
-                        query: props.query_where,
-                        variables: vars,
-                    });
-                    const key = Object.keys(items)[0];
-                    items[key] = items[key].filter(item => item.id !== currentId);
-                    proxy.writeQuery({
-                        query: props.query_where,
-                        variables: vars,
-                        data: items
-                    });
-                } catch (error) { console.error(error); }
-                */
             },
             refetchQueries: props.withUrl ? [{ query: props.query_where, variables: props.query_variables }] : []
         }).then(res => {
@@ -178,27 +172,19 @@ export default function CreateMany(props) {
         setDeleteDialog(false);
     }
     const handleUpdate = (e) => {
-        //const ids = props.query_variables.ids.concat(e.target.value.id).filter((el, i, a) => i === a.indexOf(el));
         updateMutation({
             variables: e.target.value
         }).then(res => {
-            //if (props.onChange !== undefined) props.onChange({ target: { id: props.name, value: ids } });
         });
     }
     const handleCreate = (e) => {
-        let ids = props.query_variables.ids; //.concat(e.target.value.id).filter((el, i, a) => i === a.indexOf(el));
+        let ids = props.query_variables.ids;
         updateMutation({
             variables: e.target.value,
             update: (proxy, { data }) => {
-                //const vars = {ids: ids};
                 const key = Object.keys(data)[0];
                 const newItem = data[key];
-                //const items = proxy.readQuery({ query: props.query_where, variables: vars });
-                //const key2 = Object.keys(items)[0];
-                //items[key2].unshift(newItem);
-                //proxy.writeQuery({ query: props.query_where, variables: vars, data: items });
                 ids = ids.concat(newItem.id);
-                //if (props.onChange !== undefined) props.onChange({ target: { id: props.name, value: ids } });
             },
             refetchQueries: props.withUrl ? [{ query: props.query_where, variables: props.query_variables }] : []
         }).then(res => {

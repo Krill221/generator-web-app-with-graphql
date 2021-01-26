@@ -10,6 +10,7 @@
     
  */
 import React from 'react';
+import SwipeItems from './swipeItems'
 import GridItems from './gridItems'
 import ListItems from './listItems'
 import RawItems from './rawItems'
@@ -18,6 +19,22 @@ import SuperTableItems from './superTableItems'
 
 
 export default function ViewItems(props) {
+
+    if (props.viewType === 'swipe') {
+        return <SwipeItems
+            name={props.name}
+            items={props.items}
+            editButton={props.editButton}
+            deleteButton={props.deleteButton}
+            elementContent={props.elementContent}
+            cardActions={props.cardActions}
+            cardCollapse={props.cardCollapse}
+            editButtonName={props.editButtonName}
+            deleteButtonName={props.deleteButtonName}
+            handleEditDialogOpen={props.handleEditDialogOpen}
+            handleDeleteDialogOpen={props.handleDeleteDialogOpen}
+        />;
+    }
 
     if (props.viewType === 'grid') {
         return <GridItems
@@ -28,6 +45,7 @@ export default function ViewItems(props) {
             elementContent={props.elementContent}
             cardActions={props.cardActions}
             cardCollapse={props.cardCollapse}
+            editButtonName={props.editButtonName}
             deleteButtonName={props.deleteButtonName}
             handleEditDialogOpen={props.handleEditDialogOpen}
             handleDeleteDialogOpen={props.handleDeleteDialogOpen}

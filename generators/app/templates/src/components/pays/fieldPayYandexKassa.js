@@ -21,7 +21,7 @@
  */
 import React from 'react';
 import { Dialog, Typography, Grid, DialogContent, AppBar, Toolbar, IconButton } from '@material-ui/core';
-import { MAKE_PAYMENT, CHECK_PAYMENT } from '../queries/makePayment';
+import { MAKE_PAYMENT, CHECK_PAYMENT } from '../../queries/makePayment';
 import { useQuery, useMutation } from '@apollo/react-hooks';
 import ArrowBack from '@material-ui/icons/ArrowBack';
 
@@ -56,7 +56,7 @@ export default function FieldPayYandexKassa(props) {
         setOpen(true);
     };
     const handleClose = () => { setOpen(false); };
-    const [updateMutation] = useMutation(props.query_update);
+    //const [updateMutation] = useMutation(props.query_update);
 
     const [makePayment] = useMutation(MAKE_PAYMENT,
         {
@@ -64,7 +64,16 @@ export default function FieldPayYandexKassa(props) {
             onCompleted: ({ makePayment }) => {
                 const payment = JSON.parse(makePayment);
                 // save payment id
-                updateMutation({ variables: { id: props.orderId, payId: payment.id } });
+               // updateMutation({ variables: { id: props.orderId, payId: payment.id } });
+
+                props.onChange({
+                    target: {
+                        id: `${props.name}`, value: {
+                            owner: '',
+                            value: props.orderId
+                        }
+                    }
+                });
 
                 // show Window
                 const checkout = new window.YandexCheckout({

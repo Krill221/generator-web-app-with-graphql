@@ -5,7 +5,7 @@
 
     <ShowImages
         height={null}
-        card={false}
+        card={true}
         images={images}
     />
     
@@ -138,7 +138,6 @@ export default function ShowImages(props) {
                     onChangeIndex={handleChange}
                     enableMouseEvents={is_mobile}
                     animateTransitions={true}
-
                 >
                     {props.images.map((item, index) => {
                         return <div key={index}>
@@ -190,7 +189,7 @@ export default function ShowImages(props) {
                                 </GridListTile>
                             ))}
                         </GridList>
-                        <Button variant="contained" className={classes.buttonShowImages} onClick={() => setFullscreen(true)}>Показать все фото</Button>
+                        <Button variant="outlined" className={classes.buttonShowImages} onClick={() => setFullscreen(true)}>{props.showAllName}</Button>
                     </Paper>
                 </Container>
             </React.Fragment>

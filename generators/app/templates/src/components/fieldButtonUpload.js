@@ -1,13 +1,13 @@
 /*
     Example:
         <FieldButtonUpload
-            name="file"
-            value={props.values.file}
-            error={props.errors.file && props.touched.file ? true : false}
-            onChange={(e) => {props.handleChange(e); props.handleSubmit(e);}}
-            uploadButton={ (loading) => <Button disabled={loading} fullWidth variant="contained" color="primary" component="span">Upload File</Button>}
-            deleteButton={ (loading) => <Button disabled={loading} fullWidth variant="contained" color="primary" component="span">Delete File</Button>}
-        / >
+                    name="img1"
+                    value={props.values.img1}
+                    error={props.errors.img1 && props.touched.img1 ? true : false}
+                    onChange={e => { props.handleChange(e); props.submitForm(); }}
+                    uploadButton={(loading) => <Button disabled={loading} fullWidth variant="contained" color="primary" component="span">Upload File</Button>}
+                    deleteButton={(loading) => <Button disabled={loading} fullWidth variant="contained" color="primary" component="span">Delete File</Button>}
+        />
  */
 import React from 'react';
 import { useMutation } from '@apollo/react-hooks';

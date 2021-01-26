@@ -1,4 +1,4 @@
-const mapStype = [
+const mapStyle = [
     {
         "featureType": "administrative",
         "elementType": "all",
@@ -157,4 +157,4 @@ const mapStype = [
     }
 ];
 
-export default mapStype;
+export default mapStyle;

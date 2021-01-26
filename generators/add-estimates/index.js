@@ -37,7 +37,7 @@ module.exports = class extends Generator {
     var regExNew = `item : { ${this.answers.fields.map(f => `${f[0]}: { owner: '', value: 0 }`).join(', ')}, `;
 
     var regEx2 = `// items gen`;
-    var regExNew2 = `// items gen\n${this.answers.fields.map(f => `\titem.${f[0]}.forEach(f => delete f.__typename);`).join('\n')}`;
+    var regExNew2 = `// items gen\n${this.answers.fields.map(f => `\tif(Array.isArray(item.${f[0]})) item.${f[0]}.forEach(f => delete f.__typename);`).join('\n')}`;
 
     form = form.toString().replace(new RegExp(regEx, 'g'), regExNew);
     form = form.toString().replace(new RegExp(regEx2, 'g'), regExNew2);

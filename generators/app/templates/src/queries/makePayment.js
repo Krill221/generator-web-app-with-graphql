@@ -10,6 +10,6 @@ export const MAKE_PAYMENT = gql`
 
 export const CHECK_PAYMENT = gql`
     query($payId: String) {
-        check_payment(payId: $payId)
+        checkPayment(payId: $payId)
     }
 `;

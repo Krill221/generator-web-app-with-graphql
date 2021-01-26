@@ -33,7 +33,7 @@ module.exports = class extends Generator {
 
     var form = this.fs.read(this.destinationPath(`src/pages/${this.answers.small_models}/_form.js`));
     var regEx = `${this.answers.fields.map(f => `${f[0]}: \\{ owner: \'\', value: 0 \\}`).join(', ')}, `;
-    var regEx2 = `${this.answers.fields.map(f => `\titem.${f[0]}.forEach\\(f => delete f.__typename\\);`).join('\n')}\n`;
+    var regEx2 = `${this.answers.fields.map(f => `\tif\\(Array.isArray\\(item.${f[0]}\\)\\) item.${f[0]}.forEach\\(f => delete f.__typename\\);`).join('\n')}\n`;
     form = form.toString().replace(new RegExp(regEx, 'g'), '');
     form = form.toString().replace(new RegExp(regEx2, 'g'), '');
     this.fs.write(this.destinationPath(`src/pages/${this.answers.small_models}/_form.js`), form);
