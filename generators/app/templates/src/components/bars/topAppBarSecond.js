@@ -29,6 +29,7 @@ export default function TopAppBarSecond(props) {
     const mobile_top = theme.spacing(7);
     const pc_top = theme.spacing(8);
 
+    console.log(is_mobile);
     
     return (
         <Paper square elevation={2} style={{top: is_mobile ? mobile_top : pc_top}} className={classes.appbar} >

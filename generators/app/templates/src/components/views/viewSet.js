@@ -2,7 +2,7 @@
     Example:
 
     <ViewSet
-        viewType='plan' // can be - tabs plan wizard raw
+        viewType='wizard' // can be - tabs tabsmain wisardmain plan wizard or raw
         labels={['1','2','3']}
         tabs={['1content','2content','3content']}
     />
@@ -65,6 +65,24 @@ export default function ViewSet(props) {
             </TopAppBarSecond>
         }
         {
+            props.viewType === 'wizardmain' &&
+            <TopStick>
+                <div className={classes.wizard}>
+                    <Stepper activeStep={activeStep} alternativeLabel>
+                        {props.labels.map((label) => (
+                            <Step key={label}>
+                                <StepLabel>{label}</StepLabel>
+                            </Step>
+                        ))}
+                    </Stepper>
+                    <ButtonGroup color="primary" aria-label="outlined primary button group">
+                        <Button disabled={activeStep === 0} onClick={handleBack} >Назад</Button>
+                        <Button disabled={activeStep === props.tabs.length - 1} color="primary" onClick={handleNext} id="next">След.</Button>
+                    </ButtonGroup>
+                </div>
+            </TopStick>
+        }
+        {
             props.viewType === 'tabs' &&
             <TopAppBarSecond>
                 <Tabs
@@ -81,6 +99,23 @@ export default function ViewSet(props) {
                 </Tabs>
             </TopAppBarSecond>
         }
+        {
+            props.viewType === 'tabsmain' &&
+            <TopStick>
+                <Tabs
+                    value={activeStep}
+                    onChange={(_, tab) => setActiveStep(tab)}
+                    indicatorColor="primary"
+                    textColor="primary"
+                    variant="fullWidth"
+                    aria-label="full width tabs example"
+                >
+                    {props.labels.map((label) => (
+                        <Tab key={label} label={label} />
+                    ))}
+                </Tabs>
+            </TopStick>
+        }
         {props.viewType === 'plan' && <React.Fragment>
             <TopStick>
                 <Container>
@@ -93,6 +128,10 @@ export default function ViewSet(props) {
                     </Grid>
                 </Container>
             </TopStick>
+        </React.Fragment>
+        }
+        {props.viewType === 'raw' && <React.Fragment>
+            {props.labels.map(label => <div key={label}>{label}</div>)}
         </React.Fragment>
         }
         {
