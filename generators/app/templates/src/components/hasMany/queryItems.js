@@ -4,7 +4,7 @@ import { useQuery } from '@apollo/react-hooks';
 
 export default function QueryItems(props) {
 
-    const { error, data, loading } = useQuery(props.query_where, { variables: props.query_variables });
+    const { error, data, loading } = useQuery(props.query_where, { variables: props.query_variables, pollInterval: 7000 });
     if (loading) return null;
     if (error) { console.log(error); return null; }
     let items = data ? data[Object.keys(data)[0]] : [];

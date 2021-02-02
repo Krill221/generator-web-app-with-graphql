@@ -16,8 +16,8 @@ import { useContext } from 'react';
 import { AuthContext } from '../auth';
 import { AuthArea } from '../components/authArea';
 import Webcam from "react-webcam";
-import { Badge, Button, Paper, Typography } from '@material-ui/core';
-import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord';
+import { Button, Paper, Typography } from '@material-ui/core';
+import PersonIcon from '@material-ui/icons/Person';
 //import LinearProgress from '@material-ui/core/LinearProgress';
 
 import Peer from 'peerjs';
@@ -28,6 +28,10 @@ const useStyles = makeStyles((theme) => ({
         objectFit: 'cover',
         width: '100%',
         height: '100%'
+    },
+    media: {
+        height: 0,
+        paddingTop: '56.25%', // 16:9
     },
 }));
 
@@ -91,10 +95,14 @@ export default function ShowWebCamStream(props) {
             peer.on('call', function (media) {
                 console.log('answering call... from: ' + media.peer);
 
-                media.answer(partnerCamRef.current.srcObject);
+                media.answer(media.remoteStream);
                 media.on('stream', function () {
                     console.log('render remote stream');
-                    partnerCamRef.current.srcObject = media.remoteStream;
+                    try {
+                        partnerCamRef.current.srcObject = media.remoteStream;
+                    } catch (e) {
+                        console.log(e);
+                    }
                 });
                 media.on('close', function () {
                     console.log('close media stream');
@@ -133,7 +141,7 @@ export default function ShowWebCamStream(props) {
                                 }
                             }
                         }
-                    }, 3000);
+                    }, 5000);
 
                 });
             });
@@ -215,8 +223,6 @@ export default function ShowWebCamStream(props) {
             </React.Fragment>
         }
         privateArea={<React.Fragment>
-            {!user ? '' : props.username}
-            {!is_mine && online === 1 && ' online'}
             {
                 is_mine ? <Webcam
                     className={classes.camera}
@@ -228,9 +234,18 @@ export default function ShowWebCamStream(props) {
                     videoConstraints={videoConstraints}
                 />
                     :
-                    <video autoPlay className={classes.camera} ref={partnerCamRef}></video>
+                    (online === 1) ?
+                        <video className={classes.camera} autoPlay ref={partnerCamRef}></video>
+                        :
+                        <PersonIcon
+                            className={classes.media}
+                        />
             }
-
-        </React.Fragment>}
+            <Typography>
+                {
+                    (!user ? '' : props.username) + ' - ' + (is_mine ? 'my camera' : (online === 1) ? 'online' : 'offline')
+                }
+            </Typography>
+        </React.Fragment >}
     />;
 }
