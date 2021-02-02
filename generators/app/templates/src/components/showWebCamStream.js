@@ -16,10 +16,9 @@ import { useContext } from 'react';
 import { AuthContext } from '../auth';
 import { AuthArea } from '../components/authArea';
 import Webcam from "react-webcam";
-import { Button, Paper, Typography } from '@material-ui/core';
+import { Button, Paper } from '@material-ui/core';
 import PersonIcon from '@material-ui/icons/Person';
-//import LinearProgress from '@material-ui/core/LinearProgress';
-
+import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord';
 import Peer from 'peerjs';
 
 
@@ -70,7 +69,7 @@ export default function ShowWebCamStream(props) {
                             sendId();
                         }, 2000);
                     } else {
-                        console.log(err);
+                        console.log('peer error');
                     }
                 }
             });
@@ -241,11 +240,15 @@ export default function ShowWebCamStream(props) {
                             className={classes.media}
                         />
             }
-            <Typography>
-                {
-                    (!user ? '' : props.username) + ' - ' + (is_mine ? 'my camera' : (online === 1) ? 'online' : 'offline')
-                }
-            </Typography>
-        </React.Fragment >}
+            <Button
+                fullWidth
+                disabled
+                size="small"
+                startIcon={<FiberManualRecordIcon style={(is_mine || (online === 1)) ? { color: '#4caf50' } : { color: '#f44336' }} />}
+            >
+                {(!user ? '' : props.username) + ' - ' + (is_mine ? 'my camera' : (online === 1) ? 'online' : 'offline')}
+            </Button>
+
+        </ React.Fragment >}
     />;
 }
