@@ -36,27 +36,28 @@ export default function GridItems(props) {
                             props.elementContent && props.elementContent(item, index)
                         }
                     </div>
-                    <CardActions disableSpacing>
-                        {props.cardActions && props.cardActions(item, index)}
-
-                        {deletable &&
-                            <Button
-                                aria-label="delete"
-                                color="secondary"
-                                size="small"
-                                className={`delete-${props.name}`}
-                                onClick={() => props.handleDeleteDialogOpen(item)}
-                            >
-                                {props.deleteButtonName}
-                            </Button>
-                        }
-                    </CardActions>
+                    {
+                        (((props.cardActions && props.cardActions(item, index)) !== null) || deletable === true) && <CardActions disableSpacing>
+                            {props.cardActions(item, index)}
+                            {deletable &&
+                                <Button
+                                    aria-label="delete"
+                                    color="secondary"
+                                    size="small"
+                                    className={`delete-${props.name}`}
+                                    onClick={() => props.handleDeleteDialogOpen(item)}
+                                >
+                                    {props.deleteButtonName}
+                                </Button>
+                            }
+                        </CardActions>
+                    }
                     <React.Fragment>
                         {props.cardCollapse && props.cardCollapse(item, index)}
                     </React.Fragment>
                 </Card>
             </Grid>;
-            })
+        })
         }
     </Grid>
 }
