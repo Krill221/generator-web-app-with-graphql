@@ -8,7 +8,7 @@ import pink from '@material-ui/core/colors/pink';
 import blue from '@material-ui/core/colors/blue';
 import Menu from './layouts/Menu';
 import Footer from './layouts/Footer';
-import { ruRU } from './locale/ru';
+import ruRU from './locale/ru';
 import PrivateMainLayout from './layouts/PrivateMainLayout';
 import PublicMainLayout from './layouts/PublicMainLayout';
 import { Users, Profile } from './pages/users';

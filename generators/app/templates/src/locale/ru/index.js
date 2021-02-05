@@ -1,7 +1,5 @@
 import user from './user';
 //top for generator
-import comment from './comment';
-import post from './post';
 
 const ruRU = {
   props: {
@@ -43,8 +41,6 @@ const ruRU = {
     },
     models: {
       // models for generator
-			comment : { ...comment },
-			post : { ...post },
 			user: { ...user },
     }
   }

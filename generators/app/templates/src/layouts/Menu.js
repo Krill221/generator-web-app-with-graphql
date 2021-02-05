@@ -10,7 +10,7 @@ import {
 } from '@material-ui/core';
 import HomeIcon from '@material-ui/icons/Home';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
-import TopAppBar from '../components/topAppBar';
+import TopAppBar from '../components/bars/topAppBar';
 import PeopleIcon from '@material-ui/icons/People';
 
 

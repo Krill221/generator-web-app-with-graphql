@@ -32,7 +32,7 @@ export default function All() {
             label: theme.props.models.user.Id,
             options: {
                 filter: false,
-                sort: true,
+                sort: false,
                 sortThirdClickReset: true,
                 sortDescFirst: false,
             }
@@ -42,7 +42,7 @@ export default function All() {
             label: theme.props.models.user.Username,
             options: {
                 filter: true,
-                sort: true,
+                sort: false,
                 sortThirdClickReset: true,
                 sortDescFirst: false,
             }
@@ -52,7 +52,7 @@ export default function All() {
             label: theme.props.models.user.Email,
             options: {
                 filter: true,
-                sort: true,
+                sort: false,
                 sortThirdClickReset: true,
                 sortDescFirst: false,
             }

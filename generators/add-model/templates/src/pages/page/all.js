@@ -32,7 +32,7 @@ export default function All() {
             label: theme.props.models.user.Id,
             options: {
                 filter: false,
-                sort: true,
+                sort: false,
                 sortThirdClickReset: true,
                 sortDescFirst: false,
             }
@@ -42,7 +42,7 @@ export default function All() {
             label: theme.props.models.<%=small_model%>.<%= field[0] %>,
             options: {
                 filter: true,
-                sort: true,
+                sort: false,
                 sortThirdClickReset: true,
                 sortDescFirst: false,
             }
