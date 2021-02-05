@@ -1,8 +1,10 @@
 
 import React from 'react';
 import { TextField, Grid, Container } from '@material-ui/core';
+//import { useTheme } from '@material-ui/core/styles';
 
 export default function EditView1(props) {
+    // const theme = useTheme();
     return <Container>
         <Grid container spacing={2} justify="center" alignItems="center">
             <% fields.forEach(function(field){ %><Grid item xs={12} sm={12} md={12} >

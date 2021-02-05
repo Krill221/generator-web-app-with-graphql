@@ -7,7 +7,7 @@ const FieldsSchema = Yup.object().shape({
     <% fields.forEach(function(f){ if(f[1] === 'String') { %>
     <%= f[0] %>: Yup.string()
         .min(2, 'Must be 2 characters or more!')
-        .max(150, 'Too Long!')
+        .max(350, 'Too Long!')
         .required('Required'),
     <% }}) %>
 });

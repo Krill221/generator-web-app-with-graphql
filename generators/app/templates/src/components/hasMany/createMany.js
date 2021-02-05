@@ -8,7 +8,7 @@ import CreateMany from '../../components/hasMany/createMany';
                         name={models}
                         viewType='supertable' // can be grid list table supertable swipe raw
                         superTableOptions={superTableOptions}
-                        query_where={GETS}
+                        query_where={GETS_WHERE}
                         query_variables={{ ids: [] }}
                         query_update={UPDATE}
                         query_delete={DELETE}
