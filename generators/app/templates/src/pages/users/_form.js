@@ -31,7 +31,7 @@ export default function Form({item, afterSubmit, children}) {
         validationSchema={FieldsSchema}
         onSubmit={(values, actions) => {
             actions.setSubmitting(false);
-            actions.resetForm();
+            //actions.resetForm();
             const e = { target: { id: model, value: values } };
             afterSubmit(e);
         }}
