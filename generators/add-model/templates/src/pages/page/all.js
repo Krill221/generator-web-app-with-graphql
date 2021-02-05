@@ -51,7 +51,7 @@ export default function All() {
     ]
 
     return <ViewSet
-        viewType='raw' // can be - tabs plan wizard or button
+        viewType='raw' // can be - tabs tabsmain plan wizard or button
         labels={[models]}
         tabs={[
             <Container>

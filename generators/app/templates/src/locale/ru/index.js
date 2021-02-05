@@ -37,7 +37,10 @@ const ruRU = {
       Delete: "Удалить",
       Choose: "Выбрать",
       Yes: "Да",
-      No: "Нет"
+      No: "Нет",
+      Upload: "Загрузить",
+      Change: "Изменить",
+      Join: "Присоединиться"
     },
     models: {
       // models for generator

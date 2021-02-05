@@ -9,7 +9,7 @@ import CreateMany from '../../components/hasMany/createMany';
                         viewType='supertable' // can be grid list table supertable swipe raw
                         superTableOptions={superTableOptions}
                         query_where={GETS_WHERE}
-                        query_variables={{ ids: [] }}
+                        query_variables={{ ids: props.values.members }}
                         query_update={UPDATE}
                         query_delete={DELETE}
                         onChange={e => { props.handleChange(e); props.submitForm(); }}

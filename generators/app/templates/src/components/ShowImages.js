@@ -130,6 +130,12 @@ export default function ShowImages(props) {
 
     const height = props.height ? props.height : 270;
 
+    props.images.forEach((image, index) => {
+        if(image === '') {
+            props.images[index] = '/defaultImage.jpg';
+        }
+    });
+
     return <React.Fragment>
         {is_mobile || props.card === true ?
             <div className={classes.rootMobile}>
