@@ -27,11 +27,12 @@ module.exports = class extends Generator {
         message: "server_address_prod:",
         default: 'http://localhost:4000'
       },
-      {
+      /*{
         type: "confirm",
         name: "confirmed",
         message: "Would you like to create the new web-app?"
       }
+      */
     ]);
 
     this.log("app name", this.answers.name);
