@@ -1,33 +1,37 @@
-import gql from 'graphql-tag';
+import { gql } from '@apollo/client';
 
-export const GETS = gql`
-  {
-    Users {
-      id
-      createdAt
-      updatedAt
-      email
-      username
-    }
-  }
+const MODEL = 'User';
+
+const FIELDS = [['username', 'String'], ['email', 'String'], ['password', 'String'] ];
+
+// Standard queries
+const FRAGMENT_FIELDS = gql`
+fragment userFields on User {
+    id ${FIELDS.map( f => f[0]).join(' ')} createdAt updatedAt __typename
+}
 `;
-
+export const GETS_WHERE = gql`
+query($parentID: ID) {
+    ${MODEL}Where (parentID: $parentID) { ...userFields }
+}
+${FRAGMENT_FIELDS}
+`;
 export const UPDATE = gql`
-   mutation updateUser( $id: ID, $username: String, $email: String, $password: String) {
-    updateUser( id: $id, username: $username, email: $email, password : $password){
-      id
-      createdAt
-      updatedAt
-      email
-      username
-    }
-  }
+mutation update${MODEL}($id: ID, $username: String, $email: String, $password: String) {
+    update${MODEL}(input:{
+    id: $id,
+    username: $username,
+    email: $email,
+    password: $password
+    }){ ...userFields }
+}
+${FRAGMENT_FIELDS}
 `;
-
 export const DELETE = gql`
-  mutation deleteUser($id: ID!) {
-    deleteUser(id: $id)
-  }
+mutation delete${MODEL}($id: ID) {
+    delete${MODEL}(input:{id: $id}){ ...userFields }
+}
+${FRAGMENT_FIELDS}
 `;
 
 export const LOGIN_USER = gql`
@@ -65,3 +69,6 @@ export const REGISTER_USER = gql`
     }
   }
 `;
+
+const QUERY = {FRAGMENT_FIELDS, GETS_WHERE, UPDATE, DELETE, LOGIN_USER, REGISTER_USER}
+export default QUERY;

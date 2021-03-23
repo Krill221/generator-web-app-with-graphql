@@ -1,7 +1,7 @@
 const filelds = {
     Id: "ID",
-    Username: "Логин",
-    Email: "Email",
-    Password: "Пароль",
+    username: "Логин",
+    email: "Email",
+    password: "Пароль",
 }
 export default filelds

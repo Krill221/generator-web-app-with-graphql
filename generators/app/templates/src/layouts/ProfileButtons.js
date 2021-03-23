@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { AuthContext } from '../auth';
 import { Button } from '@material-ui/core';
-import { AuthArea } from '../components/authArea';
+import { AuthArea } from '../__components/authArea';
 
 const ProfileButtons = ({ component: Component, ...rest }) => {
     const { logout } = useContext(AuthContext);
