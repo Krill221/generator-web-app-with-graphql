@@ -14,9 +14,9 @@ import {
     Stepper, Step, StepLabel, Button, ButtonGroup,
     Tabs, Tab, Grid, Container,
 } from '@material-ui/core';
-import TopAppBarSecond from '../../__views/web/material/helpers/AppBarTopSecond';
+import TopAppBarSecond from '../../__views/AppBarView/AppBarTopSecond';
 import { makeStyles } from '@material-ui/core/styles';
-import TopStick from '../../__views/web/material/helpers/AppBarTopStick';
+import TopStick from '../../__views/AppBarView/AppBarTopStick';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -36,7 +36,7 @@ const useStyles = makeStyles((theme) => ({
 
 
 
-export default function ViewSet(props) {
+export default function ViewLayout(props) {
 
     const classes = useStyles();
 

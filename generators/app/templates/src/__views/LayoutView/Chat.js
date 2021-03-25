@@ -5,9 +5,9 @@
 
 import { Container, Grid } from '@material-ui/core';
 import React from 'react';
-import BottomAppBar from '../helpers/AppBarBottom';
+import BottomAppBar from '../AppBarView/AppBarBottom';
 
-export default function SetView({ tabs }) {
+export default function LayoutView({ tabs }) {
     return <Grid container spacing={1} alignItems="flex-end">
         {
             tabs.slice(0, -1).map((step, index) =>

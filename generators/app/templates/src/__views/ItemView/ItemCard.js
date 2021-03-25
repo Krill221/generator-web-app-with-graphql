@@ -1,19 +1,11 @@
 import React, { Fragment } from 'react';
-import {
-    Divider,
-    ListItem,
-    ListItemSecondaryAction,
-    ListItemIcon,
-} from '@material-ui/core';
-import DeleteIcon from '@material-ui/icons/Delete';
-import EditIcon from '@material-ui/icons/Edit';
-import IconButton from '@material-ui/core/IconButton';
-import DialogPromt from '../helpers/DialogPromt';
-import DialogFullScreen from '../helpers/DialogFullScreen';
+import { useTheme } from '@material-ui/core/styles';
+import { Button, Card, CardActions, CardContent } from '@material-ui/core';
+import DialogPromt from '../DialogView/DialogPromt';
+import DialogFullScreen from '../DialogView/DialogFullScreen';
 
 
 const ItemView = ({
-    item,
     isNew,
     editContent,
     inlineContent,
@@ -22,26 +14,28 @@ const ItemView = ({
     activeDel, setActiveDel,
     options
 }) => {
+    const theme = useTheme();
 
-    return <Fragment>
-        <ListItem>
+    return <Card>
+        <CardContent>
             {inlineContent}
+        </CardContent>
+        <CardActions>
             {
-                options.editable &&
-                <ListItemIcon>
-                    <IconButton
+                options.editable && <Fragment>
+                    <Button
                         disabled={isNew}
                         color="primary"
-                        name={'edit-item'}
-                        edge="end"
+                        name={'delete-item'}
                         aria-label="delete"
+                        size="small"
                         onClick={e => {
                             e.preventDefault();
                             setActiveEdit(true);
                         }}
                     >
-                        <EditIcon />
-                    </IconButton>
+                        {theme.props.components.Edit}
+                    </Button>
                     <DialogFullScreen
                         isNew={false}
                         isOpen={activeEdit}
@@ -49,23 +43,23 @@ const ItemView = ({
                     >
                         {editContent}
                     </DialogFullScreen>
-                </ListItemIcon>
+                </Fragment>
             }
             {
-                options.deletable && <ListItemSecondaryAction>
-                    <IconButton
+                options.deletable && <Fragment>
+                    <Button
                         disabled={isNew}
                         color="secondary"
                         name={'delete-item'}
-                        edge="end"
                         aria-label="delete"
+                        size="small"
                         onClick={e => {
                             e.preventDefault();
                             setActiveDel(true);
                         }}
                     >
-                        <DeleteIcon />
-                    </IconButton>
+                        {theme.props.components.Delete}
+                    </Button>
                     <DialogPromt
                         isNew={true}
                         isOpen={activeDel}
@@ -73,11 +67,10 @@ const ItemView = ({
                     >
                         {deleteContent}
                     </DialogPromt>
-                </ListItemSecondaryAction>
+                </Fragment>
             }
-        </ListItem>
-        <Divider light />
-    </Fragment>
+        </CardActions>
+    </Card>
 };
 
 export default ItemView;

@@ -6,7 +6,7 @@ import React from 'react';
 import {
     Dialog, Toolbar, IconButton, Typography, Slide, Container
 } from '@material-ui/core';
-import TopAppBar from '../helpers/AppBarTop';
+import TopAppBar from '../AppBarView/AppBarTop';
 import CloseIcon from '@material-ui/icons/Close';
 import ArrowBack from '@material-ui/icons/ArrowBack';
 

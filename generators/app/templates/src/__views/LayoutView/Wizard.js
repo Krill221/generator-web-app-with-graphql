@@ -14,7 +14,7 @@ import {
     Stepper, Step, StepLabel, Button, ButtonGroup,
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import TopStick from '../helpers/AppBarTopStick';
+import TopStick from '../AppBarView/AppBarTopStick';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -28,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
 
 
 
-export default function SetView({labels, tabs}) {
+export default function LayoutView({labels, tabs}) {
 
     const classes = useStyles();
 

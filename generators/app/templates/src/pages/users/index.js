@@ -1,30 +1,30 @@
 import React from 'react';
 import { useTheme } from '@material-ui/core/styles';
 import { CreateComponent, ItemsComponent } from '../../__components/itemsComponent';
-import { ListLoading, ListError } from '../../__views/web/material/helpers';
+import { ListLoading, ListError } from '../../__views/LoadingView';
 import {
-    Grid12 as SetView,
-    //Chat as SetView,
-    //Raw as SetView,
-    //Simple as SetView,
-    //Tabs as SetView,
-    //Wizard as SetView,
-} from '../../__views/web/material/SetView';
+    Grid12 as LayoutView,
+    //Chat as LayoutView,
+    //Raw as LayoutView,
+    //Simple as LayoutView,
+    //Tabs as LayoutView,
+    //Wizard as LayoutView,
+} from '../../__views/LayoutView';
 import {
     CreateFab as CreateView,
     //CreateButton as CreateView,
     //CreateInline as CreateView,
-} from '../../__views/web/material/CreateView';
+} from '../../__views/CreateView';
 import {
     Table as ItemsView,
     //Grid as ItemsView,
     //List as ItemsView,
-} from '../../__views/web/material/ItemsView';
+} from '../../__views/ItemsView';
 import {
     ItemTable as ItemView,
     //ItemCard as ItemView,
     //ItemList as ItemView,
-} from '../../__views/web/material/ItemView';
+} from '../../__views/ItemView';
 
 import CreateForm from './__createForm';
 import EditForm from './__editForm';
@@ -41,7 +41,7 @@ export default function All() {
     const theme = useTheme();
 
     return <Container>
-        <SetView
+        <LayoutView
             labels={['']}
             tabs={[
                 <CreateComponent

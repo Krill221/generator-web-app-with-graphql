@@ -19,32 +19,32 @@ import SignUpDialog from '../pages/users/signupDialog';
 
 
 export const AuthArea = ({ publicArea, privateArea }) => {
-    const [view, setView] = React.useState(false);
+    const [view, LayoutView] = React.useState(false);
     const [reg, setReg] = React.useState(false);
     const { user } = useContext(AuthContext);
     return user ?
         privateArea
         :
         <React.Fragment>
-            <label onClick={(e) => { e.preventDefault(); setView(true) }} >
+            <label onClick={(e) => { e.preventDefault(); LayoutView(true) }} >
                 {publicArea}
             </label>
             <Dialog fullScreen open={view}>
                 <AppBar position="static">
                     <Toolbar>
-                        <IconButton edge="start" aria-label="back" color="inherit" onClick={() => setView(false)}>
+                        <IconButton edge="start" aria-label="back" color="inherit" onClick={() => LayoutView(false)}>
                             <ArrowBack />
                         </IconButton>
                     </Toolbar>
                 </AppBar>
                 {reg ?
                     <React.Fragment>
-                        <SignUpDialog onChange={() => { setView(false); setReg(false) }} />
+                        <SignUpDialog onChange={() => { LayoutView(false); setReg(false) }} />
                         <Button onClick={() => setReg(false)}>Войти</Button>
                     </React.Fragment>
                     :
                     <React.Fragment>
-                        <SignInDialog onChange={() => { setView(false); setReg(false) }} />
+                        <SignInDialog onChange={() => { LayoutView(false); setReg(false) }} />
                         <Button onClick={() => setReg(true)}>Зарегистрироваться</Button>
                     </React.Fragment>
                 }

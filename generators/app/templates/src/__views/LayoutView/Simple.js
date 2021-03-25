@@ -5,9 +5,9 @@
 
 import { Container, Grid, Typography } from '@material-ui/core';
 import React from 'react';
-import TopStick from '../helpers/AppBarTopStick';
+import TopStick from '../AppBarView/AppBarTopStick';
 
-export default function SetView({ labels, tabs }) {
+export default function LayoutView({ labels, tabs }) {
 
     return <React.Fragment>
         <TopStick>

@@ -5,13 +5,13 @@ import FieldText from '../../__components/fieldText';
 import validationSchema from './validationSchema';
 import { Button } from '@material-ui/core';
 import {
-    //Chat as SetView,
-    Grid12 as SetView,
-    //Raw as SetView,
-    //Simple as SetView,
-    //Tabs as SetView,
-    //Wizard as SetView,
-} from '../../__views/web/material/SetView';
+    //Chat as LayoutView,
+    Grid12 as LayoutView,
+    //Raw as LayoutView,
+    //Simple as LayoutView,
+    //Tabs as LayoutView,
+    //Wizard as LayoutView,
+} from '../../__views/LayoutView';
 
 const models = 'users';
 
@@ -23,7 +23,7 @@ const Item = ({ item, add, setActive }) => {
         add(newItem);
         setActive(false);
     }}>
-        {props => <SetView
+        {props => <LayoutView
             labels={['']}
             tabs={[
                 <FieldText

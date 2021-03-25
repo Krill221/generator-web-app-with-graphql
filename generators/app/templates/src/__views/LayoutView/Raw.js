@@ -4,7 +4,7 @@
  */
 import React from 'react';
 
-export default function SetView({ labels, tabs }) {
+export default function LayoutView({ labels, tabs }) {
 
     return <React.Fragment>
         <div>{labels[0]}</div>

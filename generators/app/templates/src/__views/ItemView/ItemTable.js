@@ -1,6 +1,6 @@
 import { useTheme } from '@material-ui/core/styles';
-import DialogPromt from '../helpers/DialogPromt';
-import DialogFullScreen from '../helpers/DialogFullScreen';
+import DialogPromt from '../DialogView/DialogPromt';
+import DialogFullScreen from '../DialogView/DialogFullScreen';
 import { Fragment } from 'react';
 import { Button } from '@material-ui/core';
 

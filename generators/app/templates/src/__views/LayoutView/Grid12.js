@@ -6,7 +6,7 @@
 import { Grid } from '@material-ui/core';
 import React from 'react';
 
-export default function SetView({ tabs }) {
+export default function LayoutView({ tabs }) {
 
     return <Grid container spacing={1} alignItems="flex-end">
         {

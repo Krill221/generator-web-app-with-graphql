@@ -1,6 +1,6 @@
 import React from 'react';
 import { Grid, Button } from '@material-ui/core';
-import DialogFullScreen from '../helpers/DialogFullScreen';
+import DialogFullScreen from '../DialogView/DialogFullScreen';
 
 
 const Create = ({ label = '', active, setActive, children }) => {

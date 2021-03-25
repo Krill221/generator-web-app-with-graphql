@@ -2,7 +2,7 @@ import React, { Fragment } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { Fab } from '@material-ui/core';
 import AddIcon from '@material-ui/icons/Add';
-import DialogFullScreen from '../helpers/DialogFullScreen';
+import DialogFullScreen from '../DialogView/DialogFullScreen';
 
 const useStyles = makeStyles((theme) => ({
     fab: {

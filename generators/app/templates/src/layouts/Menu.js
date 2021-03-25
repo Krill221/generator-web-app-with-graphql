@@ -8,7 +8,7 @@ import {
     BottomNavigation, BottomNavigationAction
 } from '@material-ui/core';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
-import TopAppBar from '../__views/web/material/helpers/AppBarTop';
+import TopAppBar from '../__views/AppBarView/AppBarTop';
 import { Link } from "react-router-dom";
 import menuItems from './menuItems';
 

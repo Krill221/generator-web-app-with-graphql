@@ -7,9 +7,9 @@ import React from 'react';
 import {
     Tabs, Tab
 } from '@material-ui/core';
-import TopStick from '../helpers/AppBarTopStick';
+import TopStick from '../AppBarView/AppBarTopStick';
 
-export default function SetView({labels, tabs}) {
+export default function LayoutView({labels, tabs}) {
 
     const [activeStep, setActiveStep] = React.useState(0);
 

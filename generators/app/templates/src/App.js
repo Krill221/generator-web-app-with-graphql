@@ -9,20 +9,15 @@ import Profile from './pages/users/profile';
 
 //top for generator
 
-//<Route exact path="/" component={Menu} />
-
-
 function App() {
   return (
     <Provides>
       <BrowserRouter>
           <Route path="/" render={history => <Menu history={history}/>} />
           <Route exact path="/"><Redirect to="/profile" /></Route>
-          {/*users*/}
-          <PrivateMainLayout path="/users" component={Users} />
           <PublicMainLayout exact path="/profile" component={Profile} />
+          <PrivateMainLayout path="/users" component={Users} />
           {/*list for generator*/}
-          {/*single for generator*/}
       </BrowserRouter>
     </Provides>
   );
