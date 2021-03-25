@@ -27,21 +27,22 @@ module.exports = class extends Generator {
     this.fs.delete(this.destinationPath(`src/pages/${this.answers.small_models}`));
 
 
-    var LocaleFile = this.fs.read(this.destinationPath(`src/locale/ru/index.js`));
+    // App.js
     var AppFile = this.fs.read(this.destinationPath('src/App.js'));
+    var appTextTop = `import ${this.answers.models} from './pages/${this.answers.small_models}';\n`;
+    var appText = `\n\t\t\t\t\t<PublicMainLayout path="/${this.answers.small_models}" component={${this.answers.models}} />`;
+    AppFile = AppFile.toString().replace( new RegExp(appTextTop, 'g'), '');
+    AppFile = AppFile.toString().replace( appText, '');
+    this.fs.write(this.destinationPath('src/App.js'), AppFile );
 
+    // LOCALE FOLDER
+    var LocaleFile = this.fs.read(this.destinationPath(`src/locale/ru/index.js`));
     var localeTextTop = `import ${this.answers.small_model} from './${this.answers.small_model}';\n`;
     var localeText = `\t\t\t${this.answers.small_model} : { ...${this.answers.small_model} },\n`;
-    var appTextTop = `import { ${this.answers.models} } from './pages/${this.answers.small_models}';\n`;
-    var appText = `\n\t\t\t\t\t\t\t<PublicMainLayout path="/${this.answers.small_models}" component={${this.answers.models}} />`;
-
     LocaleFile = LocaleFile.toString().replace( new RegExp(localeTextTop, 'g'), '');
     LocaleFile = LocaleFile.toString().replace( new RegExp(localeText, 'g'), '');
     this.fs.write(this.destinationPath('src/locale/ru/index.js'), LocaleFile );
 
-    AppFile = AppFile.toString().replace( new RegExp(appTextTop, 'g'), '');
-    AppFile = AppFile.toString().replace( appText, '');
-    this.fs.write(this.destinationPath('src/App.js'), AppFile );
   }
 
 };

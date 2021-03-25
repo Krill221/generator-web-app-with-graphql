@@ -2,7 +2,7 @@ import React, { Fragment } from 'react';
 import { Button } from '@material-ui/core';
 import { useTheme } from '@material-ui/core/styles';
 
-const model = 'user';
+const model = '<%=small_model%>';
 
 const Form = ({ item, isNew, del, setActive }) => {
 

@@ -1,8 +1,10 @@
+const model = '<%=small_model%>';
+
 const tableFields = (theme) => {
     return [
         {
             name: "id",
-            label: theme.props.models.user.Id,
+            label: theme.props.models[model].Id,
             options: {
                 filter: false,
                 sort: false,
@@ -10,9 +12,9 @@ const tableFields = (theme) => {
                 sortDescFirst: false,
             }
         },
-        {
-            name: 'username',
-            label: theme.props.models.user.username,
+        <% fields.forEach(function(field){ %>{
+            name: '<%= field[0] %>',
+            label: theme.props.models[model].<%= field[0] %>,
             options: {
                 filter: true,
                 sort: false,
@@ -20,17 +22,7 @@ const tableFields = (theme) => {
                 sortDescFirst: false,
             }
         },
-        {
-            name: 'email',
-            label: theme.props.models.user.email,
-            options: {
-                filter: true,
-                sort: false,
-                sortThirdClickReset: true,
-                sortDescFirst: false,
-            }
-        },
-
+        <% }) %>
     ]
 }
 

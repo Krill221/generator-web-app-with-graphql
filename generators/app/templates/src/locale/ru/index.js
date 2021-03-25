@@ -45,7 +45,7 @@ const ruRU = {
     },
     models: {
       // models for generator
-			users: { ...user },
+			user: { ...user },
     }
   }
 };

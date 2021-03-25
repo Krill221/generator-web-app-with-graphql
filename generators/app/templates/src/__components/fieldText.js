@@ -2,7 +2,7 @@
 example:
 
 <FieldText
-    models={models}
+    model={model}
     name={'email'}
     formikProps={props}
     onBlur={props.handleSubmit} // if create onBlur={props.onBlur}
@@ -16,12 +16,12 @@ import React from 'react';
 import { useTheme } from '@material-ui/core/styles';
 import { TextField } from '@material-ui/core';
 
-const FieldText = ({ formikProps, name, models, onBlur, onChange, onKeyDown, InputProps, }) => {
+const FieldText = ({ formikProps, name, model, onBlur, onChange, onKeyDown, InputProps, }) => {
     const theme = useTheme();
 
     return <TextField
         name={name}
-        label={theme.props.models[models][name]}
+        label={theme.props.models[model][name]}
         variant="outlined"
         margin="normal"
         required

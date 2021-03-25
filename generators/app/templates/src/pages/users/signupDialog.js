@@ -82,7 +82,7 @@ function SignUpDialog(props) {
                   required
                   fullWidth
                   id="username"
-                  label={theme.props.models.users.username}
+                  label={theme.props.models.user.username}
                   name="username"
                   autoComplete="username"
                   value={props.values.username}
@@ -99,7 +99,7 @@ function SignUpDialog(props) {
                   required
                   fullWidth
                   id="email"
-                  label={theme.props.models.users.email}
+                  label={theme.props.models.user.email}
                   name="email"
                   autoComplete="email"
                   value={props.values.email}
@@ -116,7 +116,7 @@ function SignUpDialog(props) {
                   required
                   fullWidth
                   name="password"
-                  label={theme.props.models.users.password}
+                  label={theme.props.models.user.password}
                   type="password"
                   id="password"
                   value={props.values.password}

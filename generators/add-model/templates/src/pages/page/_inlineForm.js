@@ -12,7 +12,7 @@ import {
     //Wizard as LayoutView,
 } from '../../__views/LayoutView';
 
-const model = 'user';
+const model = '<%=small_model%>';
 
 const Item = ({ item, isNew, update, setActive }) => {
     
@@ -22,27 +22,14 @@ const Item = ({ item, isNew, update, setActive }) => {
         {props => <LayoutView
             labels={['']}
             tabs={[
-                <FieldText
+                <% fields.forEach(function(field){ %><FieldText
                     model={model}
-                    name={'username'}
+                    name={'<%= field[0] %>'}
                     formikProps={props}
                     onBlur={props.handleSubmit}
                     onChange={props.handleChange}
                 />,
-                <FieldText
-                    model={model}
-                    name={'email'}
-                    formikProps={props}
-                    onBlur={props.handleSubmit}
-                    onChange={props.handleChange}
-                />,
-                <FieldText
-                    model={model}
-                    name={'password'}
-                    formikProps={props}
-                    onBlur={props.handleSubmit}
-                    onChange={props.handleChange}
-                />,
+                <% }) %>
             ]
             }
         />
