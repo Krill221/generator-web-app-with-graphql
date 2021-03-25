@@ -2,7 +2,7 @@ import React from 'react';
 import { useTheme } from '@material-ui/core/styles';
 import Form from '../../__components/formikNew';
 import FieldText from '../../__components/fieldText';
-import validationSchema from './validationSchema';
+import {model, validationSchema} from './schema';
 import { Button } from '@material-ui/core';
 import {
     //Chat as LayoutView,
@@ -13,7 +13,6 @@ import {
     //Wizard as LayoutView,
 } from '../../__views/LayoutView';
 
-const model = 'user';
 
 const Item = ({ item, add, setActive }) => {
 

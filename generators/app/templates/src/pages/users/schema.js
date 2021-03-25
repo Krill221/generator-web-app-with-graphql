@@ -1,6 +1,8 @@
 import * as Yup from 'yup';
 
-const validationSchema = Yup.object().shape({
+export const model = 'user';
+
+export const validationSchema = Yup.object().shape({
     username: Yup.string()
         .min(2, 'Must be 2 characters or more!')
         .max(50, 'Too Long!')
@@ -13,5 +15,3 @@ const validationSchema = Yup.object().shape({
         .max(50, 'Too Long!')
         .required('Required'),
 });
-
-export default validationSchema;

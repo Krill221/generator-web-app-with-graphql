@@ -2,7 +2,7 @@ import React from 'react';
 //import { useTheme } from '@material-ui/core/styles';
 import Form from '../../__components/formikEdit';
 import FieldText from '../../__components/fieldText';
-import validationSchema from './validationSchema';
+import {model, validationSchema} from './schema';
 import {
     //Chat as LayoutView,
     Grid12 as LayoutView,
@@ -12,9 +12,9 @@ import {
     //Wizard as LayoutView,
 } from '../../__views/LayoutView';
 
-const model = 'user';
-
 const Item = ({ item, isNew, update, setActive }) => {
+
+    //const theme = useTheme();
 
     return <Form validationSchema={validationSchema} item={item} onSubmit={(newItem) => {
         update(newItem);

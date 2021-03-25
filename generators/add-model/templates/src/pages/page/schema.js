@@ -1,6 +1,8 @@
 import * as Yup from 'yup';
 
-const validationSchema = Yup.object().shape({
+export const model = '<%=small_model%>';
+
+export const validationSchema = Yup.object().shape({
 <% fields.forEach(function(f){ if(f[1] === 'String') { %>
     <%= f[0] %>: Yup.string()
         .min(2, 'Must be 2 characters or more!')
@@ -8,5 +10,3 @@ const validationSchema = Yup.object().shape({
         .required('Required'),
     <% }}) %>
 });
-
-export default validationSchema;

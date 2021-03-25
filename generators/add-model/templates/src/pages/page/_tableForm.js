@@ -1,4 +1,4 @@
-const model = '<%=small_model%>';
+import { model } from './schema';
 
 const tableFields = (theme) => {
     return [

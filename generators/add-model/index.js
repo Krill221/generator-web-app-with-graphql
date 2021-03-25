@@ -59,8 +59,8 @@ module.exports = class extends Generator {
       this.answers,
     );
     this.fs.copyTpl(
-      this.templatePath('src/pages/page/validationSchema.js'),
-      this.destinationPath(`src/pages/${this.answers.small_models}/validationSchema.js`),
+      this.templatePath('src/pages/page/schema.js'),
+      this.destinationPath(`src/pages/${this.answers.small_models}/schema.js`),
       this.answers,
     );
 
