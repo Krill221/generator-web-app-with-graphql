@@ -1,8 +1,11 @@
 import React from 'react';
 //import { useTheme } from '@material-ui/core/styles';
-import Form from '../../__components/formikEdit';
-import FieldText from '../../__components/fieldText';
 import { model, validationSchema} from './schema';
+import Form from '../../__components/formikEdit';
+
+import FieldText from '../../__components/fieldText';
+//import FieldTextWithSubmit from '../../__components/fieldTextWithSubmit';
+
 import {
     //Chat as LayoutView,
     Grid12 as LayoutView,

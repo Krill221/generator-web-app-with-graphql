@@ -32,7 +32,6 @@ import InlineForm from './_inlineForm';
 import DeleteForm from './_deleteForm';
 import TableForm from './_tableForm';
 
-
 import qMain from '../../queries/<%=small_models%>.js';
 import { Container } from '@material-ui/core';
 
@@ -66,7 +65,7 @@ export default function All() {
                         editable: true,
                         deletable: true
                     }}
-                />
+                />,
 
             ]}
         />
