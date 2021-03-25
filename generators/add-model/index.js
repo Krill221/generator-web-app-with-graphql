@@ -26,62 +26,72 @@ module.exports = class extends Generator {
   }
 
   writing() {
-    this.fs.copyTpl(
-      this.templatePath('src/pages/page/all.js'),
-      this.destinationPath(`src/pages/${this.answers.small_models}/all.js`),
-      this.answers,
-    );
+
+    // PAGE FOLDER
     this.fs.copyTpl(
       this.templatePath('src/pages/page/index.js'),
       this.destinationPath(`src/pages/${this.answers.small_models}/index.js`),
       this.answers,
     );
     this.fs.copyTpl(
-      this.templatePath('src/pages/page/_form.js'),
-      this.destinationPath(`src/pages/${this.answers.small_models}/_form.js`),
+      this.templatePath('src/pages/page/_createForm.js'),
+      this.destinationPath(`src/pages/${this.answers.small_models}/_createForm.js`),
       this.answers,
     );
     this.fs.copyTpl(
-      this.templatePath('src/pages/page/edit.js'),
-      this.destinationPath(`src/pages/${this.answers.small_models}/edit.js`),
+      this.templatePath('src/pages/page/_deleteForm.js'),
+      this.destinationPath(`src/pages/${this.answers.small_models}/_deleteForm.js`),
       this.answers,
     );
     this.fs.copyTpl(
-      this.templatePath('src/pages/page/create.js'),
-      this.destinationPath(`src/pages/${this.answers.small_models}/create.js`),
+      this.templatePath('src/pages/page/_editForm.js'),
+      this.destinationPath(`src/pages/${this.answers.small_models}/_editForm.js`),
       this.answers,
     );
     this.fs.copyTpl(
-      this.templatePath('src/pages/page/_fields1.js'),
-      this.destinationPath(`src/pages/${this.answers.small_models}/_fields1.js`),
+      this.templatePath('src/pages/page/_inlineForm.js'),
+      this.destinationPath(`src/pages/${this.answers.small_models}/_inlineForm.js`),
       this.answers,
     );
+    this.fs.copyTpl(
+      this.templatePath('src/pages/page/_tableForm.js'),
+      this.destinationPath(`src/pages/${this.answers.small_models}/_tableForm.js`),
+      this.answers,
+    );
+    this.fs.copyTpl(
+      this.templatePath('src/pages/page/validationSchema.js'),
+      this.destinationPath(`src/pages/${this.answers.small_models}/validationSchema.js`),
+      this.answers,
+    );
+
+    // QUERY FOLDER
     this.fs.copyTpl(
       this.templatePath('src/queries/query.js'),
       this.destinationPath(`src/queries/${this.answers.small_models}.js`),
       this.answers,
     );
+
+    // LOCALE FOLDER
     this.fs.copyTpl(
       this.templatePath('src/locale/ru/model.js'),
       this.destinationPath(`src/locale/ru/${this.answers.small_model}.js`),
       this.answers,
     );
 
+    // Locale/ru
     var regExTop = new RegExp('//top for generator', 'g');
     var regExTopLocaleFile = `//top for generator\nimport ${this.answers.small_model} from './${this.answers.small_model}';`;
     var regExModels = new RegExp('// models for generator', 'g');
     var regExModelsNew = `// models for generator\n\t\t\t${this.answers.small_model} : { ...${this.answers.small_model} },`;
-    
-    var regExTopAppFile = `//top for generator\nimport { ${this.answers.models} } from './pages/${this.answers.small_models}';`;
-    var regExList = /list for generator\*\/}/;
-    var regExListNew = `list for generator*/}\n\t\t\t\t\t\t\t<PublicMainLayout path="/${this.answers.small_models}" component={${this.answers.models}} /> `;
-
-
     var LocaleFile = this.fs.read(this.destinationPath('src/locale/ru/index.js'));
     LocaleFile = LocaleFile.toString().replace( new RegExp(regExTop, 'g'), regExTopLocaleFile);
     LocaleFile = LocaleFile.toString().replace( new RegExp(regExModels, 'g'), regExModelsNew);
     this.fs.write(this.destinationPath('src/locale/ru/index.js'), LocaleFile );
 
+    // App.js
+    var regExTopAppFile = `//top for generator\nimport ${this.answers.models} from './pages/${this.answers.small_models}';`;
+    var regExList = /list for generator\*\/}/;
+    var regExListNew = `list for generator*/}\n\t\t\t\t\t<PublicMainLayout path="/${this.answers.small_models}" component={${this.answers.models}} /> `;
     var AppFile = this.fs.read(this.destinationPath('src/App.js'));
     AppFile = AppFile.toString().replace(new RegExp(regExTop, 'g'), regExTopAppFile);
     AppFile = AppFile.toString().replace(new RegExp(regExList, 'g'), regExListNew);

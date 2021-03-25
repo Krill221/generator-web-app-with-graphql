@@ -35,7 +35,7 @@ module.exports = class extends Generator {
       */
     ]);
 
-    this.log("app name", this.answers.name);
+    this.log("app name: ", this.answers.name);
     this.log("server_address_dev: ", this.answers.server_address_dev);
   }
 
@@ -54,6 +54,6 @@ module.exports = class extends Generator {
   }
 
   install() {
-    this.npmInstall()
+    this.yarnInstall()
   }
 };

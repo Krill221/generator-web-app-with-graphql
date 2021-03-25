@@ -12,9 +12,9 @@ import {
   CssBaseline,
   Grid,
 } from '@material-ui/core';
-import { useMutation } from '@apollo/react-hooks';
+import { useMutation } from '@apollo/client';
 import { REGISTER_USER } from '../../queries/users'
-import { AuthContext } from '../../auth';
+import { AuthContext } from '../../__providers/authProvider';
 
 
 
@@ -82,7 +82,7 @@ function SignUpDialog(props) {
                   required
                   fullWidth
                   id="username"
-                  label={theme.props.models.user.Username}
+                  label={theme.props.models.user.username}
                   name="username"
                   autoComplete="username"
                   value={props.values.username}
@@ -99,7 +99,7 @@ function SignUpDialog(props) {
                   required
                   fullWidth
                   id="email"
-                  label={theme.props.models.user.Email}
+                  label={theme.props.models.user.email}
                   name="email"
                   autoComplete="email"
                   value={props.values.email}
@@ -116,7 +116,7 @@ function SignUpDialog(props) {
                   required
                   fullWidth
                   name="password"
-                  label={theme.props.models.user.Password}
+                  label={theme.props.models.user.password}
                   type="password"
                   id="password"
                   value={props.values.password}

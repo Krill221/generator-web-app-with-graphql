@@ -13,8 +13,8 @@ import {
 } from '@material-ui/core';
 import * as Yup from 'yup';
 import { LOGIN_USER } from '../../queries/users'
-import { useMutation } from '@apollo/react-hooks';
-import { AuthContext } from '../../auth';
+import { useMutation } from '@apollo/client';
+import { AuthContext } from '../../__providers/authProvider';
 
 const SignupSchema = Yup.object().shape({
     username: Yup.string()
@@ -67,7 +67,7 @@ function SignInDialog(props) {
                                 </Grid>
                                 <Grid item xs={12}>
                                     <TextField
-                                        label={theme.props.models.user.Username}
+                                        label={theme.props.models.user.username}
                                         variant="outlined"
                                         required
                                         fullWidth
@@ -89,7 +89,7 @@ function SignInDialog(props) {
                                         required
                                         fullWidth
                                         name="password"
-                                        label={theme.props.models.user.Password}
+                                        label={theme.props.models.user.password}
                                         type="password"
                                         id="password"
                                         autoComplete="current-password"

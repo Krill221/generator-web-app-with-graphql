@@ -10,7 +10,7 @@ const ruRU = {
     },
     menu: {
       Main: "Главная",
-      Users: "Пользователи",
+      Users: "Users",
       Profile: "Профиль",
       SignIn: "Войти",
     },
@@ -40,7 +40,8 @@ const ruRU = {
       No: "Нет",
       Upload: "Загрузить",
       Change: "Изменить",
-      Join: "Присоединиться"
+      Join: "Присоединиться",
+      Error: "Ошибка",
     },
     models: {
       // models for generator

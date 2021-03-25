@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
-import { AuthContext } from '../../auth';
+import { AuthContext } from '../../__providers/authProvider';
 import { Button, Container, Typography, Grid, Avatar } from '@material-ui/core';
-import { AuthArea } from '../../components/authArea';
+import { AuthArea } from '../../__components/authArea';
 import { useTheme } from '@material-ui/core/styles';
 
 

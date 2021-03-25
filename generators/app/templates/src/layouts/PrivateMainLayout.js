@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 import { Route, Redirect } from 'react-router-dom';
-import { AuthContext } from '../auth';
+import { AuthContext } from '../__providers/authProvider';
+import Footer from './Footer';
 
 const Layout = ({ component: Component, ...rest }) => {
     const { user } = useContext(AuthContext);
@@ -13,6 +14,7 @@ const Layout = ({ component: Component, ...rest }) => {
                 :
                 <React.Fragment>
                     <Component {...props} />
+                    <Footer/>
                 </React.Fragment>
             }
         />
