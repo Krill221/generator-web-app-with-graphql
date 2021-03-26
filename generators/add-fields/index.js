@@ -32,12 +32,6 @@ module.exports = class extends Generator {
     queryFile = queryFile.toString().replace(new RegExp(fieldsQuery, 'g'), fieldsQueryNew);
     this.fs.write(this.destinationPath(`src/queries/${this.answers.small_models}.js`), queryFile);
 
-    var form = this.fs.read(this.destinationPath(`src/pages/${this.answers.small_models}/_form.js`));
-    var regEx = `item : { `;
-    var regExNew = `item : { ${this.answers.fields.map(f => ((f[1] === 'String') ? `${f[0]}: ''` : ((f[1] === 'Boolean') ? `${f[0]}: false` : `${f[0]}: ''`))).join(', ')}, `;
-    form = form.toString().replace(new RegExp(regEx, 'g'), regExNew);
-    this.fs.write(this.destinationPath(`src/pages/${this.answers.small_models}/_form.js`), form);
-
   }
 
   install() {
