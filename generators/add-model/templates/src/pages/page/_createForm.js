@@ -57,6 +57,7 @@ const Item = ({ item, add, setActive }) => {
                     formikProps={props}
                     onBlur={props.onBlur}
                     onChange={props.handleChange}
+                    onSubmit={props.handleSubmit} // for FieldTextWithSubmit
                 />,
                 <% }) %>
                 <Button

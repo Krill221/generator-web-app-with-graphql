@@ -2,6 +2,8 @@ import gql from 'graphql-tag';
 
 const MODEL = '<%=model%>';
 
+const parent = null;
+const parentId = parent ? parent : 'parentId';
 const FIELDS = [<%fields.forEach(function(f) { %>['<%=f[0]%>', '<%=f[1]%>'], <% }) %>];
 
 // Standard queries
@@ -12,8 +14,8 @@ fragment <%=small_model%>Fields on <%=model%> {
 `;
 
 export const GETS_WHERE = gql`
-query($parentID: ID) {
-    ${MODEL}Where (parentID: $parentID) { ...<%=small_model%>Fields }
+query($${parentId}: ID) {
+    ${MODEL}Where (${parentId}: $${parentId}) { ...<%=small_model%>Fields }
 }
 ${FRAGMENT_FIELDS}
 `;

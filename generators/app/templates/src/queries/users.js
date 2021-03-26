@@ -2,6 +2,8 @@ import { gql } from '@apollo/client';
 
 const MODEL = 'User';
 
+const parent = null;
+const parentId = parent ? parent : 'parentId';
 const FIELDS = [['username', 'String'], ['email', 'String'], ['password', 'String'] ];
 
 // Standard queries
@@ -10,12 +12,14 @@ fragment userFields on User {
     id ${FIELDS.map( f => f[0]).join(' ')} createdAt updatedAt __typename
 }
 `;
+
 export const GETS_WHERE = gql`
-query($parentID: ID) {
-    ${MODEL}Where (parentID: $parentID) { ...userFields }
+query($${parentId}: ID) {
+    ${MODEL}Where (${parentId}: $${parentId}) { ...userFields }
 }
 ${FRAGMENT_FIELDS}
 `;
+
 export const UPDATE = gql`
 mutation update${MODEL}($id: ID, $username: String, $email: String, $password: String) {
     update${MODEL}(input:{
@@ -27,6 +31,7 @@ mutation update${MODEL}($id: ID, $username: String, $email: String, $password: S
 }
 ${FRAGMENT_FIELDS}
 `;
+
 export const DELETE = gql`
 mutation delete${MODEL}($id: ID) {
     delete${MODEL}(input:{id: $id}){ ...userFields }

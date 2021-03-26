@@ -33,15 +33,14 @@ module.exports = class extends Generator {
 
   writing() {
 
-    var queriesFile = this.fs.read(this.destinationPath(`src/queries/${this.answers.small_models}.js`));
-    var queriesText = `\\[\'${this.answers.small_populations}'\, \'\\[ID\\]\'\\], `;
-    queriesFile = queriesFile.toString().replace(new RegExp(queriesText, 'g'), '');
-    this.fs.write(this.destinationPath(`src/queries/${this.answers.small_models}.js`), queriesFile);
-
-    var formFile = this.fs.read(this.destinationPath(`src/pages/${this.answers.small_models}/_form.js`));
-    var formText = `${this.answers.small_populations}: \\[\\], `;
-    formFile = formFile.toString().replace(new RegExp(formText, 'g'), '');
-    this.fs.write(this.destinationPath(`src/pages/${this.answers.small_models}/_form.js`), formFile);
+    var queryFile = this.fs.read(this.destinationPath(`src/queries/${this.answers.small_populations}.js`));
+    var queriesText = `\\[\'${this.answers.small_model}Id'\, \'ID\'\\], `;
+    queryFile = queryFile.toString().replace(new RegExp(queriesText, 'g'), '');
+    var parentIdQuery = `const parent = \'${this.answers.small_model}Id\'`;
+    var parentIdQueryNew = `const parent = null`;
+    queryFile = queryFile.toString().replace(new RegExp(parentIdQuery, 'g'), parentIdQueryNew);
+    
+    this.fs.write(this.destinationPath(`src/queries/${this.answers.small_populations}.js`), queryFile);
 
   }
 
