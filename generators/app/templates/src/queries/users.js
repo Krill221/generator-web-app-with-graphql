@@ -4,12 +4,12 @@ const MODEL = 'User';
 
 const parent = null;
 const parentId = parent ? parent : 'parentId';
-const FIELDS = [['username', 'String'], ['email', 'String'], ['password', 'String'] ];
+const fieldsArray = [['username', 'String'], ['email', 'String'], ['password', 'String'] ];
 
 // Standard queries
 const FRAGMENT_FIELDS = gql`
 fragment userFields on User {
-    id ${FIELDS.map( f => f[0]).join(' ')} createdAt updatedAt __typename
+    id ${fieldsArray.map( f => f[0]).join(' ')} createdAt updatedAt __typename
 }
 `;
 

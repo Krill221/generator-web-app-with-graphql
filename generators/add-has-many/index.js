@@ -36,8 +36,8 @@ module.exports = class extends Generator {
   writing() {
     
     var queryFile = this.fs.read(this.destinationPath(`src/queries/${this.answers.small_populations}.js`));
-    var fieldsQuery = `const FIELDS = \\[`;
-    var fieldsQueryNew = `const FIELDS = [[\'${this.answers.small_model}Id'\, \'ID\'], `;
+    var fieldsQuery = `const fieldsArray = \\[`;
+    var fieldsQueryNew = `const fieldsArray = [[\'${this.answers.small_model}Id'\, \'ID\'], `;
     queryFile = queryFile.toString().replace(new RegExp(fieldsQuery, 'g'), fieldsQueryNew);
     var parentIdQuery = `const parent = null`;
     var parentIdQueryNew = `const parent = \'${this.answers.small_model}Id\'`;
