@@ -31,9 +31,8 @@ import EditForm from './__editForm';
 import InlineForm from './__inlineForm';
 import DeleteForm from './__deleteForm';
 import TableForm from './__tableForm';
-
-
 import qUsers from '../../queries/users.js';
+
 import { Container } from '@material-ui/core';
 
 

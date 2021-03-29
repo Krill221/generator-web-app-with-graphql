@@ -1,6 +1,6 @@
 import * as Yup from 'yup';
 
-export const model = '<%=small_model%>';
+export const modelName = '<%=small_model%>';
 
 export const validationSchema = Yup.object().shape({
 <% fields.forEach(function(f){ if(f[1] === 'String') { %>

@@ -1,6 +1,9 @@
 import React from 'react';
 import { useTheme } from '@material-ui/core/styles';
-import { model, validationSchema} from './schema';
+import {
+    modelName,
+    validationSchema
+} from './schema';
 import { Button } from '@material-ui/core';
 import Form from '../../__components/formikNew';
 
@@ -52,7 +55,7 @@ const Item = ({ item, add, setActive }) => {
             labels={['']}
             tabs={[
                 <% fields.forEach(function(field){ %><FieldText
-                    model={model}
+                    model={modelName}
                     name={'<%= field[0] %>'}
                     formikProps={props}
                     onBlur={props.onBlur}
@@ -61,7 +64,7 @@ const Item = ({ item, add, setActive }) => {
                 />,
                 <% }) %>
                 <Button
-                    name={`add-${model}`}
+                    name={`add-${modelName}`}
                     onClick={props.handleSubmit}
                     color="default"
                     variant="outlined"

@@ -26,13 +26,13 @@ import {
     //ItemList as ItemView,
 } from '../../__views/ItemView';
 
-import CreateForm from './_createForm';
-import EditForm from './_editForm';
-import InlineForm from './_inlineForm';
-import DeleteForm from './_deleteForm';
-import TableForm from './_tableForm';
-
+import CreateForm from '../<%=small_models%>/_createForm';
+import EditForm from '../<%=small_models%>/_editForm';
+import InlineForm from '../<%=small_models%>/_inlineForm';
+import DeleteForm from '../<%=small_models%>/_deleteForm';
+import TableForm from '../<%=small_models%>/_tableForm';
 import qMain from '../../queries/<%=small_models%>.js';
+
 import { Container } from '@material-ui/core';
 
 export default function All() {
