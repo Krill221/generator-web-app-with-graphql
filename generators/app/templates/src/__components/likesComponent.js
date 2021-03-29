@@ -1,5 +1,15 @@
 /*
 WEB
+
+<LikesButton
+    query={qMain}
+    parentObject={{roomId: item.id}}
+/>,
+<LikesCountComponent
+    query={qMain}
+    parentObject={{roomId: item.id}}
+/>,
+
 */
 
 import { IconButton } from '@material-ui/core';
@@ -46,7 +56,7 @@ const LikesButton = ({ query, parentObject = {}, LikeView, UnLikeView }) => {
     >
         {LikeView ? LikeView : <FavoriteBorderIcon />}
     </IconButton>;
-    
+
     let myItem = items.find(i => i.userId === user?.id);
 
     return <AuthArea
