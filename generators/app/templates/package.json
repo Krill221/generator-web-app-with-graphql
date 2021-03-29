@@ -38,10 +38,10 @@
     "delete-model": "yo web-app-with-graphql:delete-model",
     "add-fields": "yo web-app-with-graphql:add-fields",
     "delete-fields": "yo web-app-with-graphql:delete-fields",
-    "add-estimates": "yo web-app-with-graphql:add-estimates",
-    "delete-estimates": "yo web-app-with-graphql:delete-estimates",
     "add-has-many": "yo web-app-with-graphql:add-has-many",
-    "delete-has-many": "yo web-app-with-graphql:delete-has-many"
+    "delete-has-many": "yo web-app-with-graphql:delete-has-many",
+    "add-has-estime": "yo web-app-with-graphql:add-has-estime",
+    "delete-has-estime": "yo web-app-with-graphql:delete-has-estime"
   },
   "eslintConfig": {
     "extends": "react-app"

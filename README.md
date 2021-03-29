@@ -51,10 +51,10 @@ yarn delete-has-many Post Comment
 ```
 #### To add estimates array field to model type in console:
 ```
-yarn add-estimates Post like:Float stars:Float
+yarn add-has-estime Post Like
 ```
 #### To delete estimates array field to model type in console:
 ```
-yarn delete-estimates Post like:Float stars:Float
+yarn delete-has-estime Post Like
 ```
 

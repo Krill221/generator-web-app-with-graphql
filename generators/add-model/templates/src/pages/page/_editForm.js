@@ -22,6 +22,10 @@ import {
     //ItemsComponent
 } from '../../__components/itemsComponent';
 import {
+    //LikesButton,
+    //LikesCountComponent,
+} from '../../__components/likesComponent';
+import {
     //ListLoading,
     //ListError
 } from '../../__views/LoadingView';
