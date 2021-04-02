@@ -21,13 +21,8 @@ ${FRAGMENT_FIELDS}
 `;
 
 export const UPDATE = gql`
-mutation update${MODEL}($id: ID, $username: String, $email: String, $password: String) {
-    update${MODEL}(input:{
-    id: $id,
-    username: $username,
-    email: $email,
-    password: $password
-    }){ ...userFields }
+mutation update${MODEL}($id: ID, ${fieldsArray.map( f => `$${f[0]}: ${f[1]}`).join(', ')}) {
+    update${MODEL}(input:{id: $id, ${fieldsArray.map( f => `${f[0]}: $${f[0]}`).join(', ')}}){ ...userFields }
 }
 ${FRAGMENT_FIELDS}
 `;
