@@ -1,8 +1,8 @@
 import React from 'react';
 import { useTheme } from '@material-ui/core/styles';
 import Form from '../../__components/formikNew';
-import FieldText from '../../__components/fieldText';
-import {model, validationSchema} from './schema';
+import FieldText from '../../__components/fields/fieldText';
+import { model, validationSchema } from './schema';
 import { Button } from '@material-ui/core';
 import {
     //Chat as LayoutView,
@@ -12,6 +12,7 @@ import {
     //Tabs as LayoutView,
     //Wizard as LayoutView,
 } from '../../__views/LayoutView';
+import FieldAvatarUpload from '../../__components/fields/fieldAvatarUpload';
 
 
 const Item = ({ item, add, setActive }) => {
@@ -25,6 +26,13 @@ const Item = ({ item, add, setActive }) => {
         {props => <LayoutView
             labels={['']}
             tabs={[
+                <FieldAvatarUpload
+                    model={model}
+                    name={'avatar'}
+                    formikProps={props}
+                    onBlur={props.onBlur}
+                    onChange={props.handleChange}
+                />,
                 <FieldText
                     model={model}
                     name={'username'}

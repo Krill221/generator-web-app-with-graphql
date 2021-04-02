@@ -1,7 +1,5 @@
 import user from './user';
 //top for generator
-import message from './message';
-import room from './room';
 
 const ruRU = {
   props: {
@@ -49,8 +47,6 @@ const ruRU = {
     },
     models: {
       // models for generator
-			message : { ...message },
-			room : { ...room },
 			user: { ...user },
     }
   }

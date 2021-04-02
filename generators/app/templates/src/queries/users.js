@@ -4,7 +4,7 @@ const MODEL = 'User';
 
 const parent = null;
 const parentId = parent ? parent : 'parentId';
-const fieldsArray = [['username', 'String'], ['email', 'String'], ['password', 'String'] ];
+const fieldsArray = [['avatar', 'String'], ['username', 'String'], ['email', 'String'], ['password', 'String'] ];
 
 // Standard queries
 const FRAGMENT_FIELDS = gql`
@@ -38,6 +38,7 @@ export const LOGIN_USER = gql`
   mutation login($username: String!, $password: String!) {
     login(username: $username, password: $password) {
       id
+      avatar
       email
       username
       createdAt
@@ -62,6 +63,7 @@ export const REGISTER_USER = gql`
       }
     ) {
       id
+      avatar
       email
       username
       createdAt
