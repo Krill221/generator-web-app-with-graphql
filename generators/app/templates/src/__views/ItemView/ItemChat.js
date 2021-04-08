@@ -1,18 +1,19 @@
-import React, {useContext, Fragment} from 'react';
+import React, { useContext, Fragment } from 'react';
 import { AuthContext } from '../../__providers/authProvider';
-import { useTheme } from '@material-ui/core/styles';
+import { useTheme, makeStyles } from '@material-ui/core/styles';
 //import { makeStyles } from '@material-ui/core/styles';
-import { Box, Button, Card, CardActions, CardContent } from '@material-ui/core';
+import { Avatar, Box, Button, Card, CardActions, CardContent } from '@material-ui/core';
 import DialogPromt from '../DialogView/DialogPromt';
 import DialogFullScreen from '../DialogView/DialogFullScreen';
 
-/*const useStyles = makeStyles((theme) => ({
-    root: {
+const useStyles = makeStyles((theme) => ({
+    details: {
         display: 'flex',
-        justifyContent: 'left',
+        flexDirection: 'column',
+        margin: theme.spacing(1)
     },
 }));
-*/
+
 
 const ItemView = ({
     isNew,
@@ -25,18 +26,21 @@ const ItemView = ({
     options
 }) => {
     const theme = useTheme();
-    //const classes = useStyles();
+    const classes = useStyles();
 
     const { user } = useContext(AuthContext);
 
     return <Box display="flex" flexDirection={user.id === item.userId?.id ? 'row-reverse' : 'row'} p={1} m={1} >
+        {
+            (user.id !== item.userId?.id) && <Avatar className={classes.details} alt="12" src={item.userId?.avatar} />
+        }
         <Card variant="outlined" >
             <CardContent>
                 {inlineContent}
             </CardContent>
             <CardActions>
                 {
-                    options.editable && <Fragment>
+                    ((user.id === item.userId?.id) && options.editable) && <Fragment>
                         <Button
                             disabled={isNew}
                             color="primary"
@@ -60,7 +64,7 @@ const ItemView = ({
                     </Fragment>
                 }
                 {
-                    options.deletable && <Fragment>
+                    ((user.id === item.userId?.id) && options.deletable) && <Fragment>
                         <Button
                             disabled={isNew}
                             color="secondary"
