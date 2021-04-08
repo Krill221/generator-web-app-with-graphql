@@ -1,4 +1,5 @@
 import React from 'react';
+import { Container } from '@material-ui/core';
 import { useTheme } from '@material-ui/core/styles';
 import { CreateComponent, ItemsComponent } from '../../__components/itemsComponent';
 import { ListLoading, ListError } from '../../__views/LoadingView';
@@ -26,15 +27,12 @@ import {
     //ItemList as ItemView,
 } from '../../__views/ItemView';
 
-import CreateForm from './__createForm';
-import EditForm from './__editForm';
-import InlineForm from './__inlineForm';
-import DeleteForm from './__deleteForm';
-import TableForm from './__tableForm';
+import CreateForm from '../users/__createForm';
+import EditForm from '../users/__editForm';
+import InlineForm from '../users/__inlineForm';
+import DeleteForm from '../users/__deleteForm';
+import TableForm from '../users/__tableForm';
 import qUsers from '../../queries/users.js';
-
-import { Container } from '@material-ui/core';
-
 
 export default function All() {
     const theme = useTheme();

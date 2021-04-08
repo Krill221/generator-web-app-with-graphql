@@ -24,7 +24,6 @@ const Item = ({ item, isNew, update, setActive }) => {
         {props => <LayoutView
             labels={['']}
             tabs={[
-
                 <FieldAvatarUpload
                     model={model}
                     name={'avatar'}
