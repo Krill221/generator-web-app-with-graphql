@@ -18,7 +18,7 @@ import Alert from '@material-ui/lab/Alert';
 import DialogPromt from '../../__views/DialogView/DialogPromt';
 import { UPLOAD_FILE, DELETE_FILE } from '../../queries/uploadFile';
 
-export default function FieldButtonUpload({ formikProps, name, model, onChange, deleteButton, uploadButton, onBlur }) {
+export default function FieldButtonUpload({ formikProps, name, modelName, onChange, deleteButton, uploadButton, onBlur }) {
 
     const theme = useTheme();
 
@@ -40,7 +40,7 @@ export default function FieldButtonUpload({ formikProps, name, model, onChange, 
     const [deleteFile, deleteStatus] = useMutation(DELETE_FILE, {
         onCompleted: ({ uploadFile }) => {
             onChange({ target: { name: name, value: '' } });
-            onBlur();
+            onBlur && onBlur();
         }
     });
     const handleDelete = () => {
@@ -59,7 +59,7 @@ export default function FieldButtonUpload({ formikProps, name, model, onChange, 
         </DialogPromt>
 
         {formikProps.errors[name] &&
-            <Alert severity="error">{theme.props.models[model][name]} theme.props.components.NotUploaded</Alert>
+            <Alert severity="error">{theme.props.models[modelName][name]} theme.props.components.NotUploaded</Alert>
         }
         <input onChange={handleUpload} accept="image/*" id={`upload-button-${name}`} name={`upload-button-${name}`} type="file" style={{ display: 'none' }} />
         {

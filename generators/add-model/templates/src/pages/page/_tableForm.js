@@ -20,6 +20,7 @@ const tableFields = (theme) => {
                 sort: false,
                 sortThirdClickReset: true,
                 sortDescFirst: false,
+                //customBodyRender: (value) => value?.id
             }
         },
         <% }) %>

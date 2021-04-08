@@ -1,15 +1,31 @@
 import { gql } from '@apollo/client';
+// gen import
 
 const MODEL = 'User';
 
 const parent = null;
 const parentId = parent ? parent : 'parentId';
-const fieldsArray = [['avatar', 'String'], ['username', 'String'], ['email', 'String'], ['password', 'String'] ];
+
+const fieldsArray = [
+  // gen fieldsArray
+  ['avatar', 'String'],
+  ['username', 'String'],
+  ['email', 'String'],
+  ['password', 'String'],
+];
+const fieldsArrayInput = [
+  // gen fieldsInput
+  ['avatar', 'String'],
+  ['username', 'String'],
+  ['email', 'String'],
+  ['password', 'String'],
+];
+
 
 // Standard queries
 const FRAGMENT_FIELDS = gql`
 fragment userFields on User {
-    id ${fieldsArray.map( f => f[0]).join(' ')} createdAt updatedAt __typename
+    id ${fieldsArray.map(f => f[0]).join(' ')} createdAt updatedAt __typename
 }
 `;
 
@@ -21,8 +37,8 @@ ${FRAGMENT_FIELDS}
 `;
 
 export const UPDATE = gql`
-mutation update${MODEL}($id: ID, ${fieldsArray.map( f => `$${f[0]}: ${f[1]}`).join(', ')}) {
-    update${MODEL}(input:{id: $id, ${fieldsArray.map( f => `${f[0]}: $${f[0]}`).join(', ')}}){ ...userFields }
+mutation update${MODEL}($id: ID, ${fieldsArrayInput.map(f => `$${f[0]}: ${f[1]}`).join(', ')}) {
+    update${MODEL}(input:{id: $id, ${fieldsArrayInput.map(f => `${f[0]}: $${f[0]}`).join(', ')}}){ ...userFields }
 }
 ${FRAGMENT_FIELDS}
 `;
@@ -72,5 +88,5 @@ export const REGISTER_USER = gql`
   }
 `;
 
-const QUERY = {FRAGMENT_FIELDS, GETS_WHERE, UPDATE, DELETE, LOGIN_USER, REGISTER_USER}
+const QUERY = { FRAGMENT_FIELDS, GETS_WHERE, UPDATE, DELETE, LOGIN_USER, REGISTER_USER, fieldsArray }
 export default QUERY;

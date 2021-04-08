@@ -5,7 +5,6 @@ WEB and NATIVE
 import { useQuery, useMutation } from '@apollo/client';
 import { v4 as uuidv4 } from 'uuid';
 
-
 export const useItems = (query, parentId = {}) => {
     const { error, data, loading } = useQuery(query.GETS_WHERE, { variables: parentId });
     const items = data ? data[Object.keys(data)[0]] : [];
@@ -18,7 +17,6 @@ export const useItem = (query, itemId) => {
     return { item, loading, error };
 }
 
-
 export const useUpdateItem = (query) => {
     const [mutate] = useMutation(query.UPDATE);
 
@@ -29,8 +27,16 @@ export const useUpdateItem = (query) => {
             [updateName, { __typename: itemName, ...item }],
             ['__typename', 'Mutation'],
         ]));
+
+        // change for send
+        const itemFields = Object.entries(item);
+        const newFieldsForSend = itemFields.map(f => {
+            return Object.keys(f[1]).includes('__typename') ? [f[0], f[1].id] : [f[0], f[1]]
+        });
+        const fields_for_send = Object.fromEntries([...new Set([...newFieldsForSend])]);
+
         return mutate({
-            variables: item,
+            variables: fields_for_send,
             update(cache, ans) {
 
             },
@@ -95,7 +101,14 @@ export const useAddItem = (query, parentObject = {}) => {
 
     const add = (item) => {
         // merge item with query fields
-        const optimictic_fields = Object.fromEntries([...new Set([...fields, ...Object.entries(item), ...Object.entries(parentObject)])]);
+        const itemFields = Object.entries(item);
+
+        // change for optimistic
+        const newOptFields = itemFields.map(f => (
+            f[0].includes('Id') ? [f[0], null] : [f[0], f[1]]
+        ));
+
+        const optimictic_fields = Object.fromEntries([...new Set([...fields, ...newOptFields])]);
         const today = new Date().toISOString().slice(0, 10);
         optimictic_fields.id = `new${uuidv4()}`;
         optimictic_fields.__typename = itemName;
@@ -105,8 +118,10 @@ export const useAddItem = (query, parentObject = {}) => {
             [updateName, optimictic_fields],
             ['__typename', 'Mutation'],
         ]));
+
         return mutate({
-            variables: { id: 'new', ...item, ...parentObject },
+            variables: { id: 'new', ...item },
+            //variables: { id: 'new', ...item, ...parentObject },
             optimisticResponse: optimisticResponse
         });
     }

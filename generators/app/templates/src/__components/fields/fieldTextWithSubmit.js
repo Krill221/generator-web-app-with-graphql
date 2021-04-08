@@ -19,12 +19,12 @@ import { TextField } from '@material-ui/core';
 import { InputAdornment, IconButton } from '@material-ui/core';
 import SendIcon from '@material-ui/icons/Send';
 
-const FieldText = ({ formikProps, name, model, onBlur, onChange, onSubmit, onKeyDown, InputProps, }) => {
+const FieldText = ({ formikProps, name, modelName, onBlur, onChange, onSubmit, onKeyDown, InputProps, }) => {
     const theme = useTheme();
 
     return <TextField
         name={name}
-        label={theme.props.models[model][name]}
+        label={theme.props.models[modelName][name]}
         variant="outlined"
         margin="normal"
         required
@@ -34,12 +34,17 @@ const FieldText = ({ formikProps, name, model, onBlur, onChange, onSubmit, onKey
         helperText={formikProps.errors[name] && formikProps.touched[name] ? formikProps.errors[name] : null}
         onBlur={onBlur}
         onChange={onChange}
-        onKeyDown={onKeyDown}
+        onKeyDown={e => {
+            if(e.key === 'Enter') {
+                e.preventDefault()
+                onSubmit && onSubmit();
+            }
+        }}
         InputProps={{
             endAdornment: <InputAdornment position="end">
                 <IconButton
                     edge="end"
-                    name={`add-${model}`}
+                    name={`add-${modelName}`}
                     onClick={onSubmit}
                     aria-label="search"
                 >

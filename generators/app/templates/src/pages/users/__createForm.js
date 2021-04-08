@@ -1,10 +1,9 @@
 import React from 'react';
-import { useTheme } from '@material-ui/core/styles';
-import Form from '../../__components/formikNew';
 import FieldText from '../../__components/fields/fieldText';
-//import FieldTextWithSubmit from '../../__components/fields/fieldTextWithSubmit';
-import { model, validationSchema } from './schema';
-import { Button } from '@material-ui/core';
+import Form from '../../__components/FormikNew';
+import FieldAvatarUpload from '../../__components/fields/fieldAvatarUpload';
+import FieldAddButton from '../../__components/fields/FieldAddButton';
+import { modelName, validationSchema } from './schema';
 import {
     //Chat as LayoutView,
     Grid12 as LayoutView,
@@ -13,12 +12,9 @@ import {
     //Tabs as LayoutView,
     //Wizard as LayoutView,
 } from '../../__views/LayoutView';
-import FieldAvatarUpload from '../../__components/fields/fieldAvatarUpload';
 
 
 const Item = ({ item, add, setActive }) => {
-
-    const theme = useTheme();
 
     return <Form validationSchema={validationSchema} item={item} onSubmit={(newItem) => {
         add(newItem);
@@ -28,42 +24,37 @@ const Item = ({ item, add, setActive }) => {
             labels={['']}
             tabs={[
                 <FieldAvatarUpload
-                    model={model}
+                    modelName={modelName}
                     name={'avatar'}
                     formikProps={props}
                     onBlur={props.onBlur}
                     onChange={props.handleChange}
                 />,
                 <FieldText
-                    model={model}
+                    modelName={modelName}
                     name={'username'}
                     formikProps={props}
                     onBlur={props.onBlur}
                     onChange={props.handleChange}
                 />,
                 <FieldText
-                    model={model}
+                    modelName={modelName}
                     name={'email'}
                     formikProps={props}
                     onBlur={props.onBlur}
                     onChange={props.handleChange}
                 />,
                 <FieldText
-                    model={model}
+                    modelName={modelName}
                     name={'password'}
                     formikProps={props}
                     onBlur={props.onBlur}
                     onChange={props.handleChange}
                 />,
-                <Button
-                    name={`add-${model}`}
+                <FieldAddButton
+                    modelName={modelName}
                     onClick={props.handleSubmit}
-                    color="default"
-                    variant="outlined"
-                    fullWidth
-                >
-                    {theme.props.components.Add}
-                </Button>
+                />
             ]
             }
         />

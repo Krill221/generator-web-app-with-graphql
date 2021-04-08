@@ -4,7 +4,7 @@ import {
     modelName,
     validationSchema
 } from './schema';
-import Form from '../../__components/formikEdit';
+import Form from '../../__components/FormikEdit';
 
 import FieldText from '../../__components/fieldText';
 //import FieldTextWithSubmit from '../../__components/fieldTextWithSubmit';
@@ -35,11 +35,13 @@ import {
     //CreateInline as CreateView,
 } from '../../__views/CreateView';
 import {
+    //Chat as ItemsView,
     //Table as ItemsView,
     //Grid as ItemsView,
     //List as ItemsView,
 } from '../../__views/ItemsView';
 import {
+    //ItemChat as ItemView,
     //ItemTable as ItemView,
     //ItemCard as ItemView,
     //ItemList as ItemView,
@@ -56,7 +58,7 @@ const Item = ({ item, isNew, update, setActive }) => {
             labels={['']}
             tabs={[
                 <% fields.forEach(function(field){ %><FieldText
-                    model={modelName}
+                    modelName={modelName}
                     name={'<%= field[0] %>'}
                     formikProps={props}
                     onBlur={props.handleSubmit}

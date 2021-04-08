@@ -1,12 +1,12 @@
 import React from 'react';
-import { useTheme } from '@material-ui/core/styles';
+//import { useTheme } from '@material-ui/core/styles';
 import {
     modelName,
     validationSchema
 } from './schema';
-import { Button } from '@material-ui/core';
-import Form from '../../__components/formikNew';
+import Form from '../../__components/FormikNew';
 
+import FieldAddButton from '../../__components/fields/FieldAddButton';
 import FieldText from '../../__components/fieldText';
 //import FieldTextWithSubmit from '../../__components/fieldTextWithSubmit';
 
@@ -49,7 +49,7 @@ import {
 
 const Item = ({ item, add, setActive }) => {
 
-    const theme = useTheme();
+    //const theme = useTheme();
 
     return <Form validationSchema={validationSchema} item={item} onSubmit={(newItem) => {
         add(newItem);
@@ -59,7 +59,7 @@ const Item = ({ item, add, setActive }) => {
             labels={['']}
             tabs={[
                 <% fields.forEach(function(field){ %><FieldText
-                    model={modelName}
+                    modelName={modelName}
                     name={'<%= field[0] %>'}
                     formikProps={props}
                     onBlur={props.onBlur}
@@ -67,15 +67,10 @@ const Item = ({ item, add, setActive }) => {
                     onSubmit={props.handleSubmit} // for FieldTextWithSubmit
                 />,
                 <% }) %>
-                <Button
-                    name={`add-${modelName}`}
+                <FieldAddButton
+                    modelName={modelName}
                     onClick={props.handleSubmit}
-                    color="default"
-                    variant="outlined"
-                    fullWidth
-                >
-                    {theme.props.components.Add}
-                </Button>
+                />
             ]
             }
         />

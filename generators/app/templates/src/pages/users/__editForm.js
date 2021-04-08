@@ -1,10 +1,10 @@
 import React from 'react';
 //import { useTheme } from '@material-ui/core/styles';
-import Form from '../../__components/formikEdit';
+import Form from '../../__components/FormikEdit';
 import FieldText from '../../__components/fields/fieldText';
 import FieldAvatarUpload from '../../__components/fields/fieldAvatarUpload';
 
-import { model, validationSchema } from './schema';
+import { modelName, validationSchema } from './schema';
 import {
     //Chat as LayoutView,
     Grid12 as LayoutView,
@@ -25,28 +25,28 @@ const Item = ({ item, isNew, update, setActive }) => {
             labels={['']}
             tabs={[
                 <FieldAvatarUpload
-                    model={model}
+                    modelName={modelName}
                     name={'avatar'}
                     formikProps={props}
                     onBlur={props.handleSubmit}
                     onChange={props.handleChange}
                 />,
                 <FieldText
-                    model={model}
+                    modelName={modelName}
                     name={'username'}
                     formikProps={props}
                     onBlur={props.handleSubmit}
                     onChange={props.handleChange}
                 />,
                 <FieldText
-                    model={model}
+                    modelName={modelName}
                     name={'email'}
                     formikProps={props}
                     onBlur={props.handleSubmit}
                     onChange={props.handleChange}
                 />,
                 <FieldText
-                    model={model}
+                    modelName={modelName}
                     name={'password'}
                     formikProps={props}
                     onBlur={props.handleSubmit}

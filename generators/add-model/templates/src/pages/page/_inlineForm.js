@@ -4,7 +4,7 @@ import {
     modelName,
     validationSchema
 } from './schema';
-import Form from '../../__components/formikEdit';
+import Form from '../../__components/FormikEdit';
 
 import FieldText from '../../__components/fieldText';
 //import FieldTextWithSubmit from '../../__components/fieldTextWithSubmit';
@@ -56,7 +56,7 @@ const Item = ({ item, isNew, update, setActive }) => {
             labels={['']}
             tabs={[
                 <% fields.forEach(function(field){ %><FieldText
-                    model={modelName}
+                    modelName={modelName}
                     name={'<%= field[0] %>'}
                     formikProps={props}
                     onBlur={props.handleSubmit}

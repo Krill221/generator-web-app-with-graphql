@@ -1,10 +1,12 @@
 import gql from 'graphql-tag';
+// key import
 
 const MODEL = '<%=model%>';
 
 const parent = null;
 const parentId = parent ? parent : 'parentId';
-const fieldsArray = [<%fields.forEach(function(f) { %>['<%=f[0]%>', '<%=f[1]%>'], <% }) %>];
+export const fieldsArray = [<%fields.forEach(function(f) { %>['<%=f[0]%>', '<%=f[1]%>'], <% }) %>];
+const fieldsArrayInput = [<%fields.forEach(function(f) { %>['<%=f[0]%>', '<%=f[1]%>'], <% }) %>];
 
 // Standard queries
 const FRAGMENT_FIELDS = gql`
@@ -21,8 +23,8 @@ ${FRAGMENT_FIELDS}
 `;
 
 export const UPDATE = gql`
-mutation update${MODEL}($id: ID, ${fieldsArray.map( f => `$${f[0]}: ${f[1]}`).join(', ')}) {
-    update${MODEL}(input:{id: $id, ${fieldsArray.map( f => `${f[0]}: $${f[0]}`).join(', ')}}){ ...<%=small_model%>Fields }
+mutation update${MODEL}($id: ID, ${fieldsArrayInput.map( f => `$${f[0]}: ${f[1]}`).join(', ')}) {
+    update${MODEL}(input:{id: $id, ${fieldsArrayInput.map( f => `${f[0]}: $${f[0]}`).join(', ')}}){ ...<%=small_model%>Fields }
 }
 ${FRAGMENT_FIELDS}
 `;
@@ -34,5 +36,5 @@ mutation delete${MODEL}($id: ID!) {
 ${FRAGMENT_FIELDS}
 `;
 
-const QUERY = { FRAGMENT_FIELDS, GETS_WHERE, UPDATE, DELETE }
+const QUERY = { FRAGMENT_FIELDS, GETS_WHERE, UPDATE, DELETE, fieldsArray }
 export default QUERY;

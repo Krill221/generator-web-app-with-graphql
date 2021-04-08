@@ -4,10 +4,18 @@
  */
 
 import { Container, Grid } from '@material-ui/core';
-import React from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import BottomAppBar from '../AppBarView/AppBarBottom';
 
 export default function LayoutView({ tabs }) {
+
+    const divRef = useRef(null);
+    const [height, setHeight] = useState(0);
+
+    useEffect(() => {
+        setHeight(divRef.current.offsetHeight);
+    },[]);
+
     return <Grid container spacing={1} alignItems="flex-end">
         {
             tabs.slice(0, -1).map((step, index) =>
@@ -16,12 +24,11 @@ export default function LayoutView({ tabs }) {
                 </Grid>
             )
         }
-        {
-            <BottomAppBar>
-                <Container>
-                    {tabs[tabs.length - 1]}
-                </Container>
-            </BottomAppBar>
-        }
+        <div style={{height: height, width: '100%'}} ></div>
+        <BottomAppBar>
+            <Container ref={divRef}>
+                {tabs[tabs.length - 1]}
+            </Container>
+        </BottomAppBar>
     </Grid>;
 }

@@ -6,6 +6,7 @@ import React, { useEffect, useState } from 'react';
 import { useItems } from '../__operations';
 import { useUpdateItem, useAddItem, useDeleteItem } from '../__operations';
 import { useHistory, useLocation } from 'react-router-dom';
+import { ListLoading, ListError } from '../__views/LoadingView';
 
 
 const CreateComponent = ({ query, CreateForm, parentObject = {}, CreateView, label }) => {
@@ -169,8 +170,8 @@ const ItemsComponent = ({
 
     const { loading, error, items } = useItems(query, parentObject);
 
-    if (error) return <Error />;
-    if (loading) return <Loading />;
+    if (error) return Loading ? <Loading /> : <ListLoading />;
+    if (loading) return Error ? <Error /> : <ListError />;
 
     console.log('up');
 

@@ -46,7 +46,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function FieldButtonUpload({ formikProps, name, model, onChange, deleteButton, uploadButton, onBlur }) {
+export default function FieldButtonUpload({ formikProps, name, modelName, onChange, deleteButton, uploadButton, onBlur }) {
 
     const theme = useTheme();
     const classes = useStyles();
@@ -88,7 +88,7 @@ export default function FieldButtonUpload({ formikProps, name, model, onChange, 
         </DialogPromt>
 
         {formikProps.errors[name] &&
-            <Alert severity="error">{theme.props.models[model][name]} theme.props.components.NotUploaded</Alert>
+            <Alert severity="error">{theme.props.models[modelName][name]} theme.props.components.NotUploaded</Alert>
         }
         <input onChange={handleUpload} accept="image/*" id={`upload-button-${name}`} name={`upload-button-${name}`} type="file" style={{ display: 'none' }} />
         {

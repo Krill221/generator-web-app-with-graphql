@@ -16,12 +16,12 @@ import React from 'react';
 import { useTheme } from '@material-ui/core/styles';
 import { TextField } from '@material-ui/core';
 
-const FieldText = ({ formikProps, name, model, onBlur, onChange, onKeyDown, InputProps, }) => {
+const FieldText = ({ formikProps, name, modelName, onBlur, onChange, onSubmit, InputProps, }) => {
     const theme = useTheme();
 
     return <TextField
         name={name}
-        label={theme.props.models[model][name]}
+        label={theme.props.models[modelName][name]}
         variant="outlined"
         margin="normal"
         required
@@ -31,7 +31,12 @@ const FieldText = ({ formikProps, name, model, onBlur, onChange, onKeyDown, Inpu
         helperText={formikProps.errors[name] && formikProps.touched[name] ? formikProps.errors[name] : null}
         onBlur={onBlur}
         onChange={onChange}
-        onKeyDown={onKeyDown}
+        onKeyDown={e => {
+            if(e.key === 'Enter') {
+                e.preventDefault()
+                onBlur && onBlur();
+            }
+        }}
         InputProps={InputProps}
     />
 };

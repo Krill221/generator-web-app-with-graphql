@@ -1,10 +1,10 @@
-import { model } from './schema';
+import { modelName } from './schema';
 
 const tableFields = (theme) => {
     return [
         {
             name: "id",
-            label: theme.props.models[model].Id,
+            label: theme.props.models[modelName].Id,
             options: {
                 filter: false,
                 sort: false,
@@ -14,7 +14,7 @@ const tableFields = (theme) => {
         },
         {
             name: 'username',
-            label: theme.props.models[model].username,
+            label: theme.props.models[modelName].username,
             options: {
                 filter: true,
                 sort: false,
@@ -24,7 +24,7 @@ const tableFields = (theme) => {
         },
         {
             name: 'email',
-            label: theme.props.models[model].email,
+            label: theme.props.models[modelName].email,
             options: {
                 filter: true,
                 sort: false,

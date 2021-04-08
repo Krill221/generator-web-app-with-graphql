@@ -2,7 +2,6 @@ import React from 'react';
 import { Container } from '@material-ui/core';
 import { useTheme } from '@material-ui/core/styles';
 import { CreateComponent, ItemsComponent } from '../../__components/itemsComponent';
-import { ListLoading, ListError } from '../../__views/LoadingView';
 import {
     Grid12 as LayoutView,
     //Chat as LayoutView,
@@ -42,7 +41,6 @@ export default function All() {
             labels={['']}
             tabs={[
                 <CreateComponent
-                    label={theme.props.components.Add}
                     query={qUsers}
                     //parentObject={{room: null}}
                     CreateView={CreateView}
@@ -51,8 +49,6 @@ export default function All() {
                 <ItemsComponent
                     query={qUsers}
                     //parentObject={{room: null}}
-                    Loading={ListLoading}
-                    Error={ListError}
                     ItemsView={ItemsView}
                     ItemView={ItemView}
                     EditForm={EditForm}
