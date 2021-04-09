@@ -3,7 +3,7 @@ WEB and NATIVE
 */
 
 import { useQuery, useMutation } from '@apollo/client';
-import { v4 as uuidv4 } from 'uuid';
+//import { v4 as uuidv4 } from 'uuid';
 
 var mongoObjectId = function () {
     var timestamp = (new Date().getTime() / 1000 | 0).toString(16);
@@ -117,7 +117,8 @@ export const useAddItem = (query, parentObject = {}) => {
 
         const optimictic_fields = Object.fromEntries([...new Set([...fields, ...newOptFields])]);
         const today = new Date().toISOString().slice(0, 10);
-        optimictic_fields.id = `new${uuidv4()}`;
+        const optimisticId = `abc${mongoObjectId().slice(3)}`;
+        optimictic_fields.id = optimisticId;
         optimictic_fields.__typename = itemName;
         optimictic_fields.updatedAt = today;
         optimictic_fields.createdAt = today;
