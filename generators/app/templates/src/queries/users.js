@@ -13,19 +13,20 @@ export const fieldsArray = [
   ['email', 'String'],
   ['password', 'String'],
 ];
+const fieldsArrayWithPopulate = [
+  // gen fieldsPopulate
+  ...fieldsArray,
+];
 const fieldsArrayInput = [
   // gen fieldsInput
-  ['avatar', 'String'],
-  ['username', 'String'],
-  ['email', 'String'],
-  ['password', 'String'],
+  ...fieldsArray,
 ];
 
 
 // Standard queries
 const FRAGMENT_FIELDS = gql`
 fragment userFields on User {
-    id ${fieldsArray.map(f => f[0]).join(' ')} createdAt updatedAt __typename
+    id ${fieldsArrayWithPopulate.map(f => f[0]).join(' ')} createdAt updatedAt __typename
 }
 `;
 

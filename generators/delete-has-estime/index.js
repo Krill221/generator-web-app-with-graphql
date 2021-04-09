@@ -34,14 +34,22 @@ module.exports = class extends Generator {
   writing() {
 
     var queryFile = this.fs.read(this.destinationPath(`src/queries/${this.answers.small_populations}.js`));
-    var queriesText = `\\[\'${this.answers.small_model}Id'\, \'ID\'\\], `;
-    queryFile = queryFile.toString().replace(new RegExp(queriesText, 'g'), '');
+
+    var importQ = `\nimport \\{ fieldsArray as ${this.answers.small_model}Fields \\} from \'.\\/${this.answers.small_models}\'`;
+    queryFile = queryFile.toString().replace(new RegExp(importQ, 'g'), '');
+
+    var fieldsArray = `\n\t\\[\'${this.answers.small_model}Id \\{ id \' \\+ ${this.answers.small_model}Fields.map\\(f \=\> f\\[0\\]\\).join\\(\' \'\\) \\+ \'\\}\'\\],`;
+    queryFile = queryFile.toString().replace(new RegExp(fieldsArray, 'g'), '');
+
+    var fieldsInput = `\n\t\\[\'${this.answers.small_model}Id'\, \'ID\'\\],`;
+    queryFile = queryFile.toString().replace(new RegExp(fieldsInput, 'g'), '');
+
     var parentIdQuery = `const parent = \'${this.answers.small_model}Id\'`;
     var parentIdQueryNew = `const parent = null`;
     queryFile = queryFile.toString().replace(new RegExp(parentIdQuery, 'g'), parentIdQueryNew);
     
     this.fs.write(this.destinationPath(`src/queries/${this.answers.small_populations}.js`), queryFile);
-
+    
   }
 
   install() {

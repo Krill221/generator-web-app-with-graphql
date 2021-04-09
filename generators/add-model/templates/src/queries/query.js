@@ -7,20 +7,23 @@ const parent = null;
 const parentId = parent ? parent : 'parentId';
 
 export const fieldsArray = [
-    // gen fieldsArray
+    // gen fieldsArra
     <%fields.forEach(function(f) { %>['<%=f[0]%>', '<%=f[1]%>'],
     <% }) %>
 ];
+const fieldsArrayWithPopulate = [
+    // gen fieldsPopulate
+    ...fieldsArray,
+];
 const fieldsArrayInput = [
     // gen fieldsInput
-    <%fields.forEach(function(f) { %>['<%=f[0]%>', '<%=f[1]%>'],
-    <% }) %>
+    ...fieldsArray,
 ];
 
 // Standard queries
 const FRAGMENT_FIELDS = gql`
 fragment <%=small_model%>Fields on <%=model%> {
-    id ${fieldsArray.map( f => f[0]).join(' ')} createdAt updatedAt
+    id ${fieldsArrayWithPopulate.map( f => f[0]).join(' ')} createdAt updatedAt
 }
 `;
 

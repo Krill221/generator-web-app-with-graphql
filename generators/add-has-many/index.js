@@ -41,8 +41,8 @@ module.exports = class extends Generator {
     var importQNew = `// gen import\nimport { fieldsArray as ${this.answers.small_model}Fields } from './${this.answers.small_models}'`;
     queryFile = queryFile.toString().replace(new RegExp(importQ, 'g'), importQNew);
     
-    var fieldsArray = `// gen fieldsArray`;
-    var fieldsArrayNew = `// gen fieldsArray\n\t['${this.answers.small_model}Id { id ' + ${this.answers.small_model}Fields.map(f => f[0]).join(' ') + '}'],`;
+    var fieldsArray = `// gen fieldsPopulate`;
+    var fieldsArrayNew = `// gen fieldsPopulate\n\t['${this.answers.small_model}Id { id ' + ${this.answers.small_model}Fields.map(f => f[0]).join(' ') + '}'],`;
     queryFile = queryFile.toString().replace(new RegExp(fieldsArray, 'g'), fieldsArrayNew);
 
     var fieldsInput = `// gen fieldsInput`;

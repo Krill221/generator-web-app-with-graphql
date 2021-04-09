@@ -27,8 +27,11 @@ module.exports = class extends Generator {
   writing() {
 
     var queryFile = this.fs.read(this.destinationPath(`src/queries/${this.answers.small_models}.js`));
-    var fieldsQuery = `${this.answers.fields.map(f => '\\[\''+f[0]+'\', \''+f[1]+'\'\\]').join(', ')}, `;
-    queryFile = queryFile.toString().replace(new RegExp(fieldsQuery, 'g'), '');
+    this.answers.fields.forEach(f => {
+      var fieldsQuery = `\n\t\\[\'${f[0]}\', \'${f[1]}\'\\],`;
+      queryFile = queryFile.toString().replace(new RegExp(fieldsQuery, 'g'), '');
+    });
+
     this.fs.write(this.destinationPath(`src/queries/${this.answers.small_models}.js`), queryFile);
 
   }
