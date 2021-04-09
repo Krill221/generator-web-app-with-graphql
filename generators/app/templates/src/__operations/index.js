@@ -63,7 +63,6 @@ export const useAddItem = (query, parentObject = {}) => {
     const newItem = Object.fromEntries([...new Set([...fields, ...Object.entries(parentObject)])]);
     const today = new Date().toISOString().slice(0, 10);
     newItem.id = `abc${newId.slice(3)}`;
-    console.log(newId);
     newItem.updatedAt = today;
     newItem.createdAt = today;
 
