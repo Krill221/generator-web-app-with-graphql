@@ -1,7 +1,6 @@
 import React from 'react';
 import { useTheme } from '@material-ui/core/styles';
 import { CreateComponent, ItemsComponent } from '../../__components/itemsComponent';
-import { ListLoading, ListError } from '../../__views/LoadingView';
 import {
     Grid12 as LayoutView,
     //Chat as LayoutView,
