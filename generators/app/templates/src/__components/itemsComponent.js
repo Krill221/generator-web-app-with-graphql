@@ -170,8 +170,8 @@ const ItemsComponent = ({
 
     const { loading, error, items } = useItems(query, parentObject);
 
-    if (error) return Loading ? <Loading /> : <ListLoading />;
-    if (loading) return Error ? <Error /> : <ListError />;
+    if (loading) return Loading ? <Loading /> : <ListLoading />;
+    if (error) return Error ? <Error /> : <ListError />;
 
     console.log('up');
 
