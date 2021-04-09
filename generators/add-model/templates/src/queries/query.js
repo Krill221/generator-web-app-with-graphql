@@ -1,12 +1,21 @@
 import gql from 'graphql-tag';
-// key import
+// gen import
 
 const MODEL = '<%=model%>';
 
 const parent = null;
 const parentId = parent ? parent : 'parentId';
-export const fieldsArray = [<%fields.forEach(function(f) { %>['<%=f[0]%>', '<%=f[1]%>'], <% }) %>];
-const fieldsArrayInput = [<%fields.forEach(function(f) { %>['<%=f[0]%>', '<%=f[1]%>'], <% }) %>];
+
+export const fieldsArray = [
+    // gen fieldsArray
+    <%fields.forEach(function(f) { %>['<%=f[0]%>', '<%=f[1]%>'],
+    <% }) %>
+];
+const fieldsArrayInput = [
+    // gen fieldsInput
+    <%fields.forEach(function(f) { %>['<%=f[0]%>', '<%=f[1]%>'],
+    <% }) %>
+];
 
 // Standard queries
 const FRAGMENT_FIELDS = gql`

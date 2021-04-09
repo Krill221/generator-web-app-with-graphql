@@ -6,7 +6,7 @@ const MODEL = 'User';
 const parent = null;
 const parentId = parent ? parent : 'parentId';
 
-const fieldsArray = [
+export const fieldsArray = [
   // gen fieldsArray
   ['avatar', 'String'],
   ['username', 'String'],

@@ -43,7 +43,6 @@ export default function All() {
             labels={['']}
             tabs={[
                 <CreateComponent
-                    label={theme.props.components.Add}
                     query={qMain}
                     //parentObject={{room: null}}
                     CreateView={CreateView}
@@ -52,8 +51,6 @@ export default function All() {
                 <ItemsComponent
                     query={qMain}
                     //parentObject={{room: null}}
-                    Loading={ListLoading}
-                    Error={ListError}
                     ItemsView={ItemsView}
                     ItemView={ItemView}
                     EditForm={EditForm}
