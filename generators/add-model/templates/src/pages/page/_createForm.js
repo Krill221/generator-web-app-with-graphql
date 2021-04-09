@@ -1,4 +1,7 @@
-import React from 'react';
+import React, {
+    //useContext
+} from 'react';
+//import { AuthContext } from '../../__providers/authProvider';
 //import { useTheme } from '@material-ui/core/styles';
 import {
     modelName,
@@ -50,6 +53,9 @@ import {
 const Item = ({ item, add, setActive }) => {
 
     //const theme = useTheme();
+
+    //const { user } = useContext(AuthContext);
+    //item.userId = user?.id;
 
     return <Form validationSchema={validationSchema} item={item} onSubmit={(newItem) => {
         add(newItem);

@@ -2,9 +2,10 @@ import React, { useContext, Fragment } from 'react';
 import { AuthContext } from '../../__providers/authProvider';
 import { useTheme, makeStyles } from '@material-ui/core/styles';
 //import { makeStyles } from '@material-ui/core/styles';
-import { Avatar, Box, Button, Card, CardActions, CardContent } from '@material-ui/core';
+import { Avatar, Box, Button, Card, CardActions, CardContent, Typography } from '@material-ui/core';
 import DialogPromt from '../DialogView/DialogPromt';
 import DialogFullScreen from '../DialogView/DialogFullScreen';
+import moment from 'moment';
 
 const useStyles = makeStyles((theme) => ({
     details: {
@@ -39,6 +40,7 @@ const ItemView = ({
                 {inlineContent}
             </CardContent>
             <CardActions>
+                <Typography color="textSecondary" variant="body2" component="p" gutterBottom>{moment(item.createdAt).format('LT')}</Typography>
                 {
                     ((user.id === item.userId?.id) && options.editable) && <Fragment>
                         <Button
