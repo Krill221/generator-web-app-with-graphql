@@ -6,6 +6,11 @@ import { Avatar, Box, Button, Card, CardActions, CardContent, Typography } from 
 import DialogPromt from '../DialogView/DialogPromt';
 import DialogFullScreen from '../DialogView/DialogFullScreen';
 import moment from 'moment';
+import qMain from '../../queries/likes.js';
+import {
+    LikesButton,
+    LikesCountComponent,
+} from '../../__components/likesComponent';
 
 const useStyles = makeStyles((theme) => ({
     details: {
@@ -40,7 +45,16 @@ const ItemView = ({
                 {inlineContent}
             </CardContent>
             <CardActions>
-                <Typography color="textSecondary" variant="body2" component="p" gutterBottom>{moment(item.createdAt).format('LT')}</Typography>
+                <Typography color="textSecondary" variant="body2" component="p" gutterBottom>{moment(item.createdAt).format('LT')}
+                    <LikesButton
+                        query={qMain}
+                        parentObject={{ messageId: item.id }}
+                    />
+                    <LikesCountComponent
+                        query={qMain}
+                        parentObject={{ messageId: item.id }}
+                    />
+                </Typography>
                 {
                     ((user.id === item.userId?.id) && options.editable) && <Fragment>
                         <Button
