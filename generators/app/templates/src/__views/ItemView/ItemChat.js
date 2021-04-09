@@ -31,7 +31,7 @@ const ItemView = ({
 
     const { user } = useContext(AuthContext);
 
-    return <Box display="flex" flexDirection={user.id === item.userId?.id ? 'row-reverse' : 'row'} p={1} m={1} >
+    return <Box display="flex" flexDirection={user.id === item.userId?.id ? 'row-reverse' : 'row'} p={0} m={0} >
         {
             (user.id !== item.userId?.id) && <Avatar className={classes.details} alt="12" src={item.userId?.avatar} />
         }
