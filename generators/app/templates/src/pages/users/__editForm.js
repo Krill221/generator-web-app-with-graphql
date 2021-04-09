@@ -1,8 +1,8 @@
 import React from 'react';
 //import { useTheme } from '@material-ui/core/styles';
 import Form from '../../__components/FormikEdit';
-import FieldText from '../../__components/fields/fieldText';
-import FieldAvatarUpload from '../../__components/fields/fieldAvatarUpload';
+import FieldText from '../../__components/fields/FieldText';
+import FieldAvatarUpload from '../../__components/fields/FieldAvatarUpload';
 
 import { modelName, validationSchema } from './schema';
 import {

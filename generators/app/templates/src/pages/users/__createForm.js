@@ -1,7 +1,7 @@
 import React from 'react';
-import FieldText from '../../__components/fields/fieldText';
 import Form from '../../__components/FormikNew';
-import FieldAvatarUpload from '../../__components/fields/fieldAvatarUpload';
+import FieldText from '../../__components/fields/FieldText';
+import FieldAvatarUpload from '../../__components/fields/FieldAvatarUpload';
 import FieldAddButton from '../../__components/fields/FieldAddButton';
 import { modelName, validationSchema } from './schema';
 import {

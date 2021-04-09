@@ -7,8 +7,8 @@ import {
 import Form from '../../__components/FormikNew';
 
 import FieldAddButton from '../../__components/fields/FieldAddButton';
-import FieldText from '../../__components/fieldText';
-//import FieldTextWithSubmit from '../../__components/fieldTextWithSubmit';
+import FieldText from '../../__components/fields/FieldText';
+//import FieldTextWithSubmit from '../../__components/fields/FieldTextWithSubmit';
 
 import {
     //Chat as LayoutView,

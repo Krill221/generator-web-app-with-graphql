@@ -5,6 +5,13 @@ WEB and NATIVE
 import { useQuery, useMutation } from '@apollo/client';
 import { v4 as uuidv4 } from 'uuid';
 
+var mongoObjectId = function () {
+    var timestamp = (new Date().getTime() / 1000 | 0).toString(16);
+    return timestamp + 'xxxxxxxxxxxxxxxx'.replace(/[x]/g, function() {
+        return (Math.random() * 16 | 0).toString(16);
+    }).toLowerCase();
+};
+
 export const useItems = (query, parentId = {}) => {
     const { error, data, loading } = useQuery(query.GETS_WHERE, { variables: parentId });
     const items = data ? data[Object.keys(data)[0]] : [];
@@ -49,13 +56,14 @@ export const useUpdateItem = (query) => {
 
 export const useAddItem = (query, parentObject = {}) => {
 
-    const newId = uuidv4();
+    const newId = mongoObjectId();
     const updateName = query.UPDATE.definitions[0].name.value;
     const itemName = query.UPDATE.definitions[1].typeCondition.name.value;
     const fields = query.UPDATE.definitions[1].selectionSet.selections.map(f => [f.name.value, f.selectionSet ? [] : '']);
     const newItem = Object.fromEntries([...new Set([...fields, ...Object.entries(parentObject)])]);
     const today = new Date().toISOString().slice(0, 10);
-    newItem.id = `new${newId}`;
+    newItem.id = `abc${newId.slice(3)}`;
+    console.log(newId);
     newItem.updatedAt = today;
     newItem.createdAt = today;
 

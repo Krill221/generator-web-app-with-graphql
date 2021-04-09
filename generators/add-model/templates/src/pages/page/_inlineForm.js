@@ -5,9 +5,8 @@ import {
     validationSchema
 } from './schema';
 import Form from '../../__components/FormikEdit';
-
-import FieldText from '../../__components/fieldText';
-//import FieldTextWithSubmit from '../../__components/fieldTextWithSubmit';
+import FieldText from '../../__components/fields/FieldText';
+//import FieldTextWithSubmit from '../../__components/fields/FieldTextWithSubmit';
 
 import {
     //Chat as LayoutView,
