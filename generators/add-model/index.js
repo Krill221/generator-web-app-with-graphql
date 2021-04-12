@@ -34,28 +34,33 @@ module.exports = class extends Generator {
       this.answers,
     );
     this.fs.copyTpl(
-      this.templatePath('src/pages/page/_createForm.js'),
-      this.destinationPath(`src/pages/${this.answers.small_models}/_createForm.js`),
+      this.templatePath('src/pages/page/__createForm.js'),
+      this.destinationPath(`src/pages/${this.answers.small_models}/__createForm.js`),
       this.answers,
     );
     this.fs.copyTpl(
-      this.templatePath('src/pages/page/_deleteForm.js'),
-      this.destinationPath(`src/pages/${this.answers.small_models}/_deleteForm.js`),
+      this.templatePath('src/pages/page/__deleteForm.js'),
+      this.destinationPath(`src/pages/${this.answers.small_models}/__deleteForm.js`),
       this.answers,
     );
     this.fs.copyTpl(
-      this.templatePath('src/pages/page/_editForm.js'),
-      this.destinationPath(`src/pages/${this.answers.small_models}/_editForm.js`),
+      this.templatePath('src/pages/page/__editForm.js'),
+      this.destinationPath(`src/pages/${this.answers.small_models}/__editForm.js`),
       this.answers,
     );
     this.fs.copyTpl(
-      this.templatePath('src/pages/page/_inlineForm.js'),
-      this.destinationPath(`src/pages/${this.answers.small_models}/_inlineForm.js`),
+      this.templatePath('src/pages/page/__inlineForm.js'),
+      this.destinationPath(`src/pages/${this.answers.small_models}/__inlineForm.js`),
       this.answers,
     );
     this.fs.copyTpl(
-      this.templatePath('src/pages/page/_tableForm.js'),
-      this.destinationPath(`src/pages/${this.answers.small_models}/_tableForm.js`),
+      this.templatePath('src/pages/page/__inlineForm2.js'),
+      this.destinationPath(`src/pages/${this.answers.small_models}/__inlineForm2.js`),
+      this.answers,
+    );
+    this.fs.copyTpl(
+      this.templatePath('src/pages/page/__tableForm.js'),
+      this.destinationPath(`src/pages/${this.answers.small_models}/__tableForm.js`),
       this.answers,
     );
     this.fs.copyTpl(

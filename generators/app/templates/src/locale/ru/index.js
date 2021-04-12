@@ -1,7 +1,5 @@
 import user from './user';
 //top for generator
-import cart from './cart';
-import product from './product';
 
 const ruRU = {
   props: {
@@ -51,8 +49,6 @@ const ruRU = {
     },
     models: {
       // models for generator
-			cart : { ...cart },
-			product : { ...product },
 			user: { ...user },
     }
   }

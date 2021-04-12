@@ -7,9 +7,9 @@ import {
     modelName,
     validationSchema
 } from './schema';
-import Form from '../../__components/FormikNew';
+import Form from '../../__components/helpers/FormikNew';
 
-import FieldAddButton from '../../__components/fields/FieldAddButton';
+import FieldSubmitButton from '../../__components/fields/FieldSubmitButton';
 import FieldText from '../../__components/fields/FieldText';
 //import FieldTextWithSubmit from '../../__components/fields/FieldTextWithSubmit';
 
@@ -73,7 +73,7 @@ const Item = ({ item, add, setActive }) => {
                     onSubmit={props.handleSubmit} // for FieldTextWithSubmit
                 />,
                 <% }) %>
-                <FieldAddButton
+                <FieldSubmitButton
                     modelName={modelName}
                     onClick={props.handleSubmit}
                 />

@@ -1,6 +1,6 @@
 import React from 'react';
 //import { useTheme } from '@material-ui/core/styles';
-import Form from '../../__components/helper/FormikEdit';
+import Form from '../../__components/helpers/FormikEdit';
 import FieldText from '../../__components/fields/FieldText';
 import { modelName, validationSchema } from './schema';
 import {

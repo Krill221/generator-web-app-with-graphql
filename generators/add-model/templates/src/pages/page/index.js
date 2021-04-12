@@ -25,11 +25,12 @@ import {
     //ItemList as ItemView,
 } from '../../__views/ItemView';
 
-import CreateForm from '../<%=small_models%>/_createForm';
-import EditForm from '../<%=small_models%>/_editForm';
-import InlineForm from '../<%=small_models%>/_inlineForm';
-import DeleteForm from '../<%=small_models%>/_deleteForm';
-import TableForm from '../<%=small_models%>/_tableForm';
+import CreateForm from '../<%=small_models%>/__createForm';
+import EditForm from '../<%=small_models%>/__editForm';
+import InlineForm from '../<%=small_models%>/__inlineForm';
+import InlineForm2 from '../<%=small_models%>/__inlineForm2';
+import DeleteForm from '../<%=small_models%>/__deleteForm';
+import TableForm from '../<%=small_models%>/__tableForm';
 import qMain from '../../queries/<%=small_models%>.js';
 
 import { Container } from '@material-ui/core';
@@ -43,17 +44,18 @@ export default function All() {
             tabs={[
                 <CreateComponent
                     query={qMain}
-                    //parentObject={{room: null}}
+                    //parentObject={{roomId: null}}
                     CreateView={CreateView}
                     CreateForm={CreateForm}
                 />,
                 <ItemsComponent
                     query={qMain}
-                    //parentObject={{room: null}}
+                    //parentObject={{roomId: null}}
                     ItemsView={ItemsView}
                     ItemView={ItemView}
                     EditForm={EditForm}
                     InlineForm={InlineForm}
+                    InlineForm2={InlineForm2}
                     TableForm={TableForm(theme)}
                     DeleteForm={DeleteForm}
                     options={{

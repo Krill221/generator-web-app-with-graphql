@@ -1,5 +1,5 @@
 import React from 'react';
-import Form from '../../__components/helper/FormikNew';
+import Form from '../../__components/helpers/FormikNew';
 import FieldText from '../../__components/fields/FieldText';
 import FieldAvatarUpload from '../../__components/fields/FieldAvatarUpload';
 import FieldSubmitButton from '../../__components/fields/FieldSubmitButton';
