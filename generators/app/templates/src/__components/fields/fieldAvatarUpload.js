@@ -69,7 +69,7 @@ export default function FieldButtonUpload({ formikProps, name, modelName, onChan
     const [deleteFile, deleteStatus] = useMutation(DELETE_FILE, {
         onCompleted: ({ uploadFile }) => {
             onChange({ target: { name: name, value: '' } });
-            onBlur();
+            onBlur && onBlur();
         }
     });
     const handleDelete = () => {

@@ -17,6 +17,7 @@ const ItemView = ({
     isNew,
     editContent,
     inlineContent,
+    inlineContent2,
     deleteContent,
     activeEdit, setActiveEdit,
     activeDel, setActiveDel,
@@ -26,6 +27,7 @@ const ItemView = ({
     return <Fragment>
         <ListItem>
             {inlineContent}
+            {inlineContent2}
             {
                 options.editable &&
                 <ListItemIcon>

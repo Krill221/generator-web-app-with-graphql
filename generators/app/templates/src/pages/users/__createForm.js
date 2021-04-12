@@ -1,8 +1,8 @@
 import React from 'react';
-import Form from '../../__components/FormikNew';
+import Form from '../../__components/helper/FormikNew';
 import FieldText from '../../__components/fields/FieldText';
 import FieldAvatarUpload from '../../__components/fields/FieldAvatarUpload';
-import FieldAddButton from '../../__components/fields/FieldAddButton';
+import FieldSubmitButton from '../../__components/fields/FieldSubmitButton';
 import { modelName, validationSchema } from './schema';
 import {
     //Chat as LayoutView,
@@ -51,7 +51,7 @@ const Item = ({ item, add, setActive }) => {
                     onBlur={props.onBlur}
                     onChange={props.handleChange}
                 />,
-                <FieldAddButton
+                <FieldSubmitButton
                     modelName={modelName}
                     onClick={props.handleSubmit}
                 />

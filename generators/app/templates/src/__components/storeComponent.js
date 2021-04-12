@@ -1,33 +1,56 @@
 /*
 WEB
 
-<LikesButton
+<PayButton />,
+<CartButton
     query={qMain}
     parentObject={{roomId: item.id}}
 />,
-<LikesCountComponent
+<CartCountComponent
     query={qMain}
     parentObject={{roomId: item.id}}
 />,
 
 */
 
-import { IconButton } from '@material-ui/core';
-import React, { Fragment, useContext } from 'react';
-import { useItems, useAddItem, useDeleteItem } from '../__operations';
+import { Button, IconButton } from '@material-ui/core';
+import React, { Fragment, useContext, useState } from 'react';
+import { useTheme } from '@material-ui/core/styles';
+import {
+    useItems,
+    useAddItem,
+} from '../__operations';
 import { AuthArea } from './authArea';
 import { AuthContext } from '../__providers/authProvider';
-import FavoriteIcon from '@material-ui/icons/Favorite';
 import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 
 
-const LikesButton = ({ query, parentObject = {}, LikeView, UnLikeView }) => {
+const PayButton = ({ query, CreateForm, parentObject = {}, CreateView, label }) => {
 
-    console.log('Like b');
+    const theme = useTheme();
+    const [activeEdit, setActiveEdit] = useState(false);
+
+
+    return <AuthArea
+        publicArea={
+            <CreateView label={'Pay'} active={activeEdit} setActive={setActiveEdit} >
+            </CreateView>
+        }
+        privateArea={
+            <CreateView label={'Pay'} active={activeEdit} setActive={setActiveEdit} >
+            </CreateView>
+        }
+    />
+};
+
+
+const AddToCartButton = ({ query, parentObject = {}, LikeView, UnLikeView }) => {
+
+    console.log('Cart b');
 
     const { loading, error, items } = useItems(query, parentObject);
     const addHook = useAddItem(query, parentObject);
-    const deleteHook = useDeleteItem(query);
+    const theme = useTheme();
 
     const { user } = useContext(AuthContext);
 
@@ -35,7 +58,7 @@ const LikesButton = ({ query, parentObject = {}, LikeView, UnLikeView }) => {
         if (item !== undefined) {
             if (!item.id.includes('new')) {
                 if (!items.find(i => i.id.includes('new'))) {
-                    deleteHook.del(item);
+                    //deleteHook.del(item);
                 }
             }
         } else {
@@ -61,17 +84,23 @@ const LikesButton = ({ query, parentObject = {}, LikeView, UnLikeView }) => {
 
     return <AuthArea
         publicArea={
-            <IconButton
+            <Button
                 size="small"
-                color="secondary"
+                onClick={e => {
+                    e.preventDefault();
+                }}
+                onDoubleClick={e => {
+                    e.preventDefault();
+                }}
+                color="primary"
                 aria-label="like"
                 className="like-button"
             >
-                {LikeView ? LikeView : <FavoriteBorderIcon />}
-            </IconButton>
+                {theme.props.components.AddToCart}
+            </Button>
         }
         privateArea={<React.Fragment>
-            <IconButton
+            <Button
                 size="small"
                 onClick={e => {
                     e.preventDefault();
@@ -81,27 +110,21 @@ const LikesButton = ({ query, parentObject = {}, LikeView, UnLikeView }) => {
                     e.preventDefault();
                     console.log('onDoubleClick');
                 }}
-                color="secondary"
+                color="primary"
                 aria-label="like"
                 className="like-button"
             >
-                {
-                    (myItem !== undefined && items.length !== 0) ?
-                        (LikeView ? LikeView : <FavoriteIcon />)
-                        :
-                        (UnLikeView ? UnLikeView : <FavoriteBorderIcon />)
-
-                }
-            </IconButton>
+                {theme.props.components.AddToCart}
+            </Button>
         </React.Fragment>}
     />
 };
 
-const LikesCountComponent = ({
+const CartCountComponent = ({
     query,
     parentObject,
 }) => {
-    console.log('likes count');
+    console.log('cart count');
 
     const { loading, error, items } = useItems(query, parentObject);
 
@@ -111,4 +134,4 @@ const LikesCountComponent = ({
     return <Fragment>{items.length}</Fragment>;
 };
 
-export { LikesCountComponent, LikesButton };
+export { CartCountComponent, AddToCartButton, PayButton };

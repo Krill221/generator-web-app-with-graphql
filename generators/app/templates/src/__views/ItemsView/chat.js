@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import { Grid } from '@material-ui/core';
 
-const Its = ({ models, items, Item, query, ItemView, EditForm, InlineForm, DeleteForm, options }) => {
+const Its = ({ models, items, Item, query, ItemView, EditForm, InlineForm, InlineForm2, DeleteForm, options }) => {
 
     const lastEl = useRef(null);
 
@@ -19,6 +19,7 @@ const Its = ({ models, items, Item, query, ItemView, EditForm, InlineForm, Delet
                         query={query}
                         EditForm={EditForm}
                         InlineForm={InlineForm}
+                        InlineForm2={InlineForm2}
                         DeleteForm={DeleteForm}
                         options={options}
                     />

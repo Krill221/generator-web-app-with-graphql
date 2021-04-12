@@ -1,7 +1,7 @@
 import React from 'react';
 import { List } from '@material-ui/core';
 
-const Its = ({ models, items, Item, query, ItemView, EditForm, InlineForm, DeleteForm, options}) => {
+const Its = ({ models, items, Item, query, ItemView, EditForm, InlineForm, InlineForm2, DeleteForm, options}) => {
     return <List name={`${models}-list`} dense={false}>
         {items.map((item) =>
             <Item
@@ -11,6 +11,7 @@ const Its = ({ models, items, Item, query, ItemView, EditForm, InlineForm, Delet
                 query={query}
                 EditForm={EditForm}
                 InlineForm={InlineForm}
+                InlineForm2={InlineForm2}
                 DeleteForm={DeleteForm}
                 options={options}
             />

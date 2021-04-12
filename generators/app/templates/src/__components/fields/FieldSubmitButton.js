@@ -6,7 +6,7 @@ import React from 'react';
 import { Button } from '@material-ui/core';
 import { useTheme } from '@material-ui/core/styles';
 
-export default function FieldAddButton({modelName, label, onClick, color, variant, fullWidth}) {
+export default function FieldSubmitButton({modelName, label, onClick, color, variant, fullWidth}) {
 
     const theme = useTheme();
 

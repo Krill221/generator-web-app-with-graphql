@@ -8,7 +8,7 @@ import { Button } from '@material-ui/core';
 const ItemView = ({
     isNew,
     editContent,
-    inlineContent,
+    inlineContent2,
     deleteContent,
     activeEdit, setActiveEdit,
     activeDel, setActiveDel,
@@ -20,7 +20,7 @@ const ItemView = ({
     return <Fragment>
         {
             options.inline && <Fragment>
-                {inlineContent}
+                {inlineContent2}
             </Fragment>
         }
         {
@@ -71,7 +71,7 @@ const ItemView = ({
                 </DialogPromt>
             </Fragment>
         }
-        </Fragment>
+    </Fragment>
 };
 
 export default ItemView;

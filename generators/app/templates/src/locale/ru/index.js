@@ -1,5 +1,7 @@
 import user from './user';
 //top for generator
+import cart from './cart';
+import product from './product';
 
 const ruRU = {
   props: {
@@ -44,9 +46,13 @@ const ruRU = {
       Error: "Ошибка",
       Uploaded: "Загружен",
       NotUploaded: "Не загружен",
+      AddToCart: "В Корзину",
+      Pay: "Оплатить",
     },
     models: {
       // models for generator
+			cart : { ...cart },
+			product : { ...product },
 			user: { ...user },
     }
   }

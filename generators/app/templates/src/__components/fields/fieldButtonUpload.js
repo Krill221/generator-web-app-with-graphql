@@ -2,10 +2,11 @@
     Example:
                 
     <FieldButtonUpload
-                    model={model}
+                    modelName={modelName}
                     name={'avatar'}
                     formikProps={props}
                     onChange={props.handleChange}
+                    onBlur={props.handleSubmit}
                     uploadButton={(loading) => <Button disabled={loading} fullWidth variant="contained" color="primary" component="span">Upload File</Button>}
                     deleteButton={(loading) => <Button disabled={loading} fullWidth variant="contained" color="primary" component="span">Delete File</Button>}
     />
@@ -30,7 +31,7 @@ export default function FieldButtonUpload({ formikProps, name, modelName, onChan
     const [uploadFile, uploadStatus] = useMutation(UPLOAD_FILE, {
         onCompleted: ({ uploadFile }) => {
             onChange({ target: { name: name, value: uploadFile.filename } });
-            onBlur();
+            onBlur && onBlur();
         }
     });
     const handleUpload = ({ target: { validity, files: [file] } }) => {

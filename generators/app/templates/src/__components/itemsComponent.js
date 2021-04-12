@@ -49,6 +49,7 @@ const Item = React.memo(({
     ItemView,
     EditForm,
     InlineForm,
+    InlineForm2,
     DeleteForm,
     options
 }) => {
@@ -105,6 +106,15 @@ const Item = React.memo(({
                 options={options}
             />
         }
+        inlineContent2={
+            <InlineForm2
+                active={activeEdit} setActive={setActiveEdit}
+                item={item}
+                update={updateHook.update}
+                isNew={isNew}
+                options={options}
+            />
+        }
         editContent={options.editable ?
             <EditForm
                 active={activeEdit} setActive={setActiveEditWithRouter}
@@ -135,6 +145,7 @@ const Items = React.memo(({
     ItemView,
     EditForm,
     InlineForm,
+    InlineForm2,
     DeleteForm,
     options
 }) => {
@@ -148,6 +159,7 @@ const Items = React.memo(({
         ItemView={ItemView}
         EditForm={EditForm}
         InlineForm={InlineForm}
+        InlineForm2={InlineForm2}
         DeleteForm={DeleteForm}
         TableForm={TableForm}
         options={options}
@@ -164,6 +176,7 @@ const ItemsComponent = ({
     ItemView,
     EditForm,
     InlineForm,
+    InlineForm2,
     DeleteForm,
     options
 }) => {
@@ -182,6 +195,7 @@ const ItemsComponent = ({
         ItemView={ItemView}
         EditForm={EditForm}
         InlineForm={InlineForm}
+        InlineForm2={InlineForm2}
         DeleteForm={DeleteForm}
         TableForm={TableForm}
         options={options}

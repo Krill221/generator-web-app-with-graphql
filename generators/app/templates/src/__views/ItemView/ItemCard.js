@@ -9,6 +9,7 @@ const ItemView = ({
     isNew,
     editContent,
     inlineContent,
+    inlineContent2,
     deleteContent,
     activeEdit, setActiveEdit,
     activeDel, setActiveDel,
@@ -21,6 +22,7 @@ const ItemView = ({
             {inlineContent}
         </CardContent>
         <CardActions>
+            {inlineContent2}
             {
                 options.editable && <Fragment>
                     <Button

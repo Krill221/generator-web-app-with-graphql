@@ -17,7 +17,7 @@ const optionsTable = {
 };
 
 
-const Its = ({ TableForm, items, Item, query, ItemView, EditForm, InlineForm, DeleteForm, options }) => {
+const Its = ({ TableForm, items, Item, query, ItemView, EditForm, InlineForm, InlineForm2, DeleteForm, options }) => {
 
 
     const d = items.map(item => {
@@ -29,6 +29,7 @@ const Its = ({ TableForm, items, Item, query, ItemView, EditForm, InlineForm, De
                 query={query}
                 EditForm={EditForm}
                 InlineForm={InlineForm}
+                InlineForm2={InlineForm2}
                 DeleteForm={DeleteForm}
                 options={options}
             />)

@@ -21,6 +21,7 @@ import {
     //List as ItemsView,
 } from '../../__views/ItemsView';
 import {
+    //ItemChat as ItemView,
     ItemTable as ItemView,
     //ItemCard as ItemView,
     //ItemList as ItemView,
@@ -29,6 +30,7 @@ import {
 import CreateForm from '../users/__createForm';
 import EditForm from '../users/__editForm';
 import InlineForm from '../users/__inlineForm';
+import InlineForm2 from '../users/__inlineForm';
 import DeleteForm from '../users/__deleteForm';
 import TableForm from '../users/__tableForm';
 import qUsers from '../../queries/users.js';
@@ -53,6 +55,7 @@ export default function All() {
                     ItemView={ItemView}
                     EditForm={EditForm}
                     InlineForm={InlineForm}
+                    InlineForm2={InlineForm2}
                     TableForm={TableForm(theme)}
                     DeleteForm={DeleteForm}
                     options={{
