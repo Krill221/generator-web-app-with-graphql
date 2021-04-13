@@ -9,10 +9,10 @@ import { useHistory, useLocation } from 'react-router-dom';
 import { ListLoading, ListError } from '../__views/LoadingView';
 
 
-const CreateComponent = ({ query, CreateForm, parentObject = {}, CreateView, label }) => {
+const CreateComponent = ({ query, CreateForm, parentObjects = {}, CreateView, label }) => {
     console.log('create');
 
-    const addHook = useAddItem(query, parentObject);
+    const addHook = useAddItem(query, parentObjects);
     const [activeEdit, setActiveEdit] = useState(false);
     const item = addHook.item;
 
@@ -138,7 +138,7 @@ const Item = React.memo(({
 });
 
 const Items = React.memo(({
-    TableForm,
+    modelName,
     items,
     query,
     ItemsView,
@@ -147,12 +147,14 @@ const Items = React.memo(({
     InlineForm,
     InlineForm2,
     DeleteForm,
+    TableForm,
     options
 }) => {
 
     console.log('list');
 
     return <ItemsView
+        modelName={modelName}
         items={items}
         query={query}
         Item={Item}
@@ -167,9 +169,9 @@ const Items = React.memo(({
 });
 
 const ItemsComponent = ({
-    TableForm,
+    modelName,
     query,
-    parentObject,
+    parentObjects,
     Loading,
     Error,
     ItemsView,
@@ -178,10 +180,11 @@ const ItemsComponent = ({
     InlineForm,
     InlineForm2,
     DeleteForm,
+    TableForm,
     options
 }) => {
 
-    const { loading, error, items } = useItems(query, parentObject);
+    const { loading, error, items } = useItems(query, parentObjects);
 
     if (loading) return Loading ? <Loading /> : <ListLoading />;
     if (error) return Error ? <Error /> : <ListError />;
@@ -189,6 +192,7 @@ const ItemsComponent = ({
     console.log('up');
 
     return <Items
+        modelName={modelName}
         items={items}
         query={query}
         ItemsView={ItemsView}

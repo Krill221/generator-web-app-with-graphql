@@ -25,10 +25,6 @@ import {
     //LikesCountComponent,
 } from '../../__components/likesComponent';
 import {
-    //ListLoading,
-    //ListError
-} from '../../__views/LoadingView';
-import {
     //CreateFab as CreateView,
     //CreateButton as CreateView,
     //CreateInline as CreateView,

@@ -54,25 +54,34 @@ export const useUpdateItem = (query) => {
 }
 
 
-export const useAddItem = (query, parentObject = {}) => {
+export const useAddItem = (query, parentObjects = {}) => {
 
-    const newId = mongoObjectId();
+    /// create temp local item with id for has many
     const updateName = query.UPDATE.definitions[0].name.value;
     const itemName = query.UPDATE.definitions[1].typeCondition.name.value;
     const fields = query.UPDATE.definitions[1].selectionSet.selections.map(f => [f.name.value, f.selectionSet ? [] : '']);
-    const newItem = Object.fromEntries([...new Set([...fields, ...Object.entries(parentObject)])]);
+    const newItem = Object.fromEntries([...new Set([...fields, ...Object.entries(parentObjects)])]);
     const today = new Date().toISOString().slice(0, 10);
-    newItem.id = `abc${newId.slice(3)}`;
+
+    // generate tem id and set globaly
+    if(localStorage.getItem(updateName) === null){
+        localStorage.setItem(updateName, `abc${mongoObjectId().slice(3)}`);
+    }
+    newItem.id = localStorage.getItem(updateName);
     newItem.updatedAt = today;
     newItem.createdAt = today;
 
     const [mutate, { data, error }] = useMutation(query.UPDATE, {
         update(cache, ans) {
             const ansData = ans.data[Object.keys(ans.data)[0]];
-
+            
+            // add to temp where query item
             cache.modify({
                 fields(existingItems = [], QueryWhere) {
                     if (QueryWhere.fieldName === `${ansData.__typename}Where`) {
+
+
+
                         const newItemRef = cache.writeFragment({
                             data: ansData, fragment: query.FRAGMENT_FIELDS
                         });
@@ -86,17 +95,24 @@ export const useAddItem = (query, parentObject = {}) => {
                             return existingItems;
                         }
 
-                        const parentName = Object.keys(parentObject)[0];
-                        const parentId = parentObject[parentName];
+                        let inParentRelation = false
+                        Object.keys(parentObjects).forEach( parentName => {
+                            //const parentName = Object.keys(parentObjects)[0];
+                            const parentId = parentObjects[parentName];
 
-                        // only right parent fields
-                        const parent = `"${parentName}":"${parentId}"`;
-                        const inParentRelation = QueryWhere.storeFieldName.includes(parent);
+                            // only right parent fields
+                            const parent = `"${parentName}":"${parentId}"`;
+
+                            console.log(QueryWhere.fieldName, QueryWhere.storeFieldName);
+                            
+                            inParentRelation = inParentRelation || QueryWhere.storeFieldName.includes(parent);
+                        })
 
                         const isGlobalQuery = `${QueryWhere.fieldName}({})` === QueryWhere.storeFieldName;
                         if (!inParentRelation && !isGlobalQuery) {
                             return existingItems;
                         }
+
                         return [...existingItems, newItemRef];
                     } else {
                         return QueryWhere.INVALIDATE;
@@ -107,6 +123,12 @@ export const useAddItem = (query, parentObject = {}) => {
     });
 
     const add = (item) => {
+
+
+        const optimisticId = localStorage.getItem(updateName);
+        // set new id for temp item
+        localStorage.setItem(updateName, `abc${mongoObjectId().slice(3)}`);
+
         // merge item with query fields
         const itemFields = Object.entries(item);
 
@@ -116,8 +138,7 @@ export const useAddItem = (query, parentObject = {}) => {
         ));
 
         const optimictic_fields = Object.fromEntries([...new Set([...fields, ...newOptFields])]);
-        const today = new Date().toISOString().slice(0, 10);
-        const optimisticId = `abc${mongoObjectId().slice(3)}`;
+        const today = new Date().toISOString().slice(0, 10);        
         optimictic_fields.id = optimisticId;
         optimictic_fields.__typename = itemName;
         optimictic_fields.updatedAt = today;
@@ -129,10 +150,11 @@ export const useAddItem = (query, parentObject = {}) => {
 
         return mutate({
             variables: { id: 'new', ...item },
-            //variables: { id: 'new', ...item, ...parentObject },
+            //variables: { id: 'new', ...item, ...parentObjects },
             optimisticResponse: optimisticResponse
         });
     }
+
     return { add, item: newItem, data, error };
 }
 

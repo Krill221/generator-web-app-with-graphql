@@ -8,8 +8,8 @@ import {
 } from './schema';
 import {
     //Chat as LayoutView,
-    Grid12 as LayoutView,
-    //Raw as LayoutView,
+    //Grid12 as LayoutView,
+    Raw as LayoutView,
     //Simple as LayoutView,
     //Tabs as LayoutView,
     //Wizard as LayoutView,

@@ -3,11 +3,11 @@ WEB
 
 <LikesButton
     query={qMain}
-    parentObject={{roomId: item.id}}
+    parentObjects={{roomId: item.id}}
 />,
 <LikesCountComponent
     query={qMain}
-    parentObject={{roomId: item.id}}
+    parentObjects={{roomId: item.id}}
 />,
 
 */
@@ -21,12 +21,12 @@ import FavoriteIcon from '@material-ui/icons/Favorite';
 import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 
 
-const LikesButton = ({ query, parentObject = {}, LikeView, UnLikeView }) => {
+const LikesButton = ({ query, parentObjects = {}, LikeView, UnLikeView }) => {
 
     console.log('Like b');
 
-    const { loading, error, items } = useItems(query, parentObject);
-    const addHook = useAddItem(query, parentObject);
+    const { loading, error, items } = useItems(query, parentObjects);
+    const addHook = useAddItem(query, parentObjects);
     const deleteHook = useDeleteItem(query);
 
     const { user } = useContext(AuthContext);
@@ -99,11 +99,11 @@ const LikesButton = ({ query, parentObject = {}, LikeView, UnLikeView }) => {
 
 const LikesCountComponent = ({
     query,
-    parentObject,
+    parentObjects,
 }) => {
     console.log('likes count');
 
-    const { loading, error, items } = useItems(query, parentObject);
+    const { loading, error, items } = useItems(query, parentObjects);
 
     if (error) return '-';
     if (loading) return '-';

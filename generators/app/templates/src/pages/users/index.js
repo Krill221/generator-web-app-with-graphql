@@ -44,13 +44,13 @@ export default function All() {
             tabs={[
                 <CreateComponent
                     query={qUsers}
-                    //parentObject={{room: null}}
+                    //parentObjects={{room: null, comment: null}}
                     CreateView={CreateView}
                     CreateForm={CreateForm}
                 />,
                 <ItemsComponent
                     query={qUsers}
-                    //parentObject={{room: null}}
+                    //parentObjects={{room: null}}
                     ItemsView={ItemsView}
                     ItemView={ItemView}
                     EditForm={EditForm}

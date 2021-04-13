@@ -1,8 +1,9 @@
 import React from 'react';
 import { Grid } from '@material-ui/core';
 
-const Its = ({ models, items, Item, query, ItemView, EditForm, InlineForm, InlineForm2, DeleteForm, options }) => {
-    return <Grid name={`${models}-list`} container spacing={3} justify="center" alignItems="center">
+const Its = ({ modelName, items, Item, query, ItemView, EditForm, InlineForm, InlineForm2, DeleteForm, options }) => {
+    return <Grid name={`${modelName}-list`} container spacing={3} justify="center" alignItems="center">
+        <Grid item xs={12} sm={12} md={12} ></Grid>
         {items.map((item) =>
             <Grid key={item.id} item xs={12} sm={6} md={4} >
                 <Item

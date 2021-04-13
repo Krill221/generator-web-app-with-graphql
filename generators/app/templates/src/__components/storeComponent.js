@@ -4,11 +4,11 @@ WEB
 <PayButton />,
 <CartButton
     query={qMain}
-    parentObject={{roomId: item.id}}
+    parentObjects={{roomId: item.id}}
 />,
 <CartCountComponent
     query={qMain}
-    parentObject={{roomId: item.id}}
+    parentObjects={{roomId: item.id}}
 />,
 
 */
@@ -25,7 +25,7 @@ import { AuthContext } from '../__providers/authProvider';
 import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 
 
-const PayButton = ({ query, CreateForm, parentObject = {}, CreateView, label }) => {
+const PayButton = ({ query, CreateForm, parentObjects = {}, CreateView, label }) => {
 
     const theme = useTheme();
     const [activeEdit, setActiveEdit] = useState(false);
@@ -44,12 +44,12 @@ const PayButton = ({ query, CreateForm, parentObject = {}, CreateView, label }) 
 };
 
 
-const AddToCartButton = ({ query, parentObject = {}, LikeView, UnLikeView }) => {
+const AddToCartButton = ({ query, parentObjects = {}, LikeView, UnLikeView }) => {
 
     console.log('Cart b');
 
-    const { loading, error, items } = useItems(query, parentObject);
-    const addHook = useAddItem(query, parentObject);
+    const { loading, error, items } = useItems(query, parentObjects);
+    const addHook = useAddItem(query, parentObjects);
     const theme = useTheme();
 
     const { user } = useContext(AuthContext);
@@ -122,11 +122,11 @@ const AddToCartButton = ({ query, parentObject = {}, LikeView, UnLikeView }) => 
 
 const CartCountComponent = ({
     query,
-    parentObject,
+    parentObjects,
 }) => {
     console.log('cart count');
 
-    const { loading, error, items } = useItems(query, parentObject);
+    const { loading, error, items } = useItems(query, parentObjects);
 
     if (error) return '-';
     if (loading) return '-';

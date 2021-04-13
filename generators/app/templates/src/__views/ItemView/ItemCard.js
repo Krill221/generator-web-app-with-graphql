@@ -22,7 +22,7 @@ const ItemView = ({
             {inlineContent}
         </CardContent>
         <CardActions>
-            {inlineContent2}
+            { options.inline && inlineContent2 }
             {
                 options.editable && <Fragment>
                     <Button
