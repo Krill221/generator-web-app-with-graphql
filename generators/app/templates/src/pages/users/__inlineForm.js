@@ -4,7 +4,7 @@ import Form from '../../__components/helpers/FormikEdit';
 import FieldText from '../../__components/fields/FieldText';
 import {
     modelName,
-    //validationSchema
+    validationSchema
 } from '../users/schema';
 import {
     //Chat as LayoutView,

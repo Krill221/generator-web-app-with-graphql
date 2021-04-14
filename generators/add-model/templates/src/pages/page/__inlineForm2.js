@@ -3,7 +3,7 @@ import React from 'react';
 import Form from '../../__components/helpers/FormikEdit';
 //import FieldText from '../../__components/fields/FieldText';
 import {
-    modelName,
+    //modelName,
     validationSchema
 } from '../<%=small_models%>/schema';
 import {
