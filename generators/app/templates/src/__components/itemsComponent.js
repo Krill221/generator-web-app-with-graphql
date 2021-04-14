@@ -58,7 +58,7 @@ const Item = React.memo(({
     const deleteHook = useDeleteItem(query);
     const [activeEdit, setActiveEdit] = useState(false);
     const [activeDel, setActiveDel] = useState(false);
-    const isNew = item.id.includes('new');
+    const isNew = item.id.slice(0,3).includes('abc');
 
     //// Router
     let history = useHistory();

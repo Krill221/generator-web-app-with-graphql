@@ -3,9 +3,6 @@ import { gql } from '@apollo/client';
 
 const MODEL = 'User';
 
-const parent = null;
-const parentId = parent ? parent : 'parentId';
-
 export const fieldsArray = [
   // gen fieldsArray
   ['avatar', 'String'],
@@ -13,40 +10,45 @@ export const fieldsArray = [
   ['email', 'String'],
   ['password', 'String'],
 ];
-const fieldsArrayWithPopulate = [
+const fieldsPopulate = [
   // gen fieldsPopulate
+];
+const fieldsArrayParent = [
+  // gen fieldsInput
+];
+
+const fieldsArrayType = [
+  ...fieldsPopulate,
   ...fieldsArray,
 ];
+
 const fieldsArrayInput = [
-  // gen fieldsInput
+  ...fieldsArrayParent,
   ...fieldsArray,
 ];
 
 
 // Standard queries
 const FRAGMENT_FIELDS = gql`
-fragment userFields on User {
-    id ${fieldsArrayWithPopulate.map(f => f[0]).join(' ')} createdAt updatedAt __typename
+fragment ${MODEL}Fields on Orderitem {
+    id ${fieldsArrayType.map( f => f[0]).join(' ')} createdAt updatedAt
 }
 `;
-
 export const GETS_WHERE = gql`
-query($${parentId}: ID) {
-    ${MODEL}Where (${parentId}: $${parentId}) { ...userFields }
+query(${fieldsArrayParent.map( f => `$${f[0]}: ${f[1]}`).join(', ')}) {
+    ${MODEL}Where (${fieldsArrayParent.map( f => `${f[0]}: $${f[0]}`).join(', ')}) { ...${MODEL}Fields }
 }
 ${FRAGMENT_FIELDS}
 `;
-
 export const UPDATE = gql`
-mutation update${MODEL}($id: ID, ${fieldsArrayInput.map(f => `$${f[0]}: ${f[1]}`).join(', ')}) {
-    update${MODEL}(input:{id: $id, ${fieldsArrayInput.map(f => `${f[0]}: $${f[0]}`).join(', ')}}){ ...userFields }
+mutation update${MODEL}($id: ID, ${fieldsArrayInput.map( f => `$${f[0]}: ${f[1]}`).join(', ')}) {
+    update${MODEL}(input:{id: $id, ${fieldsArrayInput.map( f => `${f[0]}: $${f[0]}`).join(', ')}}){ ...${MODEL}Fields }
 }
 ${FRAGMENT_FIELDS}
 `;
-
 export const DELETE = gql`
-mutation delete${MODEL}($id: ID) {
-    delete${MODEL}(input:{id: $id}){ ...userFields }
+mutation delete${MODEL}($id: ID!) {
+    delete${MODEL}(input:{id: $id}){ ...${MODEL}Fields }
 }
 ${FRAGMENT_FIELDS}
 `;

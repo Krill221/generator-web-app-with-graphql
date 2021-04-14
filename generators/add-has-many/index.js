@@ -49,10 +49,6 @@ module.exports = class extends Generator {
     var fieldsInputNew = `// gen fieldsInput\n\t[\'${this.answers.small_model}Id'\, \'ID\'],`;
     queryFile = queryFile.toString().replace(new RegExp(fieldsInput, 'g'), fieldsInputNew);
 
-    var parentIdQuery = `const parent = null`;
-    var parentIdQueryNew = `const parent = \'${this.answers.small_model}Id\'`;
-    queryFile = queryFile.toString().replace(new RegExp(parentIdQuery, 'g'), parentIdQueryNew);
-
     this.fs.write(this.destinationPath(`src/queries/${this.answers.small_populations}.js`), queryFile);
     
   }

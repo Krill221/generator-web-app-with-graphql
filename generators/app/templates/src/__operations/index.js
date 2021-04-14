@@ -95,18 +95,14 @@ export const useAddItem = (query, parentObjects = {}) => {
                             return existingItems;
                         }
 
-                        let inParentRelation = false
-                        Object.keys(parentObjects).forEach( parentName => {
-                            //const parentName = Object.keys(parentObjects)[0];
-                            const parentId = parentObjects[parentName];
+                        // if query include parent depenpancy then add new item
+                        let parentObjArray = Object.entries(parentObjects).join(';').replaceAll(',',':');
+                        let whereParentArray = QueryWhere.storeFieldName.replaceAll(`${QueryWhere.fieldName}({`, '').replaceAll(`})`, '').replaceAll('"', '').split(',');
 
-                            // only right parent fields
-                            const parent = `"${parentName}":"${parentId}"`;
-
-                            console.log(QueryWhere.fieldName, QueryWhere.storeFieldName);
-                            
-                            inParentRelation = inParentRelation || QueryWhere.storeFieldName.includes(parent);
-                        })
+                        let inParentRelation = true;
+                        whereParentArray.forEach( w => {
+                            inParentRelation = inParentRelation && parentObjArray.includes(w);
+                        });
 
                         const isGlobalQuery = `${QueryWhere.fieldName}({})` === QueryWhere.storeFieldName;
                         if (!inParentRelation && !isGlobalQuery) {
