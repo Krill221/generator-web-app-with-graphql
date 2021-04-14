@@ -3,7 +3,10 @@ import Form from '../../__components/helpers/FormikNew';
 import FieldText from '../../__components/fields/FieldText';
 import FieldAvatarUpload from '../../__components/fields/FieldAvatarUpload';
 import FieldSubmitButton from '../../__components/fields/FieldSubmitButton';
-import { modelName, validationSchema } from './schema';
+import {
+    modelName,
+    validationSchema
+} from '../users/schema';
 import {
     //Chat as LayoutView,
     Grid12 as LayoutView,

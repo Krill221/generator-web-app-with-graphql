@@ -45,7 +45,9 @@ const ruRU = {
       Uploaded: "Загружен",
       NotUploaded: "Не загружен",
       AddToCart: "В Корзину",
+      MakeOrder: "Оформить доставку",
       Pay: "Оплатить",
+      Delivery: "Доставка",
     },
     models: {
       // models for generator

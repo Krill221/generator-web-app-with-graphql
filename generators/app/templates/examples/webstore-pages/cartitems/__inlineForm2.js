@@ -3,9 +3,9 @@ import React from 'react';
 import Form from '../../__components/helpers/FormikEdit';
 //import FieldText from '../../__components/fields/FieldText';
 import {
-    modelName,
+    //modelName,
     validationSchema
-} from '../<%=small_models%>/schema';
+} from '../orderitems/schema';
 import {
     //Chat as LayoutView,
     //Grid12 as LayoutView,

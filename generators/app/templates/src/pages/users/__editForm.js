@@ -3,8 +3,10 @@ import React from 'react';
 import Form from '../../__components/helpers/FormikEdit';
 import FieldText from '../../__components/fields/FieldText';
 import FieldAvatarUpload from '../../__components/fields/FieldAvatarUpload';
-
-import { modelName, validationSchema } from './schema';
+import {
+    modelName,
+    validationSchema
+} from '../users/schema';
 import {
     //Chat as LayoutView,
     Grid12 as LayoutView,

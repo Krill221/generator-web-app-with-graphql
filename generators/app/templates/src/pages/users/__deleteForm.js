@@ -1,8 +1,10 @@
 import React, { Fragment } from 'react';
 import { Button } from '@material-ui/core';
 import { useTheme } from '@material-ui/core/styles';
-
-const model = 'user';
+import {
+    modelName,
+    //validationSchema
+} from '../users/schema';
 
 const Form = ({ item, isNew, del, setActive }) => {
 
@@ -10,7 +12,7 @@ const Form = ({ item, isNew, del, setActive }) => {
 
     return <Fragment>
         <Button
-            name={`delete-${model}`}
+            name={`delete-${modelName}`}
             onClick={() => {
                 del(item);
                 setActive(false);

@@ -3,9 +3,9 @@ import React from 'react';
 import Form from '../../__components/helpers/FormikEdit';
 //import FieldText from '../../__components/fields/FieldText';
 import {
-    modelName,
+    //modelName,
     validationSchema
-} from '../<%=small_models%>/schema';
+} from '../orders/schema';
 import {
     //Chat as LayoutView,
     //Grid12 as LayoutView,
@@ -16,8 +16,6 @@ import {
 } from '../../__views/LayoutView';
 
 const Item = ({ item, isNew, update, setActive }) => {
-
-    //const theme = useTheme();
 
     return <Form validationSchema={validationSchema} item={item} onSubmit={(newItem) => {
         update(newItem);

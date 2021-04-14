@@ -3,7 +3,7 @@ import React from 'react';
 import {
     modelName,
     validationSchema
-} from './schema';
+} from '../<%=small_models%>/schema';
 import Form from '../../__components/helpers/FormikEdit';
 import FieldText from '../../__components/fields/FieldText';
 //import FieldTextWithSubmit from '../../__components/fields/FieldTextWithSubmit';
@@ -23,7 +23,7 @@ import {
  import {
     //LikesButton,
     //LikesCountComponent,
-} from '../../__components/likesComponent';
+} from '../../__components/estimeComponent';
 import {
     //CreateFab as CreateView,
     //CreateButton as CreateView,

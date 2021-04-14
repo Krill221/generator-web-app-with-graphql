@@ -3,7 +3,7 @@ import React from 'react';
 import {
     //modelName,
     validationSchema
-} from './schema';
+} from '../users/schema';
 import Form from '../../__components/helpers/FormikEdit';
 //import FieldText from '../../__components/fields/FieldText';
 //import FieldTextWithSubmit from '../../__components/fields/FieldTextWithSubmit';

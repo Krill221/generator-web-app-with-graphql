@@ -30,13 +30,13 @@ const fieldsArrayInput = [
 
 // Standard queries
 const FRAGMENT_FIELDS = gql`
-fragment ${MODEL}Fields on Orderitem {
+fragment ${MODEL}Fields on ${MODEL} {
     id ${fieldsArrayType.map( f => f[0]).join(' ')} createdAt updatedAt
 }
 `;
 export const GETS_WHERE = gql`
-query(${fieldsArrayParent.map( f => `$${f[0]}: ${f[1]}`).join(', ')}) {
-    ${MODEL}Where (${fieldsArrayParent.map( f => `${f[0]}: $${f[0]}`).join(', ')}) { ...${MODEL}Fields }
+query($parentId: ID, ${fieldsArrayParent.map( f => `$${f[0]}: ${f[1]}`).join(', ')}) {
+    ${MODEL}Where (parentId: $parentId, ${fieldsArrayParent.map( f => `${f[0]}: $${f[0]}`).join(', ')}) { ...${MODEL}Fields }
 }
 ${FRAGMENT_FIELDS}
 `;

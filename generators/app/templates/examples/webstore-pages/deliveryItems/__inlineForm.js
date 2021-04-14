@@ -1,16 +1,10 @@
-import React, {
-    //useContext
-} from 'react';
-//import { AuthContext } from '../../__providers/authProvider';
+import React from 'react';
 //import { useTheme } from '@material-ui/core/styles';
 import {
-    modelName,
+    //modelName,
     validationSchema
-} from '../<%=small_models%>/schema';
-import Form from '../../__components/helpers/FormikNew';
-
-import FieldSubmitButton from '../../__components/fields/FieldSubmitButton';
-import FieldText from '../../__components/fields/FieldText';
+} from '../orderitems/schema';
+import Form from '../../__components/helpers/FormikEdit';
 //import FieldTextWithSubmit from '../../__components/fields/FieldTextWithSubmit';
 
 import {
@@ -24,8 +18,8 @@ import {
 import {
     //CreateComponent,
     //ItemsComponent
-} from '../../__components/itemsComponent';
-import {
+ } from '../../__components/itemsComponent';
+ import {
     //LikesButton,
     //LikesCountComponent,
 } from '../../__components/estimeComponent';
@@ -44,35 +38,21 @@ import {
     //ItemCard as ItemView,
     //ItemList as ItemView,
 } from '../../__views/ItemView';
+import { Typography } from '@material-ui/core';
 
-
-const Item = ({ item, add, setActive }) => {
+const Item = ({ item, isNew, update, setActive }) => {
 
     //const theme = useTheme();
-
-    //const { user } = useContext(AuthContext);
-    //item.userId = user?.id;
-
+    
     return <Form validationSchema={validationSchema} item={item} onSubmit={(newItem) => {
-        add(newItem);
-        setActive(false);
+        update(newItem);
     }}>
         {props => <LayoutView
             labels={['']}
             tabs={[
-                <% fields.forEach(function(field){ %><FieldText
-                    modelName={modelName}
-                    name={'<%= field[0] %>'}
-                    formikProps={props}
-                    onBlur={props.onBlur}
-                    onChange={props.handleChange}
-                    onSubmit={props.handleSubmit} // for FieldTextWithSubmit
-                />,
-                <% }) %>
-                <FieldSubmitButton
-                    modelName={modelName}
-                    onClick={props.handleSubmit}
-                />
+                <Typography>{item.productId.name}</Typography>,
+                <Typography>$ {item.productId.price}</Typography>,
+                <Typography>sum: {item.productId.price * item.value}</Typography>,
             ]
             }
         />

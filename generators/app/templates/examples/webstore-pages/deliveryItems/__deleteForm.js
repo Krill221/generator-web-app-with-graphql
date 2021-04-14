@@ -3,8 +3,7 @@ import { Button } from '@material-ui/core';
 import { useTheme } from '@material-ui/core/styles';
 import {
     modelName,
-    //validationSchema
-} from '../<%=small_models%>/schema';
+} from '../orderitems/schema';
 
 const Form = ({ item, isNew, del, setActive }) => {
 
