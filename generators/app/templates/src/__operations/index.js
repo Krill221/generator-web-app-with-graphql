@@ -37,7 +37,7 @@ export const useUpdateItem = (query) => {
 
         // change for send
         const itemFields = Object.entries(item);
-        const newFieldsForSend = itemFields.map(f => {
+        const newFieldsForSend = itemFields.filter(f => f[1] !== null ).map(f => {
             return Object.keys(f[1]).includes('__typename') ? [f[0], f[1].id] : [f[0], f[1]]
         });
         const fields_for_send = Object.fromEntries([...new Set([...newFieldsForSend])]);
