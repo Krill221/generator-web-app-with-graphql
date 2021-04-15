@@ -206,18 +206,19 @@ const CountComponent = ({
     return items.length;
 };
 
-const SumComponent = ({
+
+const useSumHook = (
     query,
     parentObjects,
     fieldsName,
     fieldsOperation,
-}) => {
+) => {
     console.log('estim sum');
 
     const { loading, error, items } = useItems(query, parentObjects);
 
-    if (error) return '-';
-    if (loading) return '-';
+    if (error) return 0;
+    if (loading) return 0;
 
     let itemsArray = [];
     itemsArray = items.map(item => {
@@ -238,4 +239,21 @@ const SumComponent = ({
     return itemsArray.length !== 0 ? itemsArray.reduce((a, i) => a + i) : 0;
 };
 
-export { CountComponent, SumComponent, CreateOneButton, LikeButton };
+const SumComponent = ({
+    query,
+    parentObjects,
+    fieldsName,
+    fieldsOperation,
+}) => {
+    console.log('estim sum');
+
+    const sum = useSumHook(query, parentObjects, fieldsName, fieldsOperation);
+    return sum;
+};
+
+export {
+    CountComponent,
+    SumComponent, useSumHook,
+    CreateOneButton,
+    LikeButton
+};
