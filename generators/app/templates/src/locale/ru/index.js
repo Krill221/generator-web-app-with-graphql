@@ -47,11 +47,12 @@ const ruRU = {
       AddToCart: "В Корзину",
       MakeOrder: "Оформить доставку",
       Pay: "Оплатить",
+      Paid: "Оплачен",
       Delivery: "Доставка",
     },
     models: {
       // models for generator
-			user: { ...user },
+      user: { ...user },
     }
   }
 };

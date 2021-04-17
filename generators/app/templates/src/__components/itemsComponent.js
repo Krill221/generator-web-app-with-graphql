@@ -13,32 +13,43 @@ const CreateComponent = ({ query, CreateForm, parentObjects = {}, CreateView, la
     console.log('create');
 
     const addHook = useAddItem(query, parentObjects);
-    const [activeEdit, setActiveEdit] = useState(false);
+    const [activeNew, setActiveNew] = useState(false);
     const item = addHook.item;
 
     //// Router
     let history = useHistory();
     let location = useLocation();
+    let loc = location.pathname.split('/');
 
-    const setActiveEditWithRouter = (edit) => {
-        if (edit) {
-            history.push(`/${location.pathname.split('/').concat('new').filter(i => i !== '').join('/')}`);
+    useEffect(() => {
+        // on load
+        if (loc.includes(item.id)) {
+            setActiveNew(true);
         } else {
-            if (activeEdit !== false) {
-                history.push(`/${location.pathname.split('/').concat('new').filter(i => i !== '').slice(0, -2).join('/')}`);
+            setActiveNew(false);
+        }
+
+    }, [setActiveNew, item.id, loc])
+    const setActiveNewWithRouter = (edit) => {
+        if (edit) {
+            history.push(`/${location.pathname.split('/').concat(item.id).filter(i => i !== '').join('/')}`);
+        } else {
+            if (activeNew !== false) {
+                history.push(`/${location.pathname.split('/').concat(item.id).filter(i => i !== '').slice(0, -2).join('/')}`);
             }
         }
-        setActiveEdit(edit);
+        setActiveNew(edit);
     }
     ////
 
 
-    return <CreateView label={label} active={activeEdit} setActive={setActiveEditWithRouter} >
+
+    return <CreateView label={label} active={activeNew} setActive={setActiveNewWithRouter} >
         <CreateForm
             item={item}
             add={addHook.add}
-            active={activeEdit}
-            setActive={setActiveEditWithRouter}
+            active={activeNew}
+            setActive={setActiveNewWithRouter}
         />
     </CreateView>
 };
@@ -58,7 +69,7 @@ const Item = React.memo(({
     const deleteHook = useDeleteItem(query);
     const [activeEdit, setActiveEdit] = useState(false);
     const [activeDel, setActiveDel] = useState(false);
-    const isNew = item.id.slice(0,3).includes('abc');
+    const isNew = item.id.slice(0, 3).includes('abc');
 
     //// Router
     let history = useHistory();
@@ -67,17 +78,14 @@ const Item = React.memo(({
 
     useEffect(() => {
         // on load
-        if (loc.find(i => i.includes('new'))) {
+        if (loc.includes(item.id)) {
+            setActiveEdit(true);
         } else {
-            if (loc.includes(item.id)) {
-                setActiveEdit(true);
-            } else {
-                setActiveEdit(false);
-            }
+            setActiveEdit(false);
         }
     }, [setActiveEdit, item.id, loc])
     const setActiveEditWithRouter = (edit) => {
-        if (loc.find(i => i.includes('new'))) {
+        if (loc.find(i => i.includes('abc'))) {
             setActiveEdit(edit);
         } else {
             if (edit) {

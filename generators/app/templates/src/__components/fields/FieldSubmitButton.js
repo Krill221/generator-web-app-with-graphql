@@ -1,6 +1,12 @@
 /*
     Example:
 
+    FieldSubmitButton
+                        label={theme.props.components.MakeOrder}
+                        modelName={modelName}
+                        onClick={props.handleSubmit}
+    />
+    
  */
 import React from 'react';
 import { Button } from '@material-ui/core';
