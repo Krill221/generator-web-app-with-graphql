@@ -41,11 +41,8 @@ import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 const CreateOneButton = ({ query, parentObjects = {}, fullIcon, emptyIcon }) => {
 
     console.log('createOne ');
-
     const { user } = useContext(AuthContext);
-
     parentObjects = { ...parentObjects, userId: user?.id }
-
     const { loading, error, items } = useItems(query, parentObjects);
     const addHook = useAddItem(query, parentObjects);
 
@@ -69,9 +66,6 @@ const CreateOneButton = ({ query, parentObjects = {}, fullIcon, emptyIcon }) => 
     </IconButton>;
 
     let myItem = items.find(i => i.userId?.id === user?.id);
-    //console.log('items', items)
-    //console.log('myItem', myItem)
-
 
     return <AuthArea
         publicArea={

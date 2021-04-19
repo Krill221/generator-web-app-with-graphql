@@ -16,7 +16,7 @@ import { Button } from '@material-ui/core';
 import { CHECK_PAYMENT } from '../../queries/makePayment';
 import { useQuery } from '@apollo/client';
 
-export default function FieldButtonPayYoo({ modelName, orderId, userEmail, color, variant, fullWidth, yooShopId, sum }) {
+export default function FieldButtonPayYoo({ modelName, orderId, userEmail, color, variant, fullWidth, yooShopId, sum, onSubmit, disabled }) {
 
     const theme = useTheme();
 
@@ -28,6 +28,8 @@ export default function FieldButtonPayYoo({ modelName, orderId, userEmail, color
     const location = window.location.href;
     const label = data.checkPayment === 'false' ? theme.props.components.Pay : theme.props.components.Paid;
 
+
+
 return <>
     <form action="https://yookassa.ru/integration/simplepay/payment" method="post" acceptCharset="utf-8" >
         <Button
@@ -37,7 +39,7 @@ return <>
             fullWidth={fullWidth || true}
             data-text="Pay"
             type='submit'
-            disabled={data.checkPayment === 'true'}
+            disabled={disabled || data.checkPayment === 'true'}
         >
             {label}&nbsp;{sum}&nbsp;₽
             </Button>
@@ -51,3 +53,4 @@ return <>
     <script src="https://yookassa.ru/integration/simplepay/js/yookassa_construct_form.js"></script>
 </ >
 }
+

@@ -20,7 +20,6 @@ const CreateComponent = ({ query, CreateForm, parentObjects = {}, CreateView, la
     let history = useHistory();
     let location = useLocation();
     let loc = location.pathname.split('/');
-
     useEffect(() => {
         // on load
         if (loc.includes(item.id)) {
@@ -41,7 +40,6 @@ const CreateComponent = ({ query, CreateForm, parentObjects = {}, CreateView, la
         setActiveNew(edit);
     }
     ////
-
 
 
     return <CreateView label={label} active={activeNew} setActive={setActiveNewWithRouter} >
