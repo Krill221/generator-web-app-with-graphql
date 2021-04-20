@@ -1,7 +1,7 @@
 /*
 WEB
 
-<LikesButton
+<LikeButton
     query={qMain}
     parentObjects={{roomId: item.id}}
     fullIcon={}
@@ -110,9 +110,7 @@ const LikeButton = ({ query, parentObjects = {}, fullIcon, emptyIcon }) => {
     console.log('Like b');
 
     const { user } = useContext(AuthContext);
-
     parentObjects = { ...parentObjects, userId: user?.id }
-
     const { loading, error, items } = useItems(query, parentObjects);
     const addHook = useAddItem(query, parentObjects);
     const deleteHook = useDeleteItem(query);
@@ -143,9 +141,6 @@ const LikeButton = ({ query, parentObjects = {}, fullIcon, emptyIcon }) => {
     </IconButton>;
 
     let myItem = items.find(i => i.userId?.id === user?.id);
-    //console.log('items', items)
-    //console.log('myItem', myItem)
-
 
     return <AuthArea
         publicArea={
